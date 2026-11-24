@@ -1,0 +1,42 @@
+{
+  "app": {
+    "name": "Goldmap"
+  },
+  "tabs": {
+    "globe": "Глобус",
+    "countries": "Країни",
+    "trips": "Поїздки",
+    "settings": "Налаштування"
+  },
+  "globe": {
+    "counter": "{{visited}} / {{total}}",
+    "placeholder": "Тут з'явиться 3D-глобус"
+  },
+  "countries": {
+    "title": "Країни",
+    "empty": "Тут буде список відвіданих країн"
+  },
+  "trips": {
+    "title": "Поїздки",
+    "empty": "Тут будуть заплановані й минулі поїздки"
+  },
+  "settings": {
+    "title": "Налаштування",
+    "language": "Мова",
+    "version": "Версія {{version}}"
+  },
+  "country": {
+    "title": "Країна {{iso}}"
+  },
+  "trip": {
+    "title": "Поїздка"
+  },
+  "languages": {
+    "uk": "Українська",
+    "en": "English"
+  },
+  "common": {
+    "comingSoon": "Незабаром",
+    "close": "Закрити"
+  }
+}

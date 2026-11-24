@@ -1,0 +1,42 @@
+{
+  "app": {
+    "name": "Goldmap"
+  },
+  "tabs": {
+    "globe": "Globe",
+    "countries": "Countries",
+    "trips": "Trips",
+    "settings": "Settings"
+  },
+  "globe": {
+    "counter": "{{visited}} / {{total}}",
+    "placeholder": "The 3D globe will appear here"
+  },
+  "countries": {
+    "title": "Countries",
+    "empty": "Your visited countries will be listed here"
+  },
+  "trips": {
+    "title": "Trips",
+    "empty": "Your planned and past trips will be listed here"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "version": "Version {{version}}"
+  },
+  "country": {
+    "title": "Country {{iso}}"
+  },
+  "trip": {
+    "title": "Trip"
+  },
+  "languages": {
+    "uk": "Українська",
+    "en": "English"
+  },
+  "common": {
+    "comingSoon": "Coming soon",
+    "close": "Close"
+  }
+}
