@@ -9,3 +9,4 @@ package-lock.json
 src/data/*.json
 src/data/*.geojson
 scripts/.cache
+src/db/migrations/meta

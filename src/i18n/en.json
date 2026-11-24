@@ -38,5 +38,8 @@
   "common": {
     "comingSoon": "Coming soon",
     "close": "Close"
+  },
+  "errors": {
+    "database": "Could not open the local database. Try restarting the app."
   }
 }

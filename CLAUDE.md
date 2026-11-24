@@ -72,16 +72,33 @@ docs/SPEC.md          # ТЗ
 - Лічильник: 193 члени ООН (Ватикан і Палестина — спостерігачі, не входять). Косово в
   кордонах з точкою зору України — частина Сербії; Мартиніка, Гваделупа, Реюньйон — Франції.
 
+## База даних (`src/db`)
+
+- Схема — `src/db/schema.ts`. Змінив схему → `npm run db:generate` → нова міграція в
+  `src/db/migrations` (комітити разом). Старі міграції не редагувати.
+- Міграції застосовує `DatabaseGate` при старті додатку (`useMigrations`).
+- Функції-запити — `src/db/queries/*`, приймають `DbContext` (`db`, `newId`, `now`) і пишуться
+  через `await`: у додатку працюють з expo-sqlite (`dbContext` з `@/db/client`), у тестах — з
+  `node:sqlite` (`tests/helpers/test-db.ts`). Компоненти не пишуть SQL напряму.
+- Читання завжди фільтрує `deleted_at IS NULL`; видалення — лише м'яке (`deleted_at`, `updated_at`).
+- Нова функція-запит = unit-тест у `tests/db.test.ts`.
+- Відносні імпорти всередині `src/db` — з розширенням `.ts` (потрібно для Node-тестів;
+  Metro їх розуміє). `src/db` не імпортує нічого з `@/…` і з Expo, крім `client.ts`.
+- Живі дані в компонентах — `useLiveQuery` з `drizzle-orm/expo-sqlite` (напр. `visitedIsosQuery`).
+
 ## Команди
 
 ```bash
 npx expo start         # dev-сервер (Expo Go на етапах 1–3)
-npm run typecheck      # tsc --noEmit
+npm run typecheck      # tsc: додаток, scripts, tests
 npm run lint           # ESLint (expo + prettier + правила проєкту)
 npm run format         # Prettier
 npm run build:data     # перезібрати src/data з джерел (потрібен інтернет)
 npm run test:data      # тести даних (кордони України, 193, назви)
-npm run check          # typecheck + lint + format:check + test:data — перед комітом
+npm run test:db        # unit-тести бази (node:sqlite у пам'яті)
+npm test               # усі тести
+npm run db:generate    # нова міграція після зміни схеми
+npm run check          # typecheck + lint + format:check + усі тести — перед комітом
 npx expo-doctor        # перевірка залежностей і конфігу
 ```
 

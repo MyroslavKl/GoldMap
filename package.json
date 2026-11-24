@@ -6,14 +6,17 @@
     "@expo-google-fonts/inter": "^0.4.2",
     "@expo-google-fonts/lora": "^0.4.2",
     "@expo/vector-icons": "^15.0.2",
+    "drizzle-orm": "^0.45.4",
     "expo": "~58.0.26",
     "expo-constants": "~58.0.16",
+    "expo-crypto": "~58.0.8",
     "expo-font": "~58.0.12",
     "expo-image": "~58.0.18",
     "expo-linking": "~58.0.17",
     "expo-localization": "~58.0.5",
     "expo-router": "~58.0.32",
     "expo-splash-screen": "~58.0.14",
+    "expo-sqlite": "~58.0.18",
     "expo-status-bar": "~58.0.5",
     "expo-system-ui": "~58.0.7",
     "i18next": "^27.2.7",
@@ -31,6 +34,8 @@
   "devDependencies": {
     "@types/node": "^26.6.7",
     "@types/react": "~19.3.0",
+    "babel-plugin-inline-import": "^3.0.0",
+    "drizzle-kit": "^0.31.11",
     "eslint": "^9.39.5",
     "eslint-config-expo": "^58.0.4",
     "eslint-config-prettier": "^10.1.8",
@@ -47,10 +52,13 @@
     "lint": "expo lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p scripts",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:data",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p scripts && tsc --noEmit -p tests",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test",
     "build:data": "node scripts/build-data.ts",
-    "test:data": "node --test scripts/data.test.ts"
+    "test:data": "node --test scripts/data.test.ts",
+    "test:db": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning --test tests/db.test.ts",
+    "test": "npm run test:data && npm run test:db",
+    "db:generate": "drizzle-kit generate"
   },
   "private": true
 }

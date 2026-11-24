@@ -2,6 +2,9 @@ import { getLocales } from 'expo-localization';
 import i18n, { changeLanguage } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+import { setSetting } from '@/db';
+import { dbContext } from '@/db/client';
+
 import en from './en.json';
 import uk from './uk.json';
 
@@ -37,12 +40,15 @@ void i18n.use(initReactI18next).init({
   returnNull: false,
 });
 
-/**
- * Змінити мову інтерфейсу.
- * TODO(етап 3): зберігати вибір у таблиці `settings`.
- */
-export function setLanguage(lang: Language): Promise<unknown> {
+/** Застосувати мову без збереження (наприклад, збережену при старті). */
+export function applyLanguage(lang: Language): Promise<unknown> {
   return changeLanguage(lang);
+}
+
+/** Змінити мову інтерфейсу і зберегти вибір у таблиці `settings`. */
+export async function setLanguage(lang: Language): Promise<void> {
+  await applyLanguage(lang);
+  await setSetting(dbContext, 'language', lang);
 }
 
 export default i18n;
