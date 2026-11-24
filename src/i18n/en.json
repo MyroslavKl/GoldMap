@@ -11,10 +11,6 @@
   "globe": {
     "counter": "{{visited}} / {{total}}"
   },
-  "countries": {
-    "title": "Countries",
-    "empty": "Your visited countries will be listed here"
-  },
   "trips": {
     "title": "Trips",
     "empty": "Your planned and past trips will be listed here"
@@ -40,5 +36,64 @@
   },
   "errors": {
     "database": "Could not open the local database. Try restarting the app."
+  },
+  "months": {
+    "short": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  },
+  "continents": {
+    "europe": "Europe",
+    "asia": "Asia",
+    "africa": "Africa",
+    "north-america": "North America",
+    "south-america": "South America",
+    "oceania": "Oceania",
+    "antarctica": "Antarctica"
+  },
+  "card": {
+    "close": "Close",
+    "markVisited": "Been here",
+    "visited": "Visited",
+    "plan": "Plan a trip",
+    "planSoon": "Coming soon",
+    "open": "Open",
+    "capital": "Capital: {{capital}}",
+    "statusNotVisited": "Not visited yet",
+    "statusVisited_one": "Visited · {{count}} visit",
+    "statusVisited_other": "Visited · {{count}} visits",
+    "statusPlanned": "Planned",
+    "territory": "Territory — not counted in the 193",
+    "flagAndName": "{{flag}} {{name}}"
+  },
+  "unmark": {
+    "title": "Unmark {{country}}?",
+    "message": "You already have: {{items}}. Visits and their dates will be removed. Photos, notes and expenses will be kept.",
+    "datedVisits_one": "{{count}} dated visit",
+    "datedVisits_other": "{{count}} dated visits",
+    "photos_one": "{{count}} photo",
+    "photos_other": "{{count}} photos",
+    "notes_one": "{{count}} note",
+    "notes_other": "{{count}} notes",
+    "expenses_one": "{{count}} expense",
+    "expenses_other": "{{count}} expenses",
+    "cancel": "Cancel",
+    "confirm": "Unmark"
+  },
+  "countries": {
+    "title": "Countries",
+    "filterVisited": "Visited",
+    "filterPlanned": "Planned",
+    "filterAll": "All",
+    "search": "Search countries",
+    "sortLabel": "Sort",
+    "sortDate": "By date",
+    "sortAlpha": "A–Z",
+    "sortContinent": "By continent",
+    "rowCapitalDates": "{{capital}} · {{dates}}",
+    "territory": "territory",
+    "markVisited": "Mark {{country}} as visited",
+    "unmarkVisited": "Unmark {{country}}",
+    "emptyVisited": "No visited countries yet. Mark them in “All” or on the globe.",
+    "emptyPlanned": "No planned trips",
+    "emptySearch": "Nothing found"
   }
 }

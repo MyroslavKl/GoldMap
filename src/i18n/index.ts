@@ -1,6 +1,6 @@
 import { getLocales } from 'expo-localization';
 import i18n, { changeLanguage } from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import { initReactI18next, useTranslation } from 'react-i18next';
 
 import { setSetting } from '@/db';
 import { dbContext } from '@/db/client';
@@ -52,3 +52,10 @@ export async function setLanguage(lang: Language): Promise<void> {
 }
 
 export default i18n;
+
+/** Поточна мова інтерфейсу як тип Language (для назв країн name.uk / name.en). */
+export function useLanguage(): Language {
+  const { i18n: instance } = useTranslation();
+  const lang = instance.resolvedLanguage;
+  return lang === 'uk' || lang === 'en' ? lang : FALLBACK;
+}

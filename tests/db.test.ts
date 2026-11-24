@@ -6,6 +6,14 @@ import { beforeEach, describe, test } from 'node:test';
 
 import {
   addVisit,
+  expenses,
+  getCountryContentSummary,
+  getPlannedCountryIsos,
+  needsUnmarkConfirmation,
+  notes,
+  photos,
+  tripCountries,
+  trips,
   computeCounter,
   getSetting,
   getVisitedCounter,
@@ -241,5 +249,114 @@ describe('settings', () => {
       updated_at: string;
     };
     assert.notEqual(raw.created_at, raw.updated_at);
+  });
+});
+
+/** Прямі вставки для таблиць, функції-запити до яких з'являться на етапах 6–8. */
+function insertRow(table: 'photos' | 'notes' | 'expenses', countryIso: string) {
+  const base = { id: t.newId(), createdAt: t.now(), updatedAt: t.now(), deletedAt: null };
+  if (table === 'photos') {
+    return t.db.insert(photos).values({
+      ...base,
+      countryIso,
+      fileUri: 'photos/a.jpg',
+      thumbUri: 'photos/a_t.jpg',
+      width: 2000,
+      height: 1500,
+    });
+  }
+  if (table === 'notes') return t.db.insert(notes).values({ ...base, countryIso, text: 'x' });
+  return t.db.insert(expenses).values({
+    ...base,
+    countryIso,
+    amount: 12_50,
+    currency: 'EUR',
+    category: 'food',
+    date: '2025-01-01',
+  });
+}
+
+async function insertTrip(opts: { status: 'planned' | 'done'; isos: string[]; deleted?: boolean }) {
+  const id = t.newId();
+  const ts = t.now();
+  await t.db.insert(trips).values({
+    id,
+    title: 'Trip',
+    status: opts.status,
+    createdAt: ts,
+    updatedAt: ts,
+    deletedAt: opts.deleted ? ts : null,
+  });
+  for (const countryIso of opts.isos) {
+    await t.db
+      .insert(tripCountries)
+      .values({ tripId: id, countryIso, createdAt: ts, updatedAt: ts, deletedAt: null });
+  }
+  return id;
+}
+
+describe('заплановані країни', () => {
+  test('лише з активних поїздок зі статусом planned, без дублікатів', async () => {
+    await insertTrip({ status: 'planned', isos: ['IT', 'FR'] });
+    await insertTrip({ status: 'planned', isos: ['IT'] });
+    await insertTrip({ status: 'done', isos: ['ES'] });
+    await insertTrip({ status: 'planned', isos: ['PT'], deleted: true });
+    assert.deepEqual(await getPlannedCountryIsos(t), ['FR', 'IT']);
+  });
+
+  test('м’яко видалена країна з поїздки не рахується', async () => {
+    const id = await insertTrip({ status: 'planned', isos: ['GR'] });
+    t.sqlite.prepare('UPDATE trip_countries SET deleted_at = ? WHERE trip_id = ?').run(t.now(), id);
+    assert.deepEqual(await getPlannedCountryIsos(t), []);
+  });
+});
+
+describe('зняття позначки «був» і підтвердження', () => {
+  test('позначка без дат і без вмісту — підтвердження не потрібне', async () => {
+    await setCountryVisited(t, 'HU', true);
+    const s = await getCountryContentSummary(t, 'HU');
+    assert.deepEqual(s, { datedVisits: 0, photos: 0, notes: 0, expenses: 0 });
+    assert.equal(needsUnmarkConfirmation(s), false);
+  });
+
+  test('є дати візиту — потрібне підтвердження', async () => {
+    await addVisit(t, { countryIso: 'HU', startDate: '2024-04-01' });
+    assert.equal(needsUnmarkConfirmation(await getCountryContentSummary(t, 'HU')), true);
+  });
+
+  for (const table of ['photos', 'notes', 'expenses'] as const) {
+    test(`є ${table} — потрібне підтвердження`, async () => {
+      await setCountryVisited(t, 'HU', true);
+      await insertRow(table, 'HU');
+      const s = await getCountryContentSummary(t, 'HU');
+      assert.equal(s[table], 1);
+      assert.equal(needsUnmarkConfirmation(s), true);
+    });
+  }
+
+  test('вміст інших країн не впливає', async () => {
+    await insertRow('photos', 'AT');
+    assert.equal(needsUnmarkConfirmation(await getCountryContentSummary(t, 'HU')), false);
+  });
+
+  test('зняття позначки видаляє візити, але НЕ фото, нотатки й витрати', async () => {
+    await addVisit(t, { countryIso: 'HU', startDate: '2024-04-01' });
+    await insertRow('photos', 'HU');
+    await insertRow('notes', 'HU');
+    await insertRow('expenses', 'HU');
+
+    await setCountryVisited(t, 'HU', false);
+
+    assert.equal(await isCountryVisited(t, 'HU'), false);
+    const s = await getCountryContentSummary(t, 'HU');
+    assert.deepEqual(s, { datedVisits: 0, photos: 1, notes: 1, expenses: 1 });
+    for (const table of ['photos', 'notes', 'expenses']) {
+      const row = t.sqlite
+        .prepare(`SELECT deleted_at FROM ${table} WHERE country_iso = 'HU'`)
+        .get() as {
+        deleted_at: string | null;
+      };
+      assert.equal(row.deleted_at, null, `${table} видалено`);
+    }
   });
 });

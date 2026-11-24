@@ -15,6 +15,7 @@ import { fileURLToPath } from 'node:url';
 import type { BorderProps, City, Continent, Country, LocalizedName } from '../src/data/types.ts';
 import { SOURCES, type Source } from './data-sources.ts';
 import { createCountryLocator, type Feature, type FeatureCollection } from './lib/geo.ts';
+import { buildOutline, type Outline } from './lib/outline.ts';
 import {
   CAPITAL_OVERRIDES,
   CITY_COUNTRY_OVERRIDES,
@@ -35,6 +36,11 @@ const OUT = join(ROOT, 'src', 'data');
 const MAX_BORDERS_BYTES = 3 * 1024 * 1024;
 /** Частка вершин, що лишається після спрощення (Visvalingam, weighted). */
 const SIMPLIFY = '10%';
+/** Спрощення силуетів для картки (досить ~100 px деталізації). */
+const OUTLINE_SIMPLIFY = '3%';
+/** Менше вершин — силует будуємо з повної геометрії. */
+const MIN_OUTLINE_POINTS = 24;
+const MAX_FULL_OUTLINE_POINTS = 200;
 const CITY_MIN_POP = 100_000;
 
 // ---------- завантаження ----------
@@ -242,6 +248,47 @@ async function main() {
   if (missingUn.length) problems.push(`члени ООН без полігону: ${missingUn.join(', ')}`);
 
   writeFileSync(join(OUT, 'countries.json'), JSON.stringify(countries, null, 1) + '\n');
+
+  // 5. Силуети для картки країни: сильніше спрощення, локальна проєкція.
+  const outlinesOut = await mapshaper.applyCommands(
+    `-i in.json -dissolve iso2 -simplify ${OUTLINE_SIMPLIFY} weighted keep-shapes ` +
+      `-o out.json format=geojson precision=0.001`,
+    { 'in.json': rawBorders },
+  );
+  const outlineFeatures = (
+    JSON.parse(String(outlinesOut['out.json'])) as FeatureCollection<BorderProps>
+  ).features;
+  const centers = new Map(countries.map((c) => [c.iso2, [c.lng, c.lat] as [number, number]]));
+  const outlines: Record<string, Outline> = {};
+  for (const f of outlineFeatures.sort((a, b) =>
+    a.properties.iso2.localeCompare(b.properties.iso2),
+  )) {
+    const center = centers.get(f.properties.iso2);
+    if (!center) continue;
+    let outline = buildOutline(f.geometry, center);
+    // Карликові держави (Ватикан, Монако) після спрощення стають прямокутниками —
+    // для них беремо повну геометрію, вона й так маленька.
+    if (outline.d.split('L').length < MIN_OUTLINE_POINTS) {
+      const raw = rawBorders.features.filter((r) => r.properties.iso2 === f.properties.iso2);
+      const full = buildOutline(
+        {
+          type: 'MultiPolygon',
+          coordinates: raw.flatMap((r) =>
+            r.geometry.type === 'Polygon' ? [r.geometry.coordinates] : r.geometry.coordinates,
+          ),
+        },
+        center,
+      );
+      // Архіпелаги (Мальдіви) у повній геометрії — тисячі точок; лишаємо спрощений.
+      if (full.d.split('L').length <= MAX_FULL_OUTLINE_POINTS) outline = full;
+    }
+    outlines[f.properties.iso2] = outline;
+  }
+  writeFileSync(join(OUT, 'outlines.json'), JSON.stringify(outlines) + '\n');
+  console.log(
+    `outlines.json: ${Object.keys(outlines).length} силуетів, ` +
+      `${(statSync(join(OUT, 'outlines.json')).size / 1024).toFixed(0)} КБ`,
+  );
   writeFileSync(join(OUT, 'cities.json'), JSON.stringify(cities) + '\n');
   console.log(
     `countries.json: ${countries.length} країн/територій, з них членів ООН: ${countries.filter((c) => c.unMember).length}`,

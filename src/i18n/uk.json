@@ -11,10 +11,6 @@
   "globe": {
     "counter": "{{visited}} / {{total}}"
   },
-  "countries": {
-    "title": "Країни",
-    "empty": "Тут буде список відвіданих країн"
-  },
   "trips": {
     "title": "Поїздки",
     "empty": "Тут будуть заплановані й минулі поїздки"
@@ -40,5 +36,87 @@
   },
   "errors": {
     "database": "Не вдалося відкрити локальну базу даних. Спробуйте перезапустити додаток."
+  },
+  "months": {
+    "short": [
+      "січ.",
+      "лют.",
+      "бер.",
+      "квіт.",
+      "трав.",
+      "черв.",
+      "лип.",
+      "серп.",
+      "вер.",
+      "жовт.",
+      "лист.",
+      "груд."
+    ]
+  },
+  "continents": {
+    "europe": "Європа",
+    "asia": "Азія",
+    "africa": "Африка",
+    "north-america": "Північна Америка",
+    "south-america": "Південна Америка",
+    "oceania": "Океанія",
+    "antarctica": "Антарктида"
+  },
+  "card": {
+    "close": "Закрити",
+    "markVisited": "Був тут",
+    "visited": "Відвідано",
+    "plan": "Запланувати",
+    "planSoon": "Незабаром",
+    "open": "Відкрити",
+    "capital": "Столиця: {{capital}}",
+    "statusNotVisited": "Ще не був",
+    "statusVisited_one": "Відвідано · {{count}} візит",
+    "statusVisited_few": "Відвідано · {{count}} візити",
+    "statusVisited_many": "Відвідано · {{count}} візитів",
+    "statusVisited_other": "Відвідано · {{count}} візиту",
+    "statusPlanned": "Заплановано",
+    "territory": "Територія — не входить у лічильник 193",
+    "flagAndName": "{{flag}} {{name}}"
+  },
+  "unmark": {
+    "title": "Зняти позначку «{{country}}»?",
+    "message": "Тут уже є: {{items}}. Візити й дати буде видалено. Фото, нотатки й витрати залишаться.",
+    "datedVisits_one": "{{count}} візит з датами",
+    "datedVisits_few": "{{count}} візити з датами",
+    "datedVisits_many": "{{count}} візитів з датами",
+    "datedVisits_other": "{{count}} візиту з датами",
+    "photos_one": "{{count}} фото",
+    "photos_few": "{{count}} фото",
+    "photos_many": "{{count}} фото",
+    "photos_other": "{{count}} фото",
+    "notes_one": "{{count}} нотатка",
+    "notes_few": "{{count}} нотатки",
+    "notes_many": "{{count}} нотаток",
+    "notes_other": "{{count}} нотатки",
+    "expenses_one": "{{count}} витрата",
+    "expenses_few": "{{count}} витрати",
+    "expenses_many": "{{count}} витрат",
+    "expenses_other": "{{count}} витрати",
+    "cancel": "Скасувати",
+    "confirm": "Зняти позначку"
+  },
+  "countries": {
+    "title": "Країни",
+    "filterVisited": "Відвідані",
+    "filterPlanned": "Заплановані",
+    "filterAll": "Всі",
+    "search": "Пошук країни",
+    "sortLabel": "Сортування",
+    "sortDate": "За датою",
+    "sortAlpha": "За абеткою",
+    "sortContinent": "За континентом",
+    "rowCapitalDates": "{{capital}} · {{dates}}",
+    "territory": "територія",
+    "markVisited": "Позначити «{{country}}» як відвідану",
+    "unmarkVisited": "Зняти позначку з «{{country}}»",
+    "emptyVisited": "Ще немає відвіданих країн. Позначте їх у режимі «Всі» або на глобусі.",
+    "emptyPlanned": "Немає запланованих поїздок",
+    "emptySearch": "Нічого не знайдено"
   }
 }

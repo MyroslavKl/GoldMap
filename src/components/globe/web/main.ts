@@ -14,6 +14,7 @@ import type { FeatureCollection } from 'geojson';
 
 import { colors, goldAlpha } from '../../../theme/colors';
 import { WEB_RECEIVER, type FromWebMessage, type ToWebMessage } from '../protocol';
+import { createFillAnimator } from './fill-animator';
 
 /** Вихідний код воркера MapLibre — підставляє esbuild (define). */
 declare const __WORKER_SRC__: string;
@@ -78,11 +79,15 @@ const map = new MapLibreMap({
         type: 'fill',
         source: 'countries',
         paint: {
+          // fill: 0 — невідвідана (goldDim), 1 — відвідана (gold); між ними — анімація заливки.
           'fill-color': [
-            'case',
-            ['boolean', ['feature-state', 'visited'], false],
-            colors.gold,
+            'interpolate',
+            ['linear'],
+            ['to-number', ['coalesce', ['feature-state', 'fill'], 0]],
+            0,
             colors.goldDim,
+            1,
+            colors.gold,
           ],
           'fill-antialias': false,
         },
@@ -127,18 +132,25 @@ const map = new MapLibreMap({
 
 // ---------- стан країн ----------
 
-const state = { visited: new Set<string>(), planned: new Set<string>() };
+const state = { planned: new Set<string>() };
 
-function applyStateSet(key: 'visited' | 'planned', next: Set<string>): void {
-  const prev = state[key];
-  for (const iso of prev) {
-    if (!next.has(iso)) map.setFeatureState({ source: 'countries', id: iso }, { [key]: false });
+const fills = createFillAnimator({
+  setFill: (iso, value) => map.setFeatureState({ source: 'countries', id: iso }, { fill: value }),
+  now: () => performance.now(),
+  requestFrame: (cb) => requestAnimationFrame(cb),
+});
+
+function applyPlanned(next: Set<string>): void {
+  for (const iso of state.planned) {
+    if (!next.has(iso)) map.setFeatureState({ source: 'countries', id: iso }, { planned: false });
   }
   for (const iso of next) {
-    if (!prev.has(iso)) map.setFeatureState({ source: 'countries', id: iso }, { [key]: true });
+    if (!state.planned.has(iso)) {
+      map.setFeatureState({ source: 'countries', id: iso }, { planned: true });
+    }
   }
-  state[key] = next;
-  if (key === 'planned') updatePulse();
+  state.planned = next;
+  updatePulse();
 }
 
 // Пульсація запланованих: змінюємо прозорість шару ~20 разів на секунду, лише коли є що пульсувати.
@@ -256,8 +268,8 @@ map.on('click', 'countries-fill', (e: MapLayerMouseEvent) => {
 window[WEB_RECEIVER] = (message: ToWebMessage) => {
   switch (message.type) {
     case 'setCountries':
-      applyStateSet('visited', new Set(message.visited));
-      applyStateSet('planned', new Set(message.planned));
+      fills.setVisited(new Set(message.visited));
+      applyPlanned(new Set(message.planned));
       break;
     case 'setAutoRotate':
       rotateEnabled = message.enabled;

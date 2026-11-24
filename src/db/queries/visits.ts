@@ -85,6 +85,17 @@ export async function getVisitedCountries(ctx: DbContext): Promise<VisitedCountr
     .orderBy(asc(visits.countryIso));
 }
 
+/**
+ * Усі активні візити (країна + дата початку) — для useLiveQuery: з них будуються
+ * множина відвіданих, кількість візитів і дати в списку країн.
+ */
+export function activeVisitDatesQuery(db: AppDatabase) {
+  return db
+    .select({ countryIso: visits.countryIso, startDate: visits.startDate })
+    .from(visits)
+    .where(active);
+}
+
 /** Запит ISO-кодів відвіданих країн — для useLiveQuery у компонентах. */
 export function visitedIsosQuery(db: AppDatabase) {
   return db.selectDistinct({ countryIso: visits.countryIso }).from(visits).where(active);

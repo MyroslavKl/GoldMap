@@ -105,6 +105,24 @@ docs/SPEC.md          # ТЗ
   Metro їх розуміє). `src/db` не імпортує нічого з `@/…` і з Expo, крім `client.ts`.
 - Живі дані в компонентах — `useLiveQuery` з `drizzle-orm/expo-sqlite` (напр. `visitedIsosQuery`).
 
+## Позначка «був тут»
+
+- Позначати / знімати — лише через `useToggleVisited()` (`src/lib/use-toggle-visited.ts`): одна
+  логіка для картки на глобусі й галочки у списку (вібрація, підтвердження).
+- Перед зняттям позначки, якщо в країни є дати візитів, фото, нотатки чи витрати —
+  підтвердження (`needsUnmarkConfirmation`). Зняття видаляє **лише візити**; фото, нотатки й
+  витрати не чіпати ніколи (є тест).
+- Картка країни на глобусі — оверлей (`CountryCard`) поверх глобуса, не окремий екран.
+- Заливка золотом ~600 мс: на глобусі — `web/fill-animator.ts`, у картці — `CountryOutline`.
+- Силуети — `src/data/outlines.json` (генерує `build:data`); тест перевіряє, що Сімферополь
+  усередині силуету UA.
+
+## Чисті модулі й тести
+
+- Логіка без React/Expo — у `src/lib/*.ts` (напр. `country-list.ts`, `dates.ts`) з відносними
+  імпортами `.ts`; тести — `tests/lib.test.ts`. Хуки й код з Expo — окремими файлами.
+- Назви місяців — з i18n (`months.short`), не з `Intl`: однаково на iOS і Android.
+
 ## Команди
 
 ```bash
@@ -115,6 +133,7 @@ npm run format         # Prettier
 npm run build:data     # перезібрати src/data з джерел (потрібен інтернет)
 npm run test:data      # тести даних (кордони України, 193, назви)
 npm run test:db        # unit-тести бази (node:sqlite у пам'яті)
+npm run test:lib       # чисті модулі src/lib (список країн, дати)
 npm test               # усі тести
 npm run db:generate    # нова міграція після зміни схеми
 npm run build:globe    # перезібрати офлайн-HTML глобуса

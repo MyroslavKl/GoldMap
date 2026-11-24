@@ -9,6 +9,11 @@ import { describe, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 import { isFromWebMessage } from '../src/components/globe/protocol.ts';
+import {
+  createFillAnimator,
+  FILL_MS,
+  UNFILL_MS,
+} from '../src/components/globe/web/fill-animator.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const generated = readFileSync(
@@ -63,5 +68,86 @@ describe('протокол WebView → RN', () => {
     for (const value of [null, 1, 'ready', {}, { type: 'countryPress' }, { type: 'nope' }]) {
       assert.equal(isFromWebMessage(value), false, JSON.stringify(value));
     }
+  });
+});
+
+describe('заливка золотом на глобусі', () => {
+  /** Підставний годинник і кадри: frame(ms) просуває час і виконує кадр. */
+  function setup() {
+    let now = 0;
+    let pending: ((t: number) => void) | null = null;
+    const fill = new Map<string, number>();
+    const history: number[] = [];
+    const animator = createFillAnimator({
+      setFill: (iso, v) => {
+        fill.set(iso, v);
+        if (iso === 'FR') history.push(v);
+      },
+      now: () => now,
+      requestFrame: (cb) => {
+        pending = cb;
+      },
+    });
+    const frame = (ms: number) => {
+      now += ms;
+      const cb = pending;
+      pending = null;
+      cb?.(now);
+    };
+    return { animator, fill, history, frame };
+  }
+
+  test('перший стан (відкриття глобуса) — одразу, без анімації', () => {
+    const { animator, fill } = setup();
+    animator.setVisited(new Set(['UA', 'PL']));
+    assert.equal(fill.get('UA'), 1);
+    assert.equal(fill.get('PL'), 1);
+    assert.equal(animator.isAnimating(), false);
+  });
+
+  test('нова позначка наливається плавно рівно за ~600 мс', () => {
+    const { animator, fill, history, frame } = setup();
+    animator.setVisited(new Set(['UA']));
+    animator.setVisited(new Set(['UA', 'FR']));
+    assert.equal(fill.get('FR'), undefined, 'до першого кадру нічого не змінюється');
+
+    for (let t = 0; t < FILL_MS - 16; t += 16) frame(16);
+    assert.ok(animator.isAnimating(), 'анімація ще триває перед 600 мс');
+    const mid = history[Math.floor(history.length / 2)];
+    assert.ok(mid > 0.3 && mid < 1, `проміжне значення ${mid}`);
+    assert.ok(
+      history.every((v, i) => i === 0 || v >= history[i - 1]),
+      'заливка монотонно зростає',
+    );
+
+    frame(32);
+    assert.equal(fill.get('FR'), 1);
+    assert.equal(animator.isAnimating(), false);
+    assert.equal(fill.get('UA'), 1, 'інші країни не чіпаються');
+  });
+
+  test('зняття позначки згасає швидше (300 мс)', () => {
+    const { animator, fill, frame } = setup();
+    animator.setVisited(new Set(['FR']));
+    animator.setVisited(new Set());
+    frame(UNFILL_MS / 2);
+    const v = fill.get('FR')!;
+    assert.ok(v > 0 && v < 1, `на півдорозі: ${v}`);
+    frame(UNFILL_MS);
+    assert.equal(fill.get('FR'), 0);
+  });
+
+  test('повторна позначка під час згасання продовжує з поточного рівня', () => {
+    const { animator, fill, history, frame } = setup();
+    animator.setVisited(new Set(['FR']));
+    animator.setVisited(new Set());
+    frame(100);
+    const dimmed = fill.get('FR')!;
+    animator.setVisited(new Set(['FR']));
+    frame(16);
+    assert.ok(Math.abs(fill.get('FR')! - dimmed) < 0.2, 'без стрибка до 0');
+    frame(FILL_MS);
+    assert.equal(fill.get('FR'), 1);
+    assert.ok(history.length > 3);
   });
 });

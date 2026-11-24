@@ -9,7 +9,13 @@ import { describe, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 import type { BorderProps, City, Country } from '../src/data/types.ts';
-import { pointInGeometry, type FeatureCollection, type Position } from './lib/geo.ts';
+import {
+  distanceToGeometry,
+  pointInGeometry,
+  type FeatureCollection,
+  type Position,
+} from './lib/geo.ts';
+import { parseOutlinePath, projectPoint, type Outline } from './lib/outline.ts';
 
 const DATA = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data');
 const read = <T>(file: string): T => JSON.parse(readFileSync(join(DATA, file), 'utf8')) as T;
@@ -17,6 +23,7 @@ const read = <T>(file: string): T => JSON.parse(readFileSync(join(DATA, file), '
 const borders = read<FeatureCollection<BorderProps>>('borders.geojson');
 const countries = read<Country[]>('countries.json');
 const cities = read<City[]>('cities.json');
+const outlines = read<Record<string, Outline>>('outlines.json');
 
 const ua = borders.features.find((f) => f.properties.iso2 === 'UA');
 const ru = borders.features.find((f) => f.properties.iso2 === 'RU');
@@ -135,5 +142,70 @@ describe('cities.json', () => {
     const kyiv = cities.find((c) => c.name.en === 'Kyiv');
     assert.equal(kyiv?.iso2, 'UA');
     assert.equal(kyiv?.capital, true);
+  });
+});
+
+describe('outlines.json (силуети для картки)', () => {
+  /** Точка [lng, lat] у силуеті країни: та сама проєкція, що й при генерації. */
+  function inOutline(iso2: string, [lng, lat]: [number, number]): boolean {
+    const outline = outlines[iso2];
+    const point = projectPoint([lng, lat], outline.p);
+    const rings = parseOutlinePath(outline.d);
+    // even-odd: дірки (анклави) враховуються автоматично
+    return (
+      rings.filter((r) => pointInGeometry(point, { type: 'Polygon', coordinates: [r] })).length %
+        2 ===
+      1
+    );
+  }
+
+  /** Відстань від точки до контуру силуету, в одиницях viewBox (найбільша сторона = 100). */
+  function outlineDistance(iso2: string, [lng, lat]: [number, number]): number {
+    const outline = outlines[iso2];
+    const point = projectPoint([lng, lat], outline.p);
+    return Math.min(
+      ...parseOutlinePath(outline.d).map((r) =>
+        distanceToGeometry(point, { type: 'Polygon', coordinates: [r] }),
+      ),
+    );
+  }
+
+  /** Міста на самому березі: спрощений силует може зсунути берегову лінію на ~1 %. */
+  const COASTAL = new Set(['Kerch', 'Sevastopol', 'Yalta', 'Yevpatoriya', 'Mariupol']);
+
+  test('силует є для кожної країни, шлях непорожній, viewBox коректний', () => {
+    for (const c of countries) {
+      const o = outlines[c.iso2];
+      assert.ok(o, `${c.iso2}: немає силуету`);
+      assert.match(o.d, /^M[\d.]+,[\d.]+L/, `${c.iso2}: порожній шлях`);
+      assert.ok(o.w > 0 && o.h > 0 && Math.max(o.w, o.h) <= 100.1, `${c.iso2}: ${o.w}x${o.h}`);
+    }
+  });
+
+  test('силует України включає Крим: Сімферополь (44.95, 34.10) всередині шляху UA', () => {
+    assert.ok(inOutline('UA', [34.1, 44.95]));
+  });
+
+  test('окуповані міста: у силуеті UA (прибережні — до 2 % від краю), і жодне — не в RU', () => {
+    for (const [name, lat, lng] of OCCUPIED) {
+      const coastal = COASTAL.has(name);
+      assert.ok(
+        inOutline('UA', [lng, lat]) || (coastal && outlineDistance('UA', [lng, lat]) <= 2),
+        `${name} поза силуетом UA`,
+      );
+      assert.ok(!inOutline('RU', [lng, lat]), `${name} у силуеті RU`);
+    }
+  });
+
+  test('внутрішні окуповані міста — строго всередині силуету UA', () => {
+    for (const [name, lat, lng] of OCCUPIED.filter(([n]) => !COASTAL.has(n))) {
+      assert.ok(inOutline('UA', [lng, lat]), `${name} поза силуетом UA`);
+    }
+  });
+
+  test('перевірка не тривіальна: Київ у силуеті UA, Москва — ні', () => {
+    assert.ok(inOutline('UA', [30.52, 50.45]));
+    assert.ok(!inOutline('UA', [37.62, 55.75]));
+    assert.ok(inOutline('RU', [37.62, 55.75]));
   });
 });
