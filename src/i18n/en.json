@@ -9,8 +9,7 @@
     "settings": "Settings"
   },
   "globe": {
-    "counter": "{{visited}} / {{total}}",
-    "placeholder": "The 3D globe will appear here"
+    "counter": "{{visited}} / {{total}}"
   },
   "countries": {
     "title": "Countries",
@@ -26,7 +25,7 @@
     "version": "Version {{version}}"
   },
   "country": {
-    "title": "Country {{iso}}"
+    "unknown": "Unknown country"
   },
   "trip": {
     "title": "Trip"

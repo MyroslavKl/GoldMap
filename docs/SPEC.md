@@ -24,7 +24,7 @@ React Native з Expo і TypeScript: один код на обидві платф
 | --- | --- | --- |
 | Каркас | Expo (останній SDK), TypeScript strict | Development build, не Expo Go, бо карта має нативний код |
 | Навігація | expo-router | Вкладки + модальні екрани |
-| Глобус і карта | @rnmapbox/maps, проекція globe | Власний стиль з наших GeoJSON-шарів. Обгорнути в компонент `GlobeView`, щоб можна було замінити на MapLibre |
+| Глобус і карта | **Розробка:** MapLibre GL JS (проєкція globe) у react-native-webview. **Реліз:** @rnmapbox/maps, проекція globe | Власний стиль з наших GeoJSON-шарів. Усе за компонентом `GlobeView` (`src/components/globe`) з незалежним від реалізації контрактом — заміна реалізації без змін у решті коду |
 | База даних | expo-sqlite + Drizzle ORM | Міграції з першого дня |
 | Стан | Zustand | Тільки UI-стан; дані — з бази |
 | Фото | expo-image-picker, expo-image-manipulator, expo-file-system, expo-image | Стискати до \~2000 px і робити мініатюри |
@@ -32,6 +32,8 @@ React Native з Expo і TypeScript: один код на обидві платф
 | Локалізація | i18next + expo-localization | uk, en |
 | Бекап | expo-sharing + архів ZIP | Експорт/імпорт усіх даних і фото |
 | Збірка і публікація | EAS Build, EAS Submit | Без Mac |
+
+**Глобус під час розробки — WebView (рішення від 24.11.2026).** Автор розробляє на iPhone без Apple Developer акаунта, тому development build для iOS (потрібний нативному Mapbox) поки неможливий. До публікації `GlobeView` працює на MapLibre GL JS 5+ (зараз 6.x, проєкція globe) усередині react-native-webview — це працює в Expo Go. Бібліотека, її воркер, `borders.geojson` і точки міст вшиті в один офлайн-HTML (`npm run build:globe`), мережа не потрібна. Інтерфейс `GlobeView` (пропси й ref-команди) не залежить від реалізації: перед публікацією додається нативна реалізація на @rnmapbox/maps з development build, а решта коду не змінюється. Відомі обмеження WebView: трохи нижча плавність, ніж у нативі; вбудована атмосфера MapLibre блакитна, тому золоте світіння малюється CSS-ореолом.
 
 **Карта і гроші.** Mapbox рахує оплату за активних користувачів на місяць понад безкоштовний ліміт. На старті це $0, але перед публікацією перевірити ліміт на mapbox.com/pricing і тримати план Б: MapLibre з безкоштовними тайлами.
 
@@ -202,6 +204,7 @@ SQLite на телефоні, сім таблиць. Довідник країн
 - [ ] Privacy labels (App Store) і Data safety (Google Play): «дані не збираються»
 - [ ] Іконка 1024×1024, скріншоти для телефонів, опис uk/en, ключові слова
 - [ ] Перевірити, що назва вільна в обох магазинах
+- [ ] Перейти з WebView на нативний Mapbox: `GlobeView.mapbox.tsx` на @rnmapbox/maps з тим самим контрактом, development build через EAS, перемкнути експорт у `src/components/globe/index.ts`; прибрати react-native-webview і maplibre-gl, якщо більше не потрібні; перевірити 60 кадрів/с
 - [ ] Атрибуції Mapbox / OpenStreetMap видно на карті
 - [ ] Якщо пізніше з'являться акаунти: Sign in with Apple і видалення акаунта в додатку
 
@@ -215,7 +218,8 @@ Sources: [cost to publish an app to the app stores](https://axonbuild.com/blog/c
 | --- | --- | --- | --- |
 | Назва додатку | Goldmap, або своя | Goldmap (робоча) | 9 |
 | Джерело запропонованих місць | Вшитий список топ-10 на країну (безкоштовно, офлайн); OpenTripMap API; Google Places (платно); ШІ | Вшитий список | 8 |
-| Карта | Mapbox; MapLibre | Mapbox, через `GlobeView` | 4 |
+| Карта | Mapbox; MapLibre | Розробка — MapLibre у WebView, реліз — Mapbox, через `GlobeView` (вирішено на етапі 4) | 9 |
+| Тайли детальної карти при наближенні у WebView-версії | OpenFreeMap / інші безкоштовні тайли для MapLibre; без детальної карти до переходу на Mapbox | Без детальної карти (лише вшиті кордони й міста) | 7 |
 | Синхронізація й акаунти | Немає; Supabase у версії 2 (можливо, платна функція) | Немає у версії 1 | Після релізу |
 | Монетизація | Безкоштовно; разова покупка Pro; підписка на синхронізацію | Безкоштовно | Після релізу |
 | Автоматичні курси валют | Ручний курс; безкоштовний API курсів | Ручний | 6 |

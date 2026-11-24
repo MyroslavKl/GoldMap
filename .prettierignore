@@ -10,3 +10,4 @@ src/data/*.json
 src/data/*.geojson
 scripts/.cache
 src/db/migrations/meta
+src/components/globe/web/globe-html.generated.ts

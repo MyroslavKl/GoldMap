@@ -44,3 +44,6 @@ example
 
 # data build cache
 scripts/.cache/
+
+# generated globe HTML (npm run build:globe, runs on postinstall)
+src/components/globe/web/globe-html.generated.ts

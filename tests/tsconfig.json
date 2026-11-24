@@ -4,5 +4,5 @@
     "types": ["node"],
     "customConditions": []
   },
-  "include": ["./**/*.ts", "../src/db/**/*.ts"]
+  "include": ["./**/*.ts", "../src/db/**/*.ts", "../src/components/globe/protocol.ts"]
 }

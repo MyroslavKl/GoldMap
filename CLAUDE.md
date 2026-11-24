@@ -25,16 +25,35 @@
 
 ## Стек
 
-Expo SDK 58 (React Native, TypeScript strict), expo-router. Далі за етапами: @rnmapbox/maps
-через обгортку `GlobeView` (щоб замінити на MapLibre), expo-sqlite + Drizzle (міграції з першого
-дня), Zustand лише для UI-стану, i18next + expo-localization.
+Expo SDK 58 (React Native, TypeScript strict), expo-router, expo-sqlite + Drizzle, i18next +
+expo-localization. Далі за етапами: Zustand лише для UI-стану.
+
+**Глобус: зараз WebView, перед публікацією — нативний Mapbox.** У автора iPhone без Apple
+Developer акаунта, тож development build на iOS неможливий, а додаток має працювати в **Expo Go**.
+Тому `GlobeView` зараз — MapLibre GL JS (globe) у react-native-webview; перед публікацією його
+замінить @rnmapbox/maps (див. `docs/SPEC.md` → «Технічний стек», «Публікація»). Правила:
+
+- Глобус — тільки через `@/components/globe` (`GlobeView`, `GlobeViewProps`, `GlobeViewHandle`).
+  `react-native-webview`, `maplibre-gl` і `web/*` поза `src/components/globe` не імпортувати.
+- Контракт у `types.ts` не залежить від реалізації: жодних WebView/MapLibre-типів у пропсах.
+  Нова можливість глобуса = пропс/команда в `types.ts` + реалізація, яку потім повторить Mapbox.
+- Не додавати нативних модулів, яких немає в Expo Go, без рішення автора.
+- Код у WebView — `src/components/globe/web/main.ts`; кольори імпортує з `src/theme/colors.ts`.
+  RN ⇄ WebView — лише типізовані повідомлення з `protocol.ts`.
+- `web/globe-html.generated.ts` генерується (`npm run build:globe`, автоматично після
+  `npm install`), у git не потрапляє, руками не редагувати. Після змін у `web/main.ts`, темі чи
+  `src/data` — перезібрати.
+- Офлайн: MapLibre, його воркер (Blob URL), кордони й міста вшиті в HTML. Жодних тайлів, гліфів
+  (тому міста — точки без підписів), спрайтів чи шрифтів з мережі; це перевіряє `npm run test:globe`.
+- Ліцензія MapLibre GL JS — BSD-3-Clause: текст має бути в «Атрибуціях» (етап 9).
 
 - Пакети ставити **тільки** `npx expo install <pkg>` (сумісні з SDK версії).
 - Expo змінюється з кожним SDK — не покладайся на пам'ять, звіряйся з
   `https://docs.expo.dev/versions/v58.0.0/`.
 - `ios/` і `android/` генеруються (CNG) і в git не потрапляють. Нативні налаштування — через
   `app.json` і config-плагіни.
-- Нативні модулі поза Expo Go (Mapbox тощо) потребують development build (EAS), не Expo Go.
+- Нативні модулі поза Expo Go (Mapbox тощо) потребують development build (EAS) — до публікації
+  їх не додаємо (див. вище).
 
 ## Структура
 
@@ -89,7 +108,7 @@ docs/SPEC.md          # ТЗ
 ## Команди
 
 ```bash
-npx expo start         # dev-сервер (Expo Go на етапах 1–3)
+npx expo start         # dev-сервер (Expo Go)
 npm run typecheck      # tsc: додаток, scripts, tests
 npm run lint           # ESLint (expo + prettier + правила проєкту)
 npm run format         # Prettier
@@ -98,6 +117,8 @@ npm run test:data      # тести даних (кордони України, 1
 npm run test:db        # unit-тести бази (node:sqlite у пам'яті)
 npm test               # усі тести
 npm run db:generate    # нова міграція після зміни схеми
+npm run build:globe    # перезібрати офлайн-HTML глобуса
+npm run test:globe     # тести глобуса (офлайн-HTML, протокол)
 npm run check          # typecheck + lint + format:check + усі тести — перед комітом
 npx expo-doctor        # перевірка залежностей і конфігу
 ```

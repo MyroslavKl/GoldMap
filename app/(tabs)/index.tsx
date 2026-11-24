@@ -1,38 +1,51 @@
 import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
+import { router } from 'expo-router';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '@/components/AppText';
-import { EmptyState } from '@/components/EmptyState';
-import { Screen } from '@/components/Screen';
+import { GlobeView } from '@/components/globe';
 import { countableIsos } from '@/data/countries';
 import { computeCounter, visitedIsosQuery } from '@/db';
 import { expoDb } from '@/db/client';
 import { spacing } from '@/theme';
 
-/** Вкладка «Глобус». GlobeView з'явиться на етапі 4. */
+/** Вкладка «Глобус»: глобус на весь екран і лічильник поверх. */
 export default function GlobeTab() {
   const { t } = useTranslation();
-  // TODO(етап 9): режим списку країн із налаштувань (un / extended).
+  const insets = useSafeAreaInsets();
   const { data } = useLiveQuery(visitedIsosQuery(expoDb));
-  const counter = computeCounter(
-    data.map((r) => r.countryIso),
-    countableIsos('un'),
-  );
+  const visited = useMemo(() => data.map((r) => r.countryIso), [data]);
+  // TODO(етап 9): режим списку країн із налаштувань (un / extended).
+  const counter = computeCounter(visited, countableIsos('un'));
+
+  // TODO(етап 5): замість переходу — затемнення фону і винесена картка країни.
+  const openCountry = useCallback((iso2: string) => {
+    router.push({ pathname: '/country/[iso]', params: { iso: iso2 } });
+  }, []);
 
   return (
-    <Screen>
-      <View style={styles.counter}>
-        <AppText variant="counter">{t('globe.counter', counter)}</AppText>
+    <View style={styles.root}>
+      <GlobeView visited={visited} onCountryPress={openCountry} />
+      <View pointerEvents="none" style={[styles.counter, { top: insets.top + spacing.md }]}>
+        <AppText variant="counter" accessibilityRole="header">
+          {t('globe.counter', counter)}
+        </AppText>
       </View>
-      <EmptyState text={t('globe.placeholder')} />
-    </Screen>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   counter: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
     alignItems: 'center',
-    paddingTop: spacing.lg,
   },
 });

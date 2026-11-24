@@ -9,8 +9,7 @@
     "settings": "Налаштування"
   },
   "globe": {
-    "counter": "{{visited}} / {{total}}",
-    "placeholder": "Тут з'явиться 3D-глобус"
+    "counter": "{{visited}} / {{total}}"
   },
   "countries": {
     "title": "Країни",
@@ -26,7 +25,7 @@
     "version": "Версія {{version}}"
   },
   "country": {
-    "title": "Країна {{iso}}"
+    "unknown": "Невідома країна"
   },
   "trip": {
     "title": "Поїздка"
