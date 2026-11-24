@@ -62,7 +62,8 @@
     "statusVisited_other": "Visited · {{count}} visits",
     "statusPlanned": "Planned",
     "territory": "Territory — not counted in the 193",
-    "flagAndName": "{{flag}} {{name}}"
+    "flagAndName": "{{flag}} {{name}}",
+    "statusVisitedOnce": "Visited"
   },
   "unmark": {
     "title": "Unmark {{country}}?",

@@ -73,7 +73,7 @@ export default function GlobeTab() {
           iso2={selected}
           visited={isSelectedVisited}
           planned={planned.includes(selected)}
-          visitCount={visitsByCountry.get(selected)?.length ?? 0}
+          startDates={visitsByCountry.get(selected) ?? []}
           onToggleVisited={onToggleVisited}
           onOpen={openCountry}
           onClose={closeCard}

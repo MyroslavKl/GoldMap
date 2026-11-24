@@ -77,7 +77,8 @@
     "statusVisited_other": "Відвідано · {{count}} візиту",
     "statusPlanned": "Заплановано",
     "territory": "Територія — не входить у лічильник 193",
-    "flagAndName": "{{flag}} {{name}}"
+    "flagAndName": "{{flag}} {{name}}",
+    "statusVisitedOnce": "Відвідано"
   },
   "unmark": {
     "title": "Зняти позначку «{{country}}»?",

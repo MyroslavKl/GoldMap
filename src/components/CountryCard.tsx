@@ -9,6 +9,7 @@ import { AppText } from '@/components/AppText';
 import { CountryOutline } from '@/components/CountryOutline';
 import { getCountry } from '@/data/countries';
 import { useLanguage } from '@/i18n';
+import { formatVisitDates } from '@/lib/dates';
 import { colors, fonts, fontSizes, radius, spacing } from '@/theme';
 
 const OUTLINE_SIZE = 168;
@@ -19,7 +20,8 @@ type Props = {
   iso2: string;
   visited: boolean;
   planned: boolean;
-  visitCount: number;
+  /** Дати початку активних візитів (null — візит без дат) */
+  startDates: readonly (string | null)[];
   onToggleVisited: () => void;
   onOpen: () => void;
   onClose: () => void;
@@ -33,7 +35,7 @@ export function CountryCard({
   iso2,
   visited,
   planned,
-  visitCount,
+  startDates,
   onToggleVisited,
   onOpen,
   onClose,
@@ -52,8 +54,12 @@ export function CountryCard({
 
   if (!country) return null;
 
+  const dates = formatVisitDates(startDates, t('months.short', { returnObjects: true }));
+
   const status = visited
-    ? t('card.statusVisited', { count: visitCount })
+    ? startDates.length > 1
+      ? t('card.statusVisited', { count: startDates.length })
+      : t('card.statusVisitedOnce')
     : planned
       ? t('card.statusPlanned')
       : t('card.statusNotVisited');
@@ -101,6 +107,11 @@ export function CountryCard({
             </AppText>
           ) : null}
           <AppText style={[styles.status, visited && styles.statusVisited]}>{status}</AppText>
+          {visited && dates ? (
+            <AppText variant="muted" style={styles.centerText}>
+              {dates}
+            </AppText>
+          ) : null}
           {!country.unMember ? (
             <AppText variant="muted" style={styles.centerText}>
               {t('card.territory')}
@@ -229,6 +240,8 @@ const styles = StyleSheet.create({
   secondary: {
     flex: 1,
     alignItems: 'center',
+    // Кнопки в ряду різної висоти («Запланувати» має підпис) — текст по центру по вертикалі.
+    justifyContent: 'center',
     paddingVertical: spacing.sm + 2,
     borderRadius: radius.pill,
     borderWidth: 1,
