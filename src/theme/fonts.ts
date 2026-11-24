@@ -1,24 +1,21 @@
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
-import {
-  PlayfairDisplay_600SemiBold,
-  PlayfairDisplay_700Bold,
-} from '@expo-google-fonts/playfair-display';
+import { Lora_600SemiBold, Lora_700Bold } from '@expo-google-fonts/lora';
 
 /**
  * Шрифти вшиті в додаток (працюють офлайн), обидва підтримують кирилицю.
- * Заголовки й лічильник — Playfair Display, текст — Inter.
+ * Заголовки й лічильник — Lora (м'який серифний), текст — Inter.
  */
 export const fontAssets = {
-  PlayfairDisplay_600SemiBold,
-  PlayfairDisplay_700Bold,
+  Lora_600SemiBold,
+  Lora_700Bold,
   Inter_400Regular,
   Inter_500Medium,
   Inter_600SemiBold,
 };
 
 export const fonts = {
-  serif: 'PlayfairDisplay_600SemiBold',
-  serifBold: 'PlayfairDisplay_700Bold',
+  serif: 'Lora_600SemiBold',
+  serifBold: 'Lora_700Bold',
   sans: 'Inter_400Regular',
   sansMedium: 'Inter_500Medium',
   sansSemiBold: 'Inter_600SemiBold',
