@@ -62,6 +62,15 @@ docs/SPEC.md          # ТЗ
 - Гроші — цілі числа в мінімальних одиницях (копійки, центи).
 - Фото — файли в `documentDirectory/photos`, у базі тільки шляхи.
 - Довідник країн у базу не пишеться: `src/data/countries.json`, зв'язок за ISO-кодом.
+- `src/data/*.json|geojson` — згенеровані (`npm run build:data`), руками не редагувати.
+  Джерела закріплені за комітом і SHA-256 у `scripts/data-sources.ts`, ручні правки —
+  у `scripts/overrides.ts` (кожна з причиною). Типи — `src/data/types.ts`.
+- Кордони — Natural Earth `_ukr` (1:10m, спрощено до ~1 МБ). Країну міста визначає полігон,
+  а не поле джерела. Після будь-якої зміни даних — `npm run test:data` (Сімферополь ∈ UA).
+- `countries.json` — похідна від mledoze/countries під **ODbL**: атрибуція обов'язкова
+  (див. `src/data/LICENSE-DATA.md`).
+- Лічильник: 193 члени ООН (Ватикан і Палестина — спостерігачі, не входять). Косово в
+  кордонах з точкою зору України — частина Сербії; Мартиніка, Гваделупа, Реюньйон — Франції.
 
 ## Команди
 
@@ -70,7 +79,9 @@ npx expo start         # dev-сервер (Expo Go на етапах 1–3)
 npm run typecheck      # tsc --noEmit
 npm run lint           # ESLint (expo + prettier + правила проєкту)
 npm run format         # Prettier
-npm run check          # typecheck + lint + format:check — запускати перед комітом
+npm run build:data     # перезібрати src/data з джерел (потрібен інтернет)
+npm run test:data      # тести даних (кордони України, 193, назви)
+npm run check          # typecheck + lint + format:check + test:data — перед комітом
 npx expo-doctor        # перевірка залежностей і конфігу
 ```
 

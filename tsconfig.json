@@ -5,7 +5,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/assets/*": ["./assets/*"]
-    }
+    },
+    "allowImportingTsExtensions": true
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
+  "exclude": ["scripts"]
 }

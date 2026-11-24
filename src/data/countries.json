@@ -1,0 +1,4274 @@
+[
+ {
+  "iso2": "AD",
+  "iso3": "AND",
+  "name": {
+   "uk": "Андорра",
+   "en": "Andorra"
+  },
+  "capital": {
+   "uk": "Андорра-ла-Велья",
+   "en": "Andorra la Vella"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇦🇩",
+  "unMember": true,
+  "lat": 42.548,
+  "lng": 1.539
+ },
+ {
+  "iso2": "AE",
+  "iso3": "ARE",
+  "name": {
+   "uk": "Об'єднані Арабські Емірати",
+   "en": "United Arab Emirates"
+  },
+  "capital": {
+   "uk": "Абу-Дабі",
+   "en": "Abu Dhabi"
+  },
+  "continent": "asia",
+  "currency": "AED",
+  "flag": "🇦🇪",
+  "unMember": true,
+  "lat": 23.466,
+  "lng": 54.547
+ },
+ {
+  "iso2": "AF",
+  "iso3": "AFG",
+  "name": {
+   "uk": "Афганістан",
+   "en": "Afghanistan"
+  },
+  "capital": {
+   "uk": "Кабул",
+   "en": "Kabul"
+  },
+  "continent": "asia",
+  "currency": "AFN",
+  "flag": "🇦🇫",
+  "unMember": true,
+  "lat": 34.164,
+  "lng": 66.497
+ },
+ {
+  "iso2": "AG",
+  "iso3": "ATG",
+  "name": {
+   "uk": "Антигуа і Барбуда",
+   "en": "Antigua and Barbuda"
+  },
+  "capital": {
+   "uk": "Сент-Джонс",
+   "en": "Saint John's"
+  },
+  "continent": "north-america",
+  "currency": "XCD",
+  "flag": "🇦🇬",
+  "unMember": true,
+  "lat": 17.352,
+  "lng": -61.791
+ },
+ {
+  "iso2": "AI",
+  "iso3": "AIA",
+  "name": {
+   "uk": "Ангілья",
+   "en": "Anguilla"
+  },
+  "capital": {
+   "uk": "Валлі",
+   "en": "The Valley"
+  },
+  "continent": "north-america",
+  "currency": "XCD",
+  "flag": "🇦🇮",
+  "unMember": false,
+  "lat": 18.243,
+  "lng": -63.026
+ },
+ {
+  "iso2": "AL",
+  "iso3": "ALB",
+  "name": {
+   "uk": "Албанія",
+   "en": "Albania"
+  },
+  "capital": {
+   "uk": "Тирана",
+   "en": "Tirana"
+  },
+  "continent": "europe",
+  "currency": "ALL",
+  "flag": "🇦🇱",
+  "unMember": true,
+  "lat": 40.655,
+  "lng": 20.114
+ },
+ {
+  "iso2": "AM",
+  "iso3": "ARM",
+  "name": {
+   "uk": "Вірменія",
+   "en": "Armenia"
+  },
+  "capital": {
+   "uk": "Єреван",
+   "en": "Yerevan"
+  },
+  "continent": "asia",
+  "currency": "AMD",
+  "flag": "🇦🇲",
+  "unMember": true,
+  "lat": 40.459,
+  "lng": 44.801
+ },
+ {
+  "iso2": "AO",
+  "iso3": "AGO",
+  "name": {
+   "uk": "Ангола",
+   "en": "Angola"
+  },
+  "capital": {
+   "uk": "Луанда",
+   "en": "Luanda"
+  },
+  "continent": "africa",
+  "currency": "AOA",
+  "flag": "🇦🇴",
+  "unMember": true,
+  "lat": -12.183,
+  "lng": 17.984
+ },
+ {
+  "iso2": "AQ",
+  "iso3": "ATA",
+  "name": {
+   "uk": "Антарктида",
+   "en": "Antarctica"
+  },
+  "capital": null,
+  "continent": "antarctica",
+  "currency": null,
+  "flag": "🇦🇶",
+  "unMember": false,
+  "lat": -79.843,
+  "lng": 35.885
+ },
+ {
+  "iso2": "AR",
+  "iso3": "ARG",
+  "name": {
+   "uk": "Аргентина",
+   "en": "Argentina"
+  },
+  "capital": {
+   "uk": "Буенос-Айрес",
+   "en": "Buenos Aires"
+  },
+  "continent": "south-america",
+  "currency": "ARS",
+  "flag": "🇦🇷",
+  "unMember": true,
+  "lat": -33.501,
+  "lng": -64.173
+ },
+ {
+  "iso2": "AS",
+  "iso3": "ASM",
+  "name": {
+   "uk": "Східне Самоа",
+   "en": "American Samoa"
+  },
+  "capital": {
+   "uk": "Паго-Паго",
+   "en": "Pago Pago"
+  },
+  "continent": "oceania",
+  "currency": "USD",
+  "flag": "🇦🇸",
+  "unMember": false,
+  "lat": -14.327,
+  "lng": -170.747
+ },
+ {
+  "iso2": "AT",
+  "iso3": "AUT",
+  "name": {
+   "uk": "Австрія",
+   "en": "Austria"
+  },
+  "capital": {
+   "uk": "Відень",
+   "en": "Vienna"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇦🇹",
+  "unMember": true,
+  "lat": 47.519,
+  "lng": 14.131
+ },
+ {
+  "iso2": "AU",
+  "iso3": "AUS",
+  "name": {
+   "uk": "Австралія",
+   "en": "Australia"
+  },
+  "capital": {
+   "uk": "Канберра",
+   "en": "Canberra"
+  },
+  "continent": "oceania",
+  "currency": "AUD",
+  "flag": "🇦🇺",
+  "unMember": true,
+  "lat": -24.13,
+  "lng": 134.05
+ },
+ {
+  "iso2": "AW",
+  "iso3": "ABW",
+  "name": {
+   "uk": "Аруба",
+   "en": "Aruba"
+  },
+  "capital": {
+   "uk": "Ораньєстад",
+   "en": "Oranjestad"
+  },
+  "continent": "north-america",
+  "currency": "AWG",
+  "flag": "🇦🇼",
+  "unMember": false,
+  "lat": 12.517,
+  "lng": -69.973
+ },
+ {
+  "iso2": "AX",
+  "iso3": "ALA",
+  "name": {
+   "uk": "Аландські острови",
+   "en": "Åland"
+  },
+  "capital": {
+   "uk": "Марієгамн",
+   "en": "Mariehamn"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇦🇽",
+  "unMember": false,
+  "lat": 60.156,
+  "lng": 19.87
+ },
+ {
+  "iso2": "AZ",
+  "iso3": "AZE",
+  "name": {
+   "uk": "Азербайджан",
+   "en": "Azerbaijan"
+  },
+  "capital": {
+   "uk": "Баку",
+   "en": "Baku"
+  },
+  "continent": "asia",
+  "currency": "AZN",
+  "flag": "🇦🇿",
+  "unMember": true,
+  "lat": 40.402,
+  "lng": 47.211
+ },
+ {
+  "iso2": "BA",
+  "iso3": "BIH",
+  "name": {
+   "uk": "Боснія і Герцеговина",
+   "en": "Bosnia and Herzegovina"
+  },
+  "capital": {
+   "uk": "Сараєво",
+   "en": "Sarajevo"
+  },
+  "continent": "europe",
+  "currency": "BAM",
+  "flag": "🇧🇦",
+  "unMember": true,
+  "lat": 44.091,
+  "lng": 18.068
+ },
+ {
+  "iso2": "BB",
+  "iso3": "BRB",
+  "name": {
+   "uk": "Барбадос",
+   "en": "Barbados"
+  },
+  "capital": {
+   "uk": "Бриджтаун",
+   "en": "Bridgetown"
+  },
+  "continent": "north-america",
+  "currency": "BBD",
+  "flag": "🇧🇧",
+  "unMember": true,
+  "lat": 13.164,
+  "lng": -59.569
+ },
+ {
+  "iso2": "BD",
+  "iso3": "BGD",
+  "name": {
+   "uk": "Бангладеш",
+   "en": "Bangladesh"
+  },
+  "capital": {
+   "uk": "Дакка",
+   "en": "Dhaka"
+  },
+  "continent": "asia",
+  "currency": "BDT",
+  "flag": "🇧🇩",
+  "unMember": true,
+  "lat": 24.215,
+  "lng": 89.685
+ },
+ {
+  "iso2": "BE",
+  "iso3": "BEL",
+  "name": {
+   "uk": "Бельгія",
+   "en": "Belgium"
+  },
+  "capital": {
+   "uk": "Брюссель",
+   "en": "Brussels"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇧🇪",
+  "unMember": true,
+  "lat": 50.785,
+  "lng": 4.8
+ },
+ {
+  "iso2": "BF",
+  "iso3": "BFA",
+  "name": {
+   "uk": "Буркіна-Фасо",
+   "en": "Burkina Faso"
+  },
+  "capital": {
+   "uk": "Уагадугу",
+   "en": "Ouagadougou"
+  },
+  "continent": "africa",
+  "currency": "XOF",
+  "flag": "🇧🇫",
+  "unMember": true,
+  "lat": 12.673,
+  "lng": -1.364
+ },
+ {
+  "iso2": "BG",
+  "iso3": "BGR",
+  "name": {
+   "uk": "Болгарія",
+   "en": "Bulgaria"
+  },
+  "capital": {
+   "uk": "Софія",
+   "en": "Sofia"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇧🇬",
+  "unMember": true,
+  "lat": 42.509,
+  "lng": 25.157
+ },
+ {
+  "iso2": "BH",
+  "iso3": "BHR",
+  "name": {
+   "uk": "Бахрейн",
+   "en": "Bahrain"
+  },
+  "capital": {
+   "uk": "Манама",
+   "en": "Manama"
+  },
+  "continent": "asia",
+  "currency": "BHD",
+  "flag": "🇧🇭",
+  "unMember": true,
+  "lat": 26.056,
+  "lng": 50.555
+ },
+ {
+  "iso2": "BI",
+  "iso3": "BDI",
+  "name": {
+   "uk": "Бурунді",
+   "en": "Burundi"
+  },
+  "capital": {
+   "uk": "Гітега",
+   "en": "Gitega"
+  },
+  "continent": "africa",
+  "currency": "BIF",
+  "flag": "🇧🇮",
+  "unMember": true,
+  "lat": -3.333,
+  "lng": 29.917
+ },
+ {
+  "iso2": "BJ",
+  "iso3": "BEN",
+  "name": {
+   "uk": "Бенін",
+   "en": "Benin"
+  },
+  "capital": {
+   "uk": "Порто-Ново",
+   "en": "Porto-Novo"
+  },
+  "continent": "africa",
+  "currency": "XOF",
+  "flag": "🇧🇯",
+  "unMember": true,
+  "lat": 10.325,
+  "lng": 2.352
+ },
+ {
+  "iso2": "BL",
+  "iso3": "BLM",
+  "name": {
+   "uk": "Сен-Бартельмі",
+   "en": "Saint Barthélemy"
+  },
+  "capital": {
+   "uk": "Густавія",
+   "en": "Gustavia"
+  },
+  "continent": "north-america",
+  "currency": "EUR",
+  "flag": "🇧🇱",
+  "unMember": false,
+  "lat": 17.902,
+  "lng": -62.833
+ },
+ {
+  "iso2": "BM",
+  "iso3": "BMU",
+  "name": {
+   "uk": "Бермудські острови",
+   "en": "Bermuda"
+  },
+  "capital": {
+   "uk": "Гамільтон",
+   "en": "Hamilton"
+  },
+  "continent": "north-america",
+  "currency": "BMD",
+  "flag": "🇧🇲",
+  "unMember": false,
+  "lat": 32.297,
+  "lng": -64.764
+ },
+ {
+  "iso2": "BN",
+  "iso3": "BRN",
+  "name": {
+   "uk": "Бруней",
+   "en": "Brunei"
+  },
+  "capital": {
+   "uk": "Бандар Сері Беґаван",
+   "en": "Bandar Seri Begawan"
+  },
+  "continent": "asia",
+  "currency": "BND",
+  "flag": "🇧🇳",
+  "unMember": true,
+  "lat": 4.448,
+  "lng": 114.552
+ },
+ {
+  "iso2": "BO",
+  "iso3": "BOL",
+  "name": {
+   "uk": "Болівія",
+   "en": "Bolivia"
+  },
+  "capital": {
+   "uk": "Сукре",
+   "en": "Sucre"
+  },
+  "continent": "south-america",
+  "currency": "BOB",
+  "flag": "🇧🇴",
+  "unMember": true,
+  "lat": -16.666,
+  "lng": -64.593
+ },
+ {
+  "iso2": "BR",
+  "iso3": "BRA",
+  "name": {
+   "uk": "Бразилія",
+   "en": "Brazil"
+  },
+  "capital": {
+   "uk": "Бразиліа",
+   "en": "Brasília"
+  },
+  "continent": "south-america",
+  "currency": "BRL",
+  "flag": "🇧🇷",
+  "unMember": true,
+  "lat": -12.099,
+  "lng": -49.559
+ },
+ {
+  "iso2": "BS",
+  "iso3": "BHS",
+  "name": {
+   "uk": "Багамські Острови",
+   "en": "The Bahamas"
+  },
+  "capital": {
+   "uk": "Нассау",
+   "en": "Nassau"
+  },
+  "continent": "north-america",
+  "currency": "BSD",
+  "flag": "🇧🇸",
+  "unMember": true,
+  "lat": 26.402,
+  "lng": -77.147
+ },
+ {
+  "iso2": "BT",
+  "iso3": "BTN",
+  "name": {
+   "uk": "Бутан",
+   "en": "Bhutan"
+  },
+  "capital": {
+   "uk": "Тхімпху",
+   "en": "Thimphu"
+  },
+  "continent": "asia",
+  "currency": "BTN",
+  "flag": "🇧🇹",
+  "unMember": true,
+  "lat": 27.537,
+  "lng": 90.04
+ },
+ {
+  "iso2": "BW",
+  "iso3": "BWA",
+  "name": {
+   "uk": "Ботсвана",
+   "en": "Botswana"
+  },
+  "capital": {
+   "uk": "Габороне",
+   "en": "Gaborone"
+  },
+  "continent": "africa",
+  "currency": "BWP",
+  "flag": "🇧🇼",
+  "unMember": true,
+  "lat": -22.103,
+  "lng": 24.179
+ },
+ {
+  "iso2": "BY",
+  "iso3": "BLR",
+  "name": {
+   "uk": "Білорусь",
+   "en": "Belarus"
+  },
+  "capital": {
+   "uk": "Мінськ",
+   "en": "Minsk"
+  },
+  "continent": "europe",
+  "currency": "BYN",
+  "flag": "🇧🇾",
+  "unMember": true,
+  "lat": 53.822,
+  "lng": 28.418
+ },
+ {
+  "iso2": "BZ",
+  "iso3": "BLZ",
+  "name": {
+   "uk": "Беліз",
+   "en": "Belize"
+  },
+  "capital": {
+   "uk": "Бельмопан",
+   "en": "Belmopan"
+  },
+  "continent": "north-america",
+  "currency": "BZD",
+  "flag": "🇧🇿",
+  "unMember": true,
+  "lat": 17.202,
+  "lng": -88.713
+ },
+ {
+  "iso2": "CA",
+  "iso3": "CAN",
+  "name": {
+   "uk": "Канада",
+   "en": "Canada"
+  },
+  "capital": {
+   "uk": "Оттава",
+   "en": "Ottawa"
+  },
+  "continent": "north-america",
+  "currency": "CAD",
+  "flag": "🇨🇦",
+  "unMember": true,
+  "lat": 60.324,
+  "lng": -101.911
+ },
+ {
+  "iso2": "CD",
+  "iso3": "COD",
+  "name": {
+   "uk": "Демократична Республіка Конго",
+   "en": "Democratic Republic of the Congo"
+  },
+  "capital": {
+   "uk": "Кіншаса",
+   "en": "Kinshasa"
+  },
+  "continent": "africa",
+  "currency": "CDF",
+  "flag": "🇨🇩",
+  "unMember": true,
+  "lat": -1.858,
+  "lng": 23.459
+ },
+ {
+  "iso2": "CF",
+  "iso3": "CAF",
+  "name": {
+   "uk": "Центральноафриканська Республіка",
+   "en": "Central African Republic"
+  },
+  "capital": {
+   "uk": "Бангі",
+   "en": "Bangui"
+  },
+  "continent": "africa",
+  "currency": "XAF",
+  "flag": "🇨🇫",
+  "unMember": true,
+  "lat": 6.99,
+  "lng": 20.907
+ },
+ {
+  "iso2": "CG",
+  "iso3": "COG",
+  "name": {
+   "uk": "Республіка Конго",
+   "en": "Republic of the Congo"
+  },
+  "capital": {
+   "uk": "Браззавіль",
+   "en": "Brazzaville"
+  },
+  "continent": "africa",
+  "currency": "XAF",
+  "flag": "🇨🇬",
+  "unMember": true,
+  "lat": 0.142,
+  "lng": 15.901
+ },
+ {
+  "iso2": "CH",
+  "iso3": "CHE",
+  "name": {
+   "uk": "Швейцарія",
+   "en": "Switzerland"
+  },
+  "capital": {
+   "uk": "Берн",
+   "en": "Bern"
+  },
+  "continent": "europe",
+  "currency": "CHF",
+  "flag": "🇨🇭",
+  "unMember": true,
+  "lat": 46.719,
+  "lng": 7.464
+ },
+ {
+  "iso2": "CI",
+  "iso3": "CIV",
+  "name": {
+   "uk": "Кот-д'Івуар",
+   "en": "Côte d'Ivoire"
+  },
+  "capital": {
+   "uk": "Ямусукро",
+   "en": "Yamoussoukro"
+  },
+  "continent": "africa",
+  "currency": "XOF",
+  "flag": "🇨🇮",
+  "unMember": true,
+  "lat": 7.491,
+  "lng": -5.569
+ },
+ {
+  "iso2": "CK",
+  "iso3": "COK",
+  "name": {
+   "uk": "Острови Кука",
+   "en": "Cook Islands"
+  },
+  "capital": {
+   "uk": "Аваруа",
+   "en": "Avarua"
+  },
+  "continent": "oceania",
+  "currency": "CKD",
+  "flag": "🇨🇰",
+  "unMember": false,
+  "lat": -21.216,
+  "lng": -159.786
+ },
+ {
+  "iso2": "CL",
+  "iso3": "CHL",
+  "name": {
+   "uk": "Чилі",
+   "en": "Chile"
+  },
+  "capital": {
+   "uk": "Сантьяго",
+   "en": "Santiago"
+  },
+  "continent": "south-america",
+  "currency": "CLP",
+  "flag": "🇨🇱",
+  "unMember": true,
+  "lat": -38.152,
+  "lng": -72.319
+ },
+ {
+  "iso2": "CM",
+  "iso3": "CMR",
+  "name": {
+   "uk": "Камерун",
+   "en": "Cameroon"
+  },
+  "capital": {
+   "uk": "Яунде",
+   "en": "Yaoundé"
+  },
+  "continent": "africa",
+  "currency": "XAF",
+  "flag": "🇨🇲",
+  "unMember": true,
+  "lat": 4.585,
+  "lng": 12.473
+ },
+ {
+  "iso2": "CN",
+  "iso3": "CHN",
+  "name": {
+   "uk": "Китайська Народна Республіка",
+   "en": "People's Republic of China"
+  },
+  "capital": {
+   "uk": "Пекін",
+   "en": "Beijing"
+  },
+  "continent": "asia",
+  "currency": "CNY",
+  "flag": "🇨🇳",
+  "unMember": true,
+  "lat": 32.498,
+  "lng": 106.337
+ },
+ {
+  "iso2": "CO",
+  "iso3": "COL",
+  "name": {
+   "uk": "Колумбія",
+   "en": "Colombia"
+  },
+  "capital": {
+   "uk": "Богота",
+   "en": "Bogotá"
+  },
+  "continent": "south-america",
+  "currency": "COP",
+  "flag": "🇨🇴",
+  "unMember": true,
+  "lat": 3.373,
+  "lng": -73.174
+ },
+ {
+  "iso2": "CR",
+  "iso3": "CRI",
+  "name": {
+   "uk": "Коста-Рика",
+   "en": "Costa Rica"
+  },
+  "capital": {
+   "uk": "Сан-Хосе",
+   "en": "San José"
+  },
+  "continent": "north-america",
+  "currency": "CRC",
+  "flag": "🇨🇷",
+  "unMember": true,
+  "lat": 10.065,
+  "lng": -84.078
+ },
+ {
+  "iso2": "CU",
+  "iso3": "CUB",
+  "name": {
+   "uk": "Куба",
+   "en": "Cuba"
+  },
+  "capital": {
+   "uk": "Гавана",
+   "en": "Havana"
+  },
+  "continent": "north-america",
+  "currency": "CUP",
+  "flag": "🇨🇺",
+  "unMember": true,
+  "lat": 21.334,
+  "lng": -77.976
+ },
+ {
+  "iso2": "CV",
+  "iso3": "CPV",
+  "name": {
+   "uk": "Кабо-Верде",
+   "en": "Cape Verde"
+  },
+  "capital": {
+   "uk": "Прая",
+   "en": "Praia"
+  },
+  "continent": "africa",
+  "currency": "CVE",
+  "flag": "🇨🇻",
+  "unMember": true,
+  "lat": 15.075,
+  "lng": -23.639
+ },
+ {
+  "iso2": "CW",
+  "iso3": "CUW",
+  "name": {
+   "uk": "Кюрасао",
+   "en": "Curaçao"
+  },
+  "capital": {
+   "uk": "Віллемстад",
+   "en": "Willemstad"
+  },
+  "continent": "north-america",
+  "currency": "XCG",
+  "flag": "🇨🇼",
+  "unMember": false,
+  "lat": 12.145,
+  "lng": -68.921
+ },
+ {
+  "iso2": "CY",
+  "iso3": "CYP",
+  "name": {
+   "uk": "Кіпр",
+   "en": "Cyprus"
+  },
+  "capital": {
+   "uk": "Нікосія",
+   "en": "Nicosia"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇨🇾",
+  "unMember": true,
+  "lat": 34.913,
+  "lng": 33.084
+ },
+ {
+  "iso2": "CZ",
+  "iso3": "CZE",
+  "name": {
+   "uk": "Чехія",
+   "en": "Czechia"
+  },
+  "capital": {
+   "uk": "Прага",
+   "en": "Prague"
+  },
+  "continent": "europe",
+  "currency": "CZK",
+  "flag": "🇨🇿",
+  "unMember": true,
+  "lat": 49.882,
+  "lng": 15.378
+ },
+ {
+  "iso2": "DE",
+  "iso3": "DEU",
+  "name": {
+   "uk": "Німеччина",
+   "en": "Germany"
+  },
+  "capital": {
+   "uk": "Берлін",
+   "en": "Berlin"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇩🇪",
+  "unMember": true,
+  "lat": 50.962,
+  "lng": 9.678
+ },
+ {
+  "iso2": "DJ",
+  "iso3": "DJI",
+  "name": {
+   "uk": "Джибуті",
+   "en": "Djibouti"
+  },
+  "capital": {
+   "uk": "Джибуті",
+   "en": "Djibouti"
+  },
+  "continent": "africa",
+  "currency": "DJF",
+  "flag": "🇩🇯",
+  "unMember": true,
+  "lat": 11.976,
+  "lng": 42.499
+ },
+ {
+  "iso2": "DK",
+  "iso3": "DNK",
+  "name": {
+   "uk": "Данія",
+   "en": "Denmark"
+  },
+  "capital": {
+   "uk": "Копенгаген",
+   "en": "Copenhagen"
+  },
+  "continent": "europe",
+  "currency": "DKK",
+  "flag": "🇩🇰",
+  "unMember": true,
+  "lat": 55.967,
+  "lng": 9.018
+ },
+ {
+  "iso2": "DM",
+  "iso3": "DMA",
+  "name": {
+   "uk": "Домініка",
+   "en": "Dominica"
+  },
+  "capital": {
+   "uk": "Розо",
+   "en": "Roseau"
+  },
+  "continent": "north-america",
+  "currency": "XCD",
+  "flag": "🇩🇲",
+  "unMember": true,
+  "lat": 15.459,
+  "lng": -61.345
+ },
+ {
+  "iso2": "DO",
+  "iso3": "DOM",
+  "name": {
+   "uk": "Домініканська Республіка",
+   "en": "Dominican Republic"
+  },
+  "capital": {
+   "uk": "Санто-Домінго",
+   "en": "Santo Domingo"
+  },
+  "continent": "north-america",
+  "currency": "DOP",
+  "flag": "🇩🇴",
+  "unMember": true,
+  "lat": 19.104,
+  "lng": -70.654
+ },
+ {
+  "iso2": "DZ",
+  "iso3": "DZA",
+  "name": {
+   "uk": "Алжир",
+   "en": "Algeria"
+  },
+  "capital": {
+   "uk": "Алжир",
+   "en": "Algiers"
+  },
+  "continent": "africa",
+  "currency": "DZD",
+  "flag": "🇩🇿",
+  "unMember": true,
+  "lat": 27.397,
+  "lng": 2.808
+ },
+ {
+  "iso2": "EC",
+  "iso3": "ECU",
+  "name": {
+   "uk": "Еквадор",
+   "en": "Ecuador"
+  },
+  "capital": {
+   "uk": "Кіто",
+   "en": "Quito"
+  },
+  "continent": "south-america",
+  "currency": "USD",
+  "flag": "🇪🇨",
+  "unMember": true,
+  "lat": -1.259,
+  "lng": -78.188
+ },
+ {
+  "iso2": "EE",
+  "iso3": "EST",
+  "name": {
+   "uk": "Естонія",
+   "en": "Estonia"
+  },
+  "capital": {
+   "uk": "Таллінн",
+   "en": "Tallinn"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇪🇪",
+  "unMember": true,
+  "lat": 58.725,
+  "lng": 25.867
+ },
+ {
+  "iso2": "EG",
+  "iso3": "EGY",
+  "name": {
+   "uk": "Єгипет",
+   "en": "Egypt"
+  },
+  "capital": {
+   "uk": "Каїр",
+   "en": "Cairo"
+  },
+  "continent": "africa",
+  "currency": "EGP",
+  "flag": "🇪🇬",
+  "unMember": true,
+  "lat": 26.186,
+  "lng": 29.446
+ },
+ {
+  "iso2": "EH",
+  "iso3": "ESH",
+  "name": {
+   "uk": "Західна Сахара",
+   "en": "Western Sahara"
+  },
+  "capital": {
+   "uk": "Ель-Аюн",
+   "en": "El Aaiún"
+  },
+  "continent": "africa",
+  "currency": "MAD",
+  "flag": "🇪🇭",
+  "unMember": false,
+  "lat": 23.968,
+  "lng": -12.63
+ },
+ {
+  "iso2": "ER",
+  "iso3": "ERI",
+  "name": {
+   "uk": "Еритрея",
+   "en": "Eritrea"
+  },
+  "capital": {
+   "uk": "Асмера",
+   "en": "Asmara"
+  },
+  "continent": "africa",
+  "currency": "ERN",
+  "flag": "🇪🇷",
+  "unMember": true,
+  "lat": 15.787,
+  "lng": 38.286
+ },
+ {
+  "iso2": "ES",
+  "iso3": "ESP",
+  "name": {
+   "uk": "Іспанія",
+   "en": "Spain"
+  },
+  "capital": {
+   "uk": "Мадрид",
+   "en": "Madrid"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇪🇸",
+  "unMember": true,
+  "lat": 40.091,
+  "lng": -3.465
+ },
+ {
+  "iso2": "ET",
+  "iso3": "ETH",
+  "name": {
+   "uk": "Ефіопія",
+   "en": "Ethiopia"
+  },
+  "capital": {
+   "uk": "Аддис-Абеба",
+   "en": "Addis Ababa"
+  },
+  "continent": "africa",
+  "currency": "ETB",
+  "flag": "🇪🇹",
+  "unMember": true,
+  "lat": 8.033,
+  "lng": 39.089
+ },
+ {
+  "iso2": "FI",
+  "iso3": "FIN",
+  "name": {
+   "uk": "Фінляндія",
+   "en": "Finland"
+  },
+  "capital": {
+   "uk": "Гельсінкі",
+   "en": "Helsinki"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇫🇮",
+  "unMember": true,
+  "lat": 63.252,
+  "lng": 27.276
+ },
+ {
+  "iso2": "FJ",
+  "iso3": "FJI",
+  "name": {
+   "uk": "Фіджі",
+   "en": "Fiji"
+  },
+  "capital": {
+   "uk": "Сува",
+   "en": "Suva"
+  },
+  "continent": "oceania",
+  "currency": "FJD",
+  "flag": "🇫🇯",
+  "unMember": true,
+  "lat": -17.826,
+  "lng": 177.975
+ },
+ {
+  "iso2": "FK",
+  "iso3": "FLK",
+  "name": {
+   "uk": "Фолклендські острови",
+   "en": "Falkland Islands"
+  },
+  "capital": {
+   "uk": "Порт-Стенлі",
+   "en": "Stanley"
+  },
+  "continent": "south-america",
+  "currency": "FKP",
+  "flag": "🇫🇰",
+  "unMember": false,
+  "lat": -51.609,
+  "lng": -58.739
+ },
+ {
+  "iso2": "FM",
+  "iso3": "FSM",
+  "name": {
+   "uk": "Мікронезія",
+   "en": "Federated States of Micronesia"
+  },
+  "capital": {
+   "uk": "Палікір",
+   "en": "Palikir"
+  },
+  "continent": "oceania",
+  "currency": "USD",
+  "flag": "🇫🇲",
+  "unMember": true,
+  "lat": 6.888,
+  "lng": 158.234
+ },
+ {
+  "iso2": "FO",
+  "iso3": "FRO",
+  "name": {
+   "uk": "Фарерські острови",
+   "en": "Faroe Islands"
+  },
+  "capital": {
+   "uk": "Торсгавн",
+   "en": "Tórshavn"
+  },
+  "continent": "europe",
+  "currency": "DKK",
+  "flag": "🇫🇴",
+  "unMember": false,
+  "lat": 62.186,
+  "lng": -7.058
+ },
+ {
+  "iso2": "FR",
+  "iso3": "FRA",
+  "name": {
+   "uk": "Франція",
+   "en": "France"
+  },
+  "capital": {
+   "uk": "Париж",
+   "en": "Paris"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇫🇷",
+  "unMember": true,
+  "lat": 46.696,
+  "lng": 2.552
+ },
+ {
+  "iso2": "GA",
+  "iso3": "GAB",
+  "name": {
+   "uk": "Габон",
+   "en": "Gabon"
+  },
+  "capital": {
+   "uk": "Лібревіль",
+   "en": "Libreville"
+  },
+  "continent": "africa",
+  "currency": "XAF",
+  "flag": "🇬🇦",
+  "unMember": true,
+  "lat": -0.438,
+  "lng": 11.836
+ },
+ {
+  "iso2": "GB",
+  "iso3": "GBR",
+  "name": {
+   "uk": "Велика Британія",
+   "en": "United Kingdom"
+  },
+  "capital": {
+   "uk": "Лондон",
+   "en": "London"
+  },
+  "continent": "europe",
+  "currency": "GBP",
+  "flag": "🇬🇧",
+  "unMember": true,
+  "lat": 54.403,
+  "lng": -2.116
+ },
+ {
+  "iso2": "GD",
+  "iso3": "GRD",
+  "name": {
+   "uk": "Гренада",
+   "en": "Grenada"
+  },
+  "capital": {
+   "uk": "Сент-Джорджес",
+   "en": "St. George's"
+  },
+  "continent": "north-america",
+  "currency": "XCD",
+  "flag": "🇬🇩",
+  "unMember": true,
+  "lat": 12.113,
+  "lng": -61.68
+ },
+ {
+  "iso2": "GE",
+  "iso3": "GEO",
+  "name": {
+   "uk": "Грузія",
+   "en": "Georgia"
+  },
+  "capital": {
+   "uk": "Тбілісі",
+   "en": "Tbilisi"
+  },
+  "continent": "asia",
+  "currency": "GEL",
+  "flag": "🇬🇪",
+  "unMember": true,
+  "lat": 41.87,
+  "lng": 43.736
+ },
+ {
+  "iso2": "GG",
+  "iso3": "GGY",
+  "name": {
+   "uk": "Гернсі",
+   "en": "Guernsey"
+  },
+  "capital": {
+   "uk": "Сент-Пітер-Порт",
+   "en": "St. Peter Port"
+  },
+  "continent": "europe",
+  "currency": "GBP",
+  "flag": "🇬🇬",
+  "unMember": false,
+  "lat": 49.464,
+  "lng": -2.562
+ },
+ {
+  "iso2": "GH",
+  "iso3": "GHA",
+  "name": {
+   "uk": "Гана",
+   "en": "Ghana"
+  },
+  "capital": {
+   "uk": "Аккра",
+   "en": "Accra"
+  },
+  "continent": "africa",
+  "currency": "GHS",
+  "flag": "🇬🇭",
+  "unMember": true,
+  "lat": 7.718,
+  "lng": -1.037
+ },
+ {
+  "iso2": "GI",
+  "iso3": "GIB",
+  "name": {
+   "uk": "Гібралтар",
+   "en": "Gibraltar"
+  },
+  "capital": {
+   "uk": "Гібралтар",
+   "en": "Gibraltar"
+  },
+  "continent": "europe",
+  "currency": "GIP",
+  "flag": "🇬🇮",
+  "unMember": false,
+  "lat": 36.129,
+  "lng": -5.347
+ },
+ {
+  "iso2": "GL",
+  "iso3": "GRL",
+  "name": {
+   "uk": "Гренландія",
+   "en": "Greenland"
+  },
+  "capital": {
+   "uk": "Нуук",
+   "en": "Nuuk"
+  },
+  "continent": "north-america",
+  "currency": "DKK",
+  "flag": "🇬🇱",
+  "unMember": false,
+  "lat": 74.319,
+  "lng": -39.335
+ },
+ {
+  "iso2": "GM",
+  "iso3": "GMB",
+  "name": {
+   "uk": "Гамбія",
+   "en": "The Gambia"
+  },
+  "capital": {
+   "uk": "Банжул",
+   "en": "Banjul"
+  },
+  "continent": "africa",
+  "currency": "GMD",
+  "flag": "🇬🇲",
+  "unMember": true,
+  "lat": 13.642,
+  "lng": -14.998
+ },
+ {
+  "iso2": "GN",
+  "iso3": "GIN",
+  "name": {
+   "uk": "Гвінея",
+   "en": "Guinea"
+  },
+  "capital": {
+   "uk": "Конакрі",
+   "en": "Conakry"
+  },
+  "continent": "africa",
+  "currency": "GNF",
+  "flag": "🇬🇳",
+  "unMember": true,
+  "lat": 10.619,
+  "lng": -10.016
+ },
+ {
+  "iso2": "GQ",
+  "iso3": "GNQ",
+  "name": {
+   "uk": "Екваторіальна Гвінея",
+   "en": "Equatorial Guinea"
+  },
+  "capital": {
+   "uk": "Малабо",
+   "en": "Ciudad de la Paz"
+  },
+  "continent": "africa",
+  "currency": "XAF",
+  "flag": "🇬🇶",
+  "unMember": true,
+  "lat": 2.333,
+  "lng": 8.99
+ },
+ {
+  "iso2": "GR",
+  "iso3": "GRC",
+  "name": {
+   "uk": "Греція",
+   "en": "Greece"
+  },
+  "capital": {
+   "uk": "Афіни",
+   "en": "Athens"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇬🇷",
+  "unMember": true,
+  "lat": 39.493,
+  "lng": 21.726
+ },
+ {
+  "iso2": "GS",
+  "iso3": "SGS",
+  "name": {
+   "uk": "Південна Джорджія та Південні Сандвічеві острови",
+   "en": "South Georgia and the South Sandwich Islands"
+  },
+  "capital": {
+   "uk": "Кінг-Едвард-Пойнт",
+   "en": "King Edward Point"
+  },
+  "continent": "antarctica",
+  "currency": "SHP",
+  "flag": "🇬🇸",
+  "unMember": false,
+  "lat": -55.683,
+  "lng": -31.063
+ },
+ {
+  "iso2": "GT",
+  "iso3": "GTM",
+  "name": {
+   "uk": "Гватемала",
+   "en": "Guatemala"
+  },
+  "capital": {
+   "uk": "Гватемала",
+   "en": "Guatemala City"
+  },
+  "continent": "north-america",
+  "currency": "GTQ",
+  "flag": "🇬🇹",
+  "unMember": true,
+  "lat": 14.982,
+  "lng": -90.497
+ },
+ {
+  "iso2": "GU",
+  "iso3": "GUM",
+  "name": {
+   "uk": "Гуам",
+   "en": "Guam"
+  },
+  "capital": {
+   "uk": "Хагатна",
+   "en": "Hagåtña"
+  },
+  "continent": "oceania",
+  "currency": "USD",
+  "flag": "🇬🇺",
+  "unMember": false,
+  "lat": 13.354,
+  "lng": 144.704
+ },
+ {
+  "iso2": "GW",
+  "iso3": "GNB",
+  "name": {
+   "uk": "Гвінея-Бісау",
+   "en": "Guinea-Bissau"
+  },
+  "capital": {
+   "uk": "Бісау",
+   "en": "Bissau"
+  },
+  "continent": "africa",
+  "currency": "XOF",
+  "flag": "🇬🇼",
+  "unMember": true,
+  "lat": 12.164,
+  "lng": -14.524
+ },
+ {
+  "iso2": "GY",
+  "iso3": "GUY",
+  "name": {
+   "uk": "Гаяна",
+   "en": "Guyana"
+  },
+  "capital": {
+   "uk": "Джорджтаун",
+   "en": "Georgetown"
+  },
+  "continent": "south-america",
+  "currency": "GYD",
+  "flag": "🇬🇾",
+  "unMember": true,
+  "lat": 5.124,
+  "lng": -58.943
+ },
+ {
+  "iso2": "HK",
+  "iso3": "HKG",
+  "name": {
+   "uk": "Гонконг",
+   "en": "Hong Kong"
+  },
+  "capital": {
+   "uk": "Вікторія",
+   "en": "Victoria"
+  },
+  "continent": "asia",
+  "currency": "HKD",
+  "flag": "🇭🇰",
+  "unMember": false,
+  "lat": 22.449,
+  "lng": 114.098
+ },
+ {
+  "iso2": "HM",
+  "iso3": "HMD",
+  "name": {
+   "uk": "Острів Герд і острови Макдональд",
+   "en": "Heard Island and McDonald Islands"
+  },
+  "capital": null,
+  "continent": "antarctica",
+  "currency": null,
+  "flag": "🇭🇲",
+  "unMember": false,
+  "lat": -53.103,
+  "lng": 73.505
+ },
+ {
+  "iso2": "HN",
+  "iso3": "HND",
+  "name": {
+   "uk": "Гондурас",
+   "en": "Honduras"
+  },
+  "capital": {
+   "uk": "Тегусігальпа",
+   "en": "Tegucigalpa"
+  },
+  "continent": "north-america",
+  "currency": "HNL",
+  "flag": "🇭🇳",
+  "unMember": true,
+  "lat": 14.795,
+  "lng": -86.888
+ },
+ {
+  "iso2": "HR",
+  "iso3": "HRV",
+  "name": {
+   "uk": "Хорватія",
+   "en": "Croatia"
+  },
+  "capital": {
+   "uk": "Загреб",
+   "en": "Zagreb"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇭🇷",
+  "unMember": true,
+  "lat": 45.806,
+  "lng": 16.372
+ },
+ {
+  "iso2": "HT",
+  "iso3": "HTI",
+  "name": {
+   "uk": "Гаїті",
+   "en": "Haiti"
+  },
+  "capital": {
+   "uk": "Порт-о-Пренс",
+   "en": "Port-au-Prince"
+  },
+  "continent": "north-america",
+  "currency": "HTG",
+  "flag": "🇭🇹",
+  "unMember": true,
+  "lat": 19.264,
+  "lng": -72.224
+ },
+ {
+  "iso2": "HU",
+  "iso3": "HUN",
+  "name": {
+   "uk": "Угорщина",
+   "en": "Hungary"
+  },
+  "capital": {
+   "uk": "Будапешт",
+   "en": "Budapest"
+  },
+  "continent": "europe",
+  "currency": "HUF",
+  "flag": "🇭🇺",
+  "unMember": true,
+  "lat": 47.087,
+  "lng": 19.448
+ },
+ {
+  "iso2": "ID",
+  "iso3": "IDN",
+  "name": {
+   "uk": "Індонезія",
+   "en": "Indonesia"
+  },
+  "capital": {
+   "uk": "Джакарта",
+   "en": "Jakarta"
+  },
+  "continent": "asia",
+  "currency": "IDR",
+  "flag": "🇮🇩",
+  "unMember": true,
+  "lat": -0.954,
+  "lng": 101.893
+ },
+ {
+  "iso2": "IE",
+  "iso3": "IRL",
+  "name": {
+   "uk": "Ірландія",
+   "en": "Ireland"
+  },
+  "capital": {
+   "uk": "Дублін",
+   "en": "Dublin"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇮🇪",
+  "unMember": true,
+  "lat": 53.079,
+  "lng": -7.799
+ },
+ {
+  "iso2": "IL",
+  "iso3": "ISR",
+  "name": {
+   "uk": "Ізраїль",
+   "en": "Israel"
+  },
+  "capital": {
+   "uk": "Єрусалим",
+   "en": "Jerusalem"
+  },
+  "continent": "asia",
+  "currency": "ILS",
+  "flag": "🇮🇱",
+  "unMember": true,
+  "lat": 30.911,
+  "lng": 34.848
+ },
+ {
+  "iso2": "IM",
+  "iso3": "IMN",
+  "name": {
+   "uk": "Острів Мен",
+   "en": "Isle of Man"
+  },
+  "capital": {
+   "uk": "Дуглас",
+   "en": "Douglas"
+  },
+  "continent": "europe",
+  "currency": "GBP",
+  "flag": "🇮🇲",
+  "unMember": false,
+  "lat": 54.221,
+  "lng": -4.53
+ },
+ {
+  "iso2": "IN",
+  "iso3": "IND",
+  "name": {
+   "uk": "Індія",
+   "en": "India"
+  },
+  "capital": {
+   "uk": "Нью-Делі",
+   "en": "New Delhi"
+  },
+  "continent": "asia",
+  "currency": "INR",
+  "flag": "🇮🇳",
+  "unMember": true,
+  "lat": 22.687,
+  "lng": 79.358
+ },
+ {
+  "iso2": "IO",
+  "iso3": "IOT",
+  "name": {
+   "uk": "Британська територія в Індійському океані",
+   "en": "British Indian Ocean Territory"
+  },
+  "capital": {
+   "uk": "Дієго-Гарсія",
+   "en": "Diego Garcia"
+  },
+  "continent": "asia",
+  "currency": "USD",
+  "flag": "🇮🇴",
+  "unMember": false,
+  "lat": -6.191,
+  "lng": 71.348
+ },
+ {
+  "iso2": "IQ",
+  "iso3": "IRQ",
+  "name": {
+   "uk": "Ірак",
+   "en": "Iraq"
+  },
+  "capital": {
+   "uk": "Багдад",
+   "en": "Baghdad"
+  },
+  "continent": "asia",
+  "currency": "IQD",
+  "flag": "🇮🇶",
+  "unMember": true,
+  "lat": 33.094,
+  "lng": 43.262
+ },
+ {
+  "iso2": "IR",
+  "iso3": "IRN",
+  "name": {
+   "uk": "Іран",
+   "en": "Iran"
+  },
+  "capital": {
+   "uk": "Тегеран",
+   "en": "Tehran"
+  },
+  "continent": "asia",
+  "currency": "IRR",
+  "flag": "🇮🇷",
+  "unMember": true,
+  "lat": 32.166,
+  "lng": 54.931
+ },
+ {
+  "iso2": "IS",
+  "iso3": "ISL",
+  "name": {
+   "uk": "Ісландія",
+   "en": "Iceland"
+  },
+  "capital": {
+   "uk": "Рейк'явік",
+   "en": "Reykjavik"
+  },
+  "continent": "europe",
+  "currency": "ISK",
+  "flag": "🇮🇸",
+  "unMember": true,
+  "lat": 64.779,
+  "lng": -18.674
+ },
+ {
+  "iso2": "IT",
+  "iso3": "ITA",
+  "name": {
+   "uk": "Італія",
+   "en": "Italy"
+  },
+  "capital": {
+   "uk": "Рим",
+   "en": "Rome"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇮🇹",
+  "unMember": true,
+  "lat": 44.732,
+  "lng": 11.077
+ },
+ {
+  "iso2": "JE",
+  "iso3": "JEY",
+  "name": {
+   "uk": "Джерсі",
+   "en": "Jersey"
+  },
+  "capital": {
+   "uk": "Сент-Гельєр",
+   "en": "Saint Helier"
+  },
+  "continent": "europe",
+  "currency": "GBP",
+  "flag": "🇯🇪",
+  "unMember": false,
+  "lat": 49.221,
+  "lng": -2.09
+ },
+ {
+  "iso2": "JM",
+  "iso3": "JAM",
+  "name": {
+   "uk": "Ямайка",
+   "en": "Jamaica"
+  },
+  "capital": {
+   "uk": "Кінгстон",
+   "en": "Kingston"
+  },
+  "continent": "north-america",
+  "currency": "JMD",
+  "flag": "🇯🇲",
+  "unMember": true,
+  "lat": 18.137,
+  "lng": -77.319
+ },
+ {
+  "iso2": "JO",
+  "iso3": "JOR",
+  "name": {
+   "uk": "Йорданія",
+   "en": "Jordan"
+  },
+  "capital": {
+   "uk": "Амман",
+   "en": "Amman"
+  },
+  "continent": "asia",
+  "currency": "JOD",
+  "flag": "🇯🇴",
+  "unMember": true,
+  "lat": 30.805,
+  "lng": 36.376
+ },
+ {
+  "iso2": "JP",
+  "iso3": "JPN",
+  "name": {
+   "uk": "Японія",
+   "en": "Japan"
+  },
+  "capital": {
+   "uk": "Токіо",
+   "en": "Tokyo"
+  },
+  "continent": "asia",
+  "currency": "JPY",
+  "flag": "🇯🇵",
+  "unMember": true,
+  "lat": 36.143,
+  "lng": 138.442
+ },
+ {
+  "iso2": "KE",
+  "iso3": "KEN",
+  "name": {
+   "uk": "Кенія",
+   "en": "Kenya"
+  },
+  "capital": {
+   "uk": "Найробі",
+   "en": "Nairobi"
+  },
+  "continent": "africa",
+  "currency": "KES",
+  "flag": "🇰🇪",
+  "unMember": true,
+  "lat": 0.549,
+  "lng": 37.908
+ },
+ {
+  "iso2": "KG",
+  "iso3": "KGZ",
+  "name": {
+   "uk": "Киргизстан",
+   "en": "Kyrgyzstan"
+  },
+  "capital": {
+   "uk": "Бішкек",
+   "en": "Bishkek"
+  },
+  "continent": "asia",
+  "currency": "KGS",
+  "flag": "🇰🇬",
+  "unMember": true,
+  "lat": 41.669,
+  "lng": 74.533
+ },
+ {
+  "iso2": "KH",
+  "iso3": "KHM",
+  "name": {
+   "uk": "Камбоджа",
+   "en": "Cambodia"
+  },
+  "capital": {
+   "uk": "Пномпень",
+   "en": "Phnom Penh"
+  },
+  "continent": "asia",
+  "currency": "KHR",
+  "flag": "🇰🇭",
+  "unMember": true,
+  "lat": 12.648,
+  "lng": 104.505
+ },
+ {
+  "iso2": "KI",
+  "iso3": "KIR",
+  "name": {
+   "uk": "Кірибаті",
+   "en": "Kiribati"
+  },
+  "capital": {
+   "uk": "Південна Тарава",
+   "en": "South Tarawa"
+  },
+  "continent": "oceania",
+  "currency": "AUD",
+  "flag": "🇰🇮",
+  "unMember": true,
+  "lat": 1.82,
+  "lng": -157.385
+ },
+ {
+  "iso2": "KM",
+  "iso3": "COM",
+  "name": {
+   "uk": "Коморські Острови",
+   "en": "Comoros"
+  },
+  "capital": {
+   "uk": "Мороні",
+   "en": "Moroni"
+  },
+  "continent": "africa",
+  "currency": "KMF",
+  "flag": "🇰🇲",
+  "unMember": true,
+  "lat": -11.728,
+  "lng": 43.318
+ },
+ {
+  "iso2": "KN",
+  "iso3": "KNA",
+  "name": {
+   "uk": "Сент-Кіттс і Невіс",
+   "en": "Saint Kitts and Nevis"
+  },
+  "capital": {
+   "uk": "Бастер",
+   "en": "Basseterre"
+  },
+  "continent": "north-america",
+  "currency": "XCD",
+  "flag": "🇰🇳",
+  "unMember": true,
+  "lat": 17.337,
+  "lng": -62.758
+ },
+ {
+  "iso2": "KP",
+  "iso3": "PRK",
+  "name": {
+   "uk": "Північна Корея",
+   "en": "North Korea"
+  },
+  "capital": {
+   "uk": "Пхеньян",
+   "en": "Pyongyang"
+  },
+  "continent": "asia",
+  "currency": "KPW",
+  "flag": "🇰🇵",
+  "unMember": true,
+  "lat": 39.885,
+  "lng": 126.445
+ },
+ {
+  "iso2": "KR",
+  "iso3": "KOR",
+  "name": {
+   "uk": "Південна Корея",
+   "en": "South Korea"
+  },
+  "capital": {
+   "uk": "Сеул",
+   "en": "Seoul"
+  },
+  "continent": "asia",
+  "currency": "KRW",
+  "flag": "🇰🇷",
+  "unMember": true,
+  "lat": 36.385,
+  "lng": 128.13
+ },
+ {
+  "iso2": "KW",
+  "iso3": "KWT",
+  "name": {
+   "uk": "Кувейт",
+   "en": "Kuwait"
+  },
+  "capital": {
+   "uk": "Ель-Кувейт",
+   "en": "Kuwait City"
+  },
+  "continent": "asia",
+  "currency": "KWD",
+  "flag": "🇰🇼",
+  "unMember": true,
+  "lat": 29.414,
+  "lng": 47.314
+ },
+ {
+  "iso2": "KY",
+  "iso3": "CYM",
+  "name": {
+   "uk": "Кайманові острови",
+   "en": "Cayman Islands"
+  },
+  "capital": {
+   "uk": "Джорджтаун",
+   "en": "George Town"
+  },
+  "continent": "north-america",
+  "currency": "KYD",
+  "flag": "🇰🇾",
+  "unMember": false,
+  "lat": 19.32,
+  "lng": -81.241
+ },
+ {
+  "iso2": "KZ",
+  "iso3": "KAZ",
+  "name": {
+   "uk": "Казахстан",
+   "en": "Kazakhstan"
+  },
+  "capital": {
+   "uk": "Астана",
+   "en": "Astana"
+  },
+  "continent": "asia",
+  "currency": "KZT",
+  "flag": "🇰🇿",
+  "unMember": true,
+  "lat": 49.054,
+  "lng": 68.686
+ },
+ {
+  "iso2": "LA",
+  "iso3": "LAO",
+  "name": {
+   "uk": "Лаос",
+   "en": "Laos"
+  },
+  "capital": {
+   "uk": "В'єнтьян",
+   "en": "Vientiane"
+  },
+  "continent": "asia",
+  "currency": "LAK",
+  "flag": "🇱🇦",
+  "unMember": true,
+  "lat": 19.432,
+  "lng": 102.534
+ },
+ {
+  "iso2": "LB",
+  "iso3": "LBN",
+  "name": {
+   "uk": "Ліван",
+   "en": "Lebanon"
+  },
+  "capital": {
+   "uk": "Бейрут",
+   "en": "Beirut"
+  },
+  "continent": "asia",
+  "currency": "LBP",
+  "flag": "🇱🇧",
+  "unMember": true,
+  "lat": 34.133,
+  "lng": 35.993
+ },
+ {
+  "iso2": "LC",
+  "iso3": "LCA",
+  "name": {
+   "uk": "Сент-Люсія",
+   "en": "Saint Lucia"
+  },
+  "capital": {
+   "uk": "Кастрі",
+   "en": "Castries"
+  },
+  "continent": "north-america",
+  "currency": "XCD",
+  "flag": "🇱🇨",
+  "unMember": true,
+  "lat": 13.892,
+  "lng": -60.98
+ },
+ {
+  "iso2": "LI",
+  "iso3": "LIE",
+  "name": {
+   "uk": "Ліхтенштейн",
+   "en": "Liechtenstein"
+  },
+  "capital": {
+   "uk": "Вадуц",
+   "en": "Vaduz"
+  },
+  "continent": "europe",
+  "currency": "CHF",
+  "flag": "🇱🇮",
+  "unMember": true,
+  "lat": 47.111,
+  "lng": 9.559
+ },
+ {
+  "iso2": "LK",
+  "iso3": "LKA",
+  "name": {
+   "uk": "Шрі-Ланка",
+   "en": "Sri Lanka"
+  },
+  "capital": {
+   "uk": "Коломбо",
+   "en": "Colombo"
+  },
+  "continent": "asia",
+  "currency": "LKR",
+  "flag": "🇱🇰",
+  "unMember": true,
+  "lat": 7.581,
+  "lng": 80.705
+ },
+ {
+  "iso2": "LR",
+  "iso3": "LBR",
+  "name": {
+   "uk": "Ліберія",
+   "en": "Liberia"
+  },
+  "capital": {
+   "uk": "Монровія",
+   "en": "Monrovia"
+  },
+  "continent": "africa",
+  "currency": "LRD",
+  "flag": "🇱🇷",
+  "unMember": true,
+  "lat": 6.447,
+  "lng": -9.46
+ },
+ {
+  "iso2": "LS",
+  "iso3": "LSO",
+  "name": {
+   "uk": "Лесото",
+   "en": "Lesotho"
+  },
+  "capital": {
+   "uk": "Масеру",
+   "en": "Maseru"
+  },
+  "continent": "africa",
+  "currency": "LSL",
+  "flag": "🇱🇸",
+  "unMember": true,
+  "lat": -29.48,
+  "lng": 28.247
+ },
+ {
+  "iso2": "LT",
+  "iso3": "LTU",
+  "name": {
+   "uk": "Литва",
+   "en": "Lithuania"
+  },
+  "capital": {
+   "uk": "Вільнюс",
+   "en": "Vilnius"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇱🇹",
+  "unMember": true,
+  "lat": 55.104,
+  "lng": 24.09
+ },
+ {
+  "iso2": "LU",
+  "iso3": "LUX",
+  "name": {
+   "uk": "Люксембург",
+   "en": "Luxembourg"
+  },
+  "capital": {
+   "uk": "Люксембург",
+   "en": "Luxembourg"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇱🇺",
+  "unMember": true,
+  "lat": 49.734,
+  "lng": 6.078
+ },
+ {
+  "iso2": "LV",
+  "iso3": "LVA",
+  "name": {
+   "uk": "Латвія",
+   "en": "Latvia"
+  },
+  "capital": {
+   "uk": "Рига",
+   "en": "Riga"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇱🇻",
+  "unMember": true,
+  "lat": 57.067,
+  "lng": 25.459
+ },
+ {
+  "iso2": "LY",
+  "iso3": "LBY",
+  "name": {
+   "uk": "Лівія",
+   "en": "Libya"
+  },
+  "capital": {
+   "uk": "Триполі",
+   "en": "Tripoli"
+  },
+  "continent": "africa",
+  "currency": "LYD",
+  "flag": "🇱🇾",
+  "unMember": true,
+  "lat": 26.639,
+  "lng": 18.011
+ },
+ {
+  "iso2": "MA",
+  "iso3": "MAR",
+  "name": {
+   "uk": "Марокко",
+   "en": "Morocco"
+  },
+  "capital": {
+   "uk": "Рабат",
+   "en": "Rabat"
+  },
+  "continent": "africa",
+  "currency": "MAD",
+  "flag": "🇲🇦",
+  "unMember": true,
+  "lat": 31.651,
+  "lng": -7.187
+ },
+ {
+  "iso2": "MC",
+  "iso3": "MCO",
+  "name": {
+   "uk": "Монако",
+   "en": "Monaco"
+  },
+  "capital": {
+   "uk": "Монако",
+   "en": "Monaco"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇲🇨",
+  "unMember": true,
+  "lat": 43.74,
+  "lng": 7.398
+ },
+ {
+  "iso2": "MD",
+  "iso3": "MDA",
+  "name": {
+   "uk": "Молдова",
+   "en": "Moldova"
+  },
+  "capital": {
+   "uk": "Кишинів",
+   "en": "Chișinău"
+  },
+  "continent": "europe",
+  "currency": "MDL",
+  "flag": "🇲🇩",
+  "unMember": true,
+  "lat": 47.435,
+  "lng": 28.488
+ },
+ {
+  "iso2": "ME",
+  "iso3": "MNE",
+  "name": {
+   "uk": "Чорногорія",
+   "en": "Montenegro"
+  },
+  "capital": {
+   "uk": "Подгориця",
+   "en": "Podgorica"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇲🇪",
+  "unMember": true,
+  "lat": 42.803,
+  "lng": 19.144
+ },
+ {
+  "iso2": "MF",
+  "iso3": "MAF",
+  "name": {
+   "uk": "Сен-Мартен",
+   "en": "Saint Martin"
+  },
+  "capital": {
+   "uk": "Маріго",
+   "en": "Marigot"
+  },
+  "continent": "north-america",
+  "currency": "EUR",
+  "flag": "🇲🇫",
+  "unMember": false,
+  "lat": 18.081,
+  "lng": -63.049
+ },
+ {
+  "iso2": "MG",
+  "iso3": "MDG",
+  "name": {
+   "uk": "Мадагаскар",
+   "en": "Madagascar"
+  },
+  "capital": {
+   "uk": "Антананаріву",
+   "en": "Antananarivo"
+  },
+  "continent": "africa",
+  "currency": "MGA",
+  "flag": "🇲🇬",
+  "unMember": true,
+  "lat": -18.628,
+  "lng": 46.704
+ },
+ {
+  "iso2": "MH",
+  "iso3": "MHL",
+  "name": {
+   "uk": "Маршаллові Острови",
+   "en": "Marshall Islands"
+  },
+  "capital": {
+   "uk": "Маджуро",
+   "en": "Majuro"
+  },
+  "continent": "oceania",
+  "currency": "USD",
+  "flag": "🇲🇭",
+  "unMember": true,
+  "lat": 7.083,
+  "lng": 171.194
+ },
+ {
+  "iso2": "MK",
+  "iso3": "MKD",
+  "name": {
+   "uk": "Північна Македонія",
+   "en": "North Macedonia"
+  },
+  "capital": {
+   "uk": "Скоп'є",
+   "en": "Skopje"
+  },
+  "continent": "europe",
+  "currency": "MKD",
+  "flag": "🇲🇰",
+  "unMember": true,
+  "lat": 41.558,
+  "lng": 21.556
+ },
+ {
+  "iso2": "ML",
+  "iso3": "MLI",
+  "name": {
+   "uk": "Малі",
+   "en": "Mali"
+  },
+  "capital": {
+   "uk": "Бамако",
+   "en": "Bamako"
+  },
+  "continent": "africa",
+  "currency": "XOF",
+  "flag": "🇲🇱",
+  "unMember": true,
+  "lat": 18.693,
+  "lng": -2.038
+ },
+ {
+  "iso2": "MM",
+  "iso3": "MMR",
+  "name": {
+   "uk": "М'янма",
+   "en": "Myanmar"
+  },
+  "capital": {
+   "uk": "Найп'їдо",
+   "en": "Naypyidaw"
+  },
+  "continent": "asia",
+  "currency": "MMK",
+  "flag": "🇲🇲",
+  "unMember": true,
+  "lat": 21.574,
+  "lng": 95.804
+ },
+ {
+  "iso2": "MN",
+  "iso3": "MNG",
+  "name": {
+   "uk": "Монголія",
+   "en": "Mongolia"
+  },
+  "capital": {
+   "uk": "Улан-Батор",
+   "en": "Ulan Bator"
+  },
+  "continent": "asia",
+  "currency": "MNT",
+  "flag": "🇲🇳",
+  "unMember": true,
+  "lat": 45.997,
+  "lng": 104.15
+ },
+ {
+  "iso2": "MO",
+  "iso3": "MAC",
+  "name": {
+   "uk": "Аоминь",
+   "en": "Macau"
+  },
+  "capital": null,
+  "continent": "asia",
+  "currency": "MOP",
+  "flag": "🇲🇴",
+  "unMember": false,
+  "lat": 22.13,
+  "lng": 113.556
+ },
+ {
+  "iso2": "MP",
+  "iso3": "MNP",
+  "name": {
+   "uk": "Північні Маріанські острови",
+   "en": "Northern Mariana Islands"
+  },
+  "capital": {
+   "uk": "Сайпан",
+   "en": "Saipan"
+  },
+  "continent": "oceania",
+  "currency": "USD",
+  "flag": "🇲🇵",
+  "unMember": false,
+  "lat": 15.188,
+  "lng": 145.734
+ },
+ {
+  "iso2": "MR",
+  "iso3": "MRT",
+  "name": {
+   "uk": "Мавританія",
+   "en": "Mauritania"
+  },
+  "capital": {
+   "uk": "Нуакшот",
+   "en": "Nouakchott"
+  },
+  "continent": "africa",
+  "currency": "MRU",
+  "flag": "🇲🇷",
+  "unMember": true,
+  "lat": 19.587,
+  "lng": -9.74
+ },
+ {
+  "iso2": "MS",
+  "iso3": "MSR",
+  "name": {
+   "uk": "Монтсеррат",
+   "en": "Montserrat"
+  },
+  "capital": {
+   "uk": "Плімут",
+   "en": "Plymouth"
+  },
+  "continent": "north-america",
+  "currency": "XCD",
+  "flag": "🇲🇸",
+  "unMember": false,
+  "lat": 16.737,
+  "lng": -62.188
+ },
+ {
+  "iso2": "MT",
+  "iso3": "MLT",
+  "name": {
+   "uk": "Мальта",
+   "en": "Malta"
+  },
+  "capital": {
+   "uk": "Валлетта",
+   "en": "Valletta"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇲🇹",
+  "unMember": true,
+  "lat": 35.893,
+  "lng": 14.433
+ },
+ {
+  "iso2": "MU",
+  "iso3": "MUS",
+  "name": {
+   "uk": "Маврикій",
+   "en": "Mauritius"
+  },
+  "capital": {
+   "uk": "Порт-Луї",
+   "en": "Port Louis"
+  },
+  "continent": "africa",
+  "currency": "MUR",
+  "flag": "🇲🇺",
+  "unMember": true,
+  "lat": -20.3,
+  "lng": 57.566
+ },
+ {
+  "iso2": "MV",
+  "iso3": "MDV",
+  "name": {
+   "uk": "Мальдіви",
+   "en": "Maldives"
+  },
+  "capital": {
+   "uk": "Мале",
+   "en": "Malé"
+  },
+  "continent": "asia",
+  "currency": "MVR",
+  "flag": "🇲🇻",
+  "unMember": true,
+  "lat": 4.174,
+  "lng": 73.508
+ },
+ {
+  "iso2": "MW",
+  "iso3": "MWI",
+  "name": {
+   "uk": "Малаві",
+   "en": "Malawi"
+  },
+  "capital": {
+   "uk": "Лілонгве",
+   "en": "Lilongwe"
+  },
+  "continent": "africa",
+  "currency": "MWK",
+  "flag": "🇲🇼",
+  "unMember": true,
+  "lat": -13.387,
+  "lng": 33.608
+ },
+ {
+  "iso2": "MX",
+  "iso3": "MEX",
+  "name": {
+   "uk": "Мексика",
+   "en": "Mexico"
+  },
+  "capital": {
+   "uk": "Мехіко",
+   "en": "Mexico City"
+  },
+  "continent": "north-america",
+  "currency": "MXN",
+  "flag": "🇲🇽",
+  "unMember": true,
+  "lat": 23.92,
+  "lng": -102.289
+ },
+ {
+  "iso2": "MY",
+  "iso3": "MYS",
+  "name": {
+   "uk": "Малайзія",
+   "en": "Malaysia"
+  },
+  "capital": {
+   "uk": "Куала-Лумпур",
+   "en": "Kuala Lumpur"
+  },
+  "continent": "asia",
+  "currency": "MYR",
+  "flag": "🇲🇾",
+  "unMember": true,
+  "lat": 2.529,
+  "lng": 113.837
+ },
+ {
+  "iso2": "MZ",
+  "iso3": "MOZ",
+  "name": {
+   "uk": "Мозамбік",
+   "en": "Mozambique"
+  },
+  "capital": {
+   "uk": "Мапуту",
+   "en": "Maputo"
+  },
+  "continent": "africa",
+  "currency": "MZN",
+  "flag": "🇲🇿",
+  "unMember": true,
+  "lat": -13.943,
+  "lng": 37.838
+ },
+ {
+  "iso2": "NA",
+  "iso3": "NAM",
+  "name": {
+   "uk": "Намібія",
+   "en": "Namibia"
+  },
+  "capital": {
+   "uk": "Віндгук",
+   "en": "Windhoek"
+  },
+  "continent": "africa",
+  "currency": "NAD",
+  "flag": "🇳🇦",
+  "unMember": true,
+  "lat": -20.575,
+  "lng": 17.108
+ },
+ {
+  "iso2": "NC",
+  "iso3": "NCL",
+  "name": {
+   "uk": "Нова Каледонія",
+   "en": "New Caledonia"
+  },
+  "capital": {
+   "uk": "Нумеа",
+   "en": "Nouméa"
+  },
+  "continent": "oceania",
+  "currency": "XPF",
+  "flag": "🇳🇨",
+  "unMember": false,
+  "lat": -21.065,
+  "lng": 165.084
+ },
+ {
+  "iso2": "NE",
+  "iso3": "NER",
+  "name": {
+   "uk": "Нігер",
+   "en": "Niger"
+  },
+  "capital": {
+   "uk": "Ніамей",
+   "en": "Niamey"
+  },
+  "continent": "africa",
+  "currency": "XOF",
+  "flag": "🇳🇪",
+  "unMember": true,
+  "lat": 17.446,
+  "lng": 9.504
+ },
+ {
+  "iso2": "NF",
+  "iso3": "NFK",
+  "name": {
+   "uk": "острів Норфолк",
+   "en": "Norfolk Island"
+  },
+  "capital": {
+   "uk": "Кінгстон",
+   "en": "Kingston"
+  },
+  "continent": "oceania",
+  "currency": "AUD",
+  "flag": "🇳🇫",
+  "unMember": false,
+  "lat": -29.033,
+  "lng": 167.955
+ },
+ {
+  "iso2": "NG",
+  "iso3": "NGA",
+  "name": {
+   "uk": "Нігерія",
+   "en": "Nigeria"
+  },
+  "capital": {
+   "uk": "Абуджа",
+   "en": "Abuja"
+  },
+  "continent": "africa",
+  "currency": "NGN",
+  "flag": "🇳🇬",
+  "unMember": true,
+  "lat": 9.44,
+  "lng": 7.503
+ },
+ {
+  "iso2": "NI",
+  "iso3": "NIC",
+  "name": {
+   "uk": "Нікарагуа",
+   "en": "Nicaragua"
+  },
+  "capital": {
+   "uk": "Манагуа",
+   "en": "Managua"
+  },
+  "continent": "north-america",
+  "currency": "NIO",
+  "flag": "🇳🇮",
+  "unMember": true,
+  "lat": 12.671,
+  "lng": -85.069
+ },
+ {
+  "iso2": "NL",
+  "iso3": "NLD",
+  "name": {
+   "uk": "Нідерланди",
+   "en": "Netherlands"
+  },
+  "capital": {
+   "uk": "Амстердам",
+   "en": "Amsterdam"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇳🇱",
+  "unMember": true,
+  "lat": 52.422,
+  "lng": 5.611
+ },
+ {
+  "iso2": "NO",
+  "iso3": "NOR",
+  "name": {
+   "uk": "Норвегія",
+   "en": "Norway"
+  },
+  "capital": {
+   "uk": "Осло",
+   "en": "Oslo"
+  },
+  "continent": "europe",
+  "currency": "NOK",
+  "flag": "🇳🇴",
+  "unMember": true,
+  "lat": 61.357,
+  "lng": 9.68
+ },
+ {
+  "iso2": "NP",
+  "iso3": "NPL",
+  "name": {
+   "uk": "Непал",
+   "en": "Nepal"
+  },
+  "capital": {
+   "uk": "Катманду",
+   "en": "Kathmandu"
+  },
+  "continent": "asia",
+  "currency": "NPR",
+  "flag": "🇳🇵",
+  "unMember": true,
+  "lat": 28.298,
+  "lng": 83.64
+ },
+ {
+  "iso2": "NR",
+  "iso3": "NRU",
+  "name": {
+   "uk": "Науру",
+   "en": "Nauru"
+  },
+  "capital": {
+   "uk": "Ярен",
+   "en": "Yaren"
+  },
+  "continent": "oceania",
+  "currency": "AUD",
+  "flag": "🇳🇷",
+  "unMember": true,
+  "lat": -0.52,
+  "lng": 166.933
+ },
+ {
+  "iso2": "NU",
+  "iso3": "NIU",
+  "name": {
+   "uk": "Ніуе",
+   "en": "Niue"
+  },
+  "capital": {
+   "uk": "Алофі",
+   "en": "Alofi"
+  },
+  "continent": "oceania",
+  "currency": "NZD",
+  "flag": "🇳🇺",
+  "unMember": false,
+  "lat": -19.046,
+  "lng": -169.863
+ },
+ {
+  "iso2": "NZ",
+  "iso3": "NZL",
+  "name": {
+   "uk": "Нова Зеландія",
+   "en": "New Zealand"
+  },
+  "capital": {
+   "uk": "Веллінгтон",
+   "en": "Wellington"
+  },
+  "continent": "oceania",
+  "currency": "NZD",
+  "flag": "🇳🇿",
+  "unMember": true,
+  "lat": -39.759,
+  "lng": 172.787
+ },
+ {
+  "iso2": "OM",
+  "iso3": "OMN",
+  "name": {
+   "uk": "Оман",
+   "en": "Oman"
+  },
+  "capital": {
+   "uk": "Маскат",
+   "en": "Muscat"
+  },
+  "continent": "asia",
+  "currency": "OMR",
+  "flag": "🇴🇲",
+  "unMember": true,
+  "lat": 22.12,
+  "lng": 57.337
+ },
+ {
+  "iso2": "PA",
+  "iso3": "PAN",
+  "name": {
+   "uk": "Панама",
+   "en": "Panama"
+  },
+  "capital": {
+   "uk": "Панама",
+   "en": "Panama City"
+  },
+  "continent": "north-america",
+  "currency": "PAB",
+  "flag": "🇵🇦",
+  "unMember": true,
+  "lat": 8.722,
+  "lng": -80.352
+ },
+ {
+  "iso2": "PE",
+  "iso3": "PER",
+  "name": {
+   "uk": "Перу",
+   "en": "Peru"
+  },
+  "capital": {
+   "uk": "Ліма",
+   "en": "Lima"
+  },
+  "continent": "south-america",
+  "currency": "PEN",
+  "flag": "🇵🇪",
+  "unMember": true,
+  "lat": -12.977,
+  "lng": -72.9
+ },
+ {
+  "iso2": "PF",
+  "iso3": "PYF",
+  "name": {
+   "uk": "Французька Полінезія",
+   "en": "French Polynesia"
+  },
+  "capital": {
+   "uk": "Папеете",
+   "en": "Papeete"
+  },
+  "continent": "oceania",
+  "currency": "XPF",
+  "flag": "🇵🇫",
+  "unMember": false,
+  "lat": -17.628,
+  "lng": -149.462
+ },
+ {
+  "iso2": "PG",
+  "iso3": "PNG",
+  "name": {
+   "uk": "Папуа Нова Гвінея",
+   "en": "Papua New Guinea"
+  },
+  "capital": {
+   "uk": "Порт-Морсбі",
+   "en": "Port Moresby"
+  },
+  "continent": "oceania",
+  "currency": "PGK",
+  "flag": "🇵🇬",
+  "unMember": true,
+  "lat": -5.695,
+  "lng": 143.91
+ },
+ {
+  "iso2": "PH",
+  "iso3": "PHL",
+  "name": {
+   "uk": "Філіппіни",
+   "en": "Philippines"
+  },
+  "capital": {
+   "uk": "Маніла",
+   "en": "Manila"
+  },
+  "continent": "asia",
+  "currency": "PHP",
+  "flag": "🇵🇭",
+  "unMember": true,
+  "lat": 11.198,
+  "lng": 122.465
+ },
+ {
+  "iso2": "PK",
+  "iso3": "PAK",
+  "name": {
+   "uk": "Пакистан",
+   "en": "Pakistan"
+  },
+  "capital": {
+   "uk": "Ісламабад",
+   "en": "Islamabad"
+  },
+  "continent": "asia",
+  "currency": "PKR",
+  "flag": "🇵🇰",
+  "unMember": true,
+  "lat": 29.328,
+  "lng": 68.546
+ },
+ {
+  "iso2": "PL",
+  "iso3": "POL",
+  "name": {
+   "uk": "Польща",
+   "en": "Poland"
+  },
+  "capital": {
+   "uk": "Варшава",
+   "en": "Warsaw"
+  },
+  "continent": "europe",
+  "currency": "PLN",
+  "flag": "🇵🇱",
+  "unMember": true,
+  "lat": 51.99,
+  "lng": 19.49
+ },
+ {
+  "iso2": "PM",
+  "iso3": "SPM",
+  "name": {
+   "uk": "Сен-П'єр і Мікелон",
+   "en": "Saint Pierre and Miquelon"
+  },
+  "capital": {
+   "uk": "Сен-П'єр",
+   "en": "Saint-Pierre"
+  },
+  "continent": "north-america",
+  "currency": "EUR",
+  "flag": "🇵🇲",
+  "unMember": false,
+  "lat": 47.04,
+  "lng": -56.332
+ },
+ {
+  "iso2": "PN",
+  "iso3": "PCN",
+  "name": {
+   "uk": "Піткерн",
+   "en": "Pitcairn Islands"
+  },
+  "capital": {
+   "uk": "Адамстаун",
+   "en": "Adamstown"
+  },
+  "continent": "oceania",
+  "currency": "NZD",
+  "flag": "🇵🇳",
+  "unMember": false,
+  "lat": -24.365,
+  "lng": -128.318
+ },
+ {
+  "iso2": "PR",
+  "iso3": "PRI",
+  "name": {
+   "uk": "Пуерто-Рико",
+   "en": "Puerto Rico"
+  },
+  "capital": {
+   "uk": "Сан-Хуан",
+   "en": "San Juan"
+  },
+  "continent": "north-america",
+  "currency": "USD",
+  "flag": "🇵🇷",
+  "unMember": false,
+  "lat": 18.235,
+  "lng": -66.481
+ },
+ {
+  "iso2": "PS",
+  "iso3": "PSE",
+  "name": {
+   "uk": "Палестина",
+   "en": "Palestine"
+  },
+  "capital": {
+   "uk": "Рамалла",
+   "en": "Ramallah"
+  },
+  "continent": "asia",
+  "currency": "ILS",
+  "flag": "🇵🇸",
+  "unMember": false,
+  "lat": 32.047,
+  "lng": 35.291
+ },
+ {
+  "iso2": "PT",
+  "iso3": "PRT",
+  "name": {
+   "uk": "Португалія",
+   "en": "Portugal"
+  },
+  "capital": {
+   "uk": "Лісабон",
+   "en": "Lisbon"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇵🇹",
+  "unMember": true,
+  "lat": 39.607,
+  "lng": -8.272
+ },
+ {
+  "iso2": "PW",
+  "iso3": "PLW",
+  "name": {
+   "uk": "Республіка Палау",
+   "en": "Palau"
+  },
+  "capital": {
+   "uk": "Мелекеок",
+   "en": "Ngerulmud"
+  },
+  "continent": "oceania",
+  "currency": "USD",
+  "flag": "🇵🇼",
+  "unMember": true,
+  "lat": 7.518,
+  "lng": 134.58
+ },
+ {
+  "iso2": "PY",
+  "iso3": "PRY",
+  "name": {
+   "uk": "Парагвай",
+   "en": "Paraguay"
+  },
+  "capital": {
+   "uk": "Асунсьйон",
+   "en": "Asunción"
+  },
+  "continent": "south-america",
+  "currency": "PYG",
+  "flag": "🇵🇾",
+  "unMember": true,
+  "lat": -21.675,
+  "lng": -60.146
+ },
+ {
+  "iso2": "QA",
+  "iso3": "QAT",
+  "name": {
+   "uk": "Катар",
+   "en": "Qatar"
+  },
+  "capital": {
+   "uk": "Доха",
+   "en": "Doha"
+  },
+  "continent": "asia",
+  "currency": "QAR",
+  "flag": "🇶🇦",
+  "unMember": true,
+  "lat": 25.237,
+  "lng": 51.144
+ },
+ {
+  "iso2": "RO",
+  "iso3": "ROU",
+  "name": {
+   "uk": "Румунія",
+   "en": "Romania"
+  },
+  "capital": {
+   "uk": "Бухарест",
+   "en": "Bucharest"
+  },
+  "continent": "europe",
+  "currency": "RON",
+  "flag": "🇷🇴",
+  "unMember": true,
+  "lat": 45.733,
+  "lng": 24.973
+ },
+ {
+  "iso2": "RS",
+  "iso3": "SRB",
+  "name": {
+   "uk": "Сербія",
+   "en": "Serbia"
+  },
+  "capital": {
+   "uk": "Белград",
+   "en": "Belgrade"
+  },
+  "continent": "europe",
+  "currency": "RSD",
+  "flag": "🇷🇸",
+  "unMember": true,
+  "lat": 44.19,
+  "lng": 20.788
+ },
+ {
+  "iso2": "RU",
+  "iso3": "RUS",
+  "name": {
+   "uk": "Росія",
+   "en": "Russia"
+  },
+  "capital": {
+   "uk": "Москва",
+   "en": "Moscow"
+  },
+  "continent": "europe",
+  "currency": "RUB",
+  "flag": "🇷🇺",
+  "unMember": true,
+  "lat": 58.249,
+  "lng": 44.686
+ },
+ {
+  "iso2": "RW",
+  "iso3": "RWA",
+  "name": {
+   "uk": "Руанда",
+   "en": "Rwanda"
+  },
+  "capital": {
+   "uk": "Кігалі",
+   "en": "Kigali"
+  },
+  "continent": "africa",
+  "currency": "RWF",
+  "flag": "🇷🇼",
+  "unMember": true,
+  "lat": -1.897,
+  "lng": 30.104
+ },
+ {
+  "iso2": "SA",
+  "iso3": "SAU",
+  "name": {
+   "uk": "Саудівська Аравія",
+   "en": "Saudi Arabia"
+  },
+  "capital": {
+   "uk": "Ер-Ріяд",
+   "en": "Riyadh"
+  },
+  "continent": "asia",
+  "currency": "SAR",
+  "flag": "🇸🇦",
+  "unMember": true,
+  "lat": 23.807,
+  "lng": 44.7
+ },
+ {
+  "iso2": "SB",
+  "iso3": "SLB",
+  "name": {
+   "uk": "Соломонові Острови",
+   "en": "Solomon Islands"
+  },
+  "capital": {
+   "uk": "Хоніара",
+   "en": "Honiara"
+  },
+  "continent": "oceania",
+  "currency": "SBD",
+  "flag": "🇸🇧",
+  "unMember": true,
+  "lat": -8.03,
+  "lng": 159.17
+ },
+ {
+  "iso2": "SC",
+  "iso3": "SYC",
+  "name": {
+   "uk": "Сейшельські Острови",
+   "en": "Seychelles"
+  },
+  "capital": {
+   "uk": "Вікторія",
+   "en": "Victoria"
+  },
+  "continent": "africa",
+  "currency": "SCR",
+  "flag": "🇸🇨",
+  "unMember": true,
+  "lat": -4.677,
+  "lng": 55.48
+ },
+ {
+  "iso2": "SD",
+  "iso3": "SDN",
+  "name": {
+   "uk": "Судан",
+   "en": "Sudan"
+  },
+  "capital": {
+   "uk": "Хартум",
+   "en": "Khartoum"
+  },
+  "continent": "africa",
+  "currency": "SDG",
+  "flag": "🇸🇩",
+  "unMember": true,
+  "lat": 16.331,
+  "lng": 29.261
+ },
+ {
+  "iso2": "SE",
+  "iso3": "SWE",
+  "name": {
+   "uk": "Швеція",
+   "en": "Sweden"
+  },
+  "capital": {
+   "uk": "Стокгольм",
+   "en": "Stockholm"
+  },
+  "continent": "europe",
+  "currency": "SEK",
+  "flag": "🇸🇪",
+  "unMember": true,
+  "lat": 65.859,
+  "lng": 19.017
+ },
+ {
+  "iso2": "SG",
+  "iso3": "SGP",
+  "name": {
+   "uk": "Сінгапур",
+   "en": "Singapore"
+  },
+  "capital": {
+   "uk": "Сінгапур",
+   "en": "Singapore"
+  },
+  "continent": "asia",
+  "currency": "SGD",
+  "flag": "🇸🇬",
+  "unMember": true,
+  "lat": 1.367,
+  "lng": 103.817
+ },
+ {
+  "iso2": "SH",
+  "iso3": "SHN",
+  "name": {
+   "uk": "Острів Святої Єлени",
+   "en": "Saint Helena"
+  },
+  "capital": {
+   "uk": "Джеймстаун",
+   "en": "Jamestown"
+  },
+  "continent": "africa",
+  "currency": "GBP",
+  "flag": "🇸🇭",
+  "unMember": false,
+  "lat": -15.95,
+  "lng": -5.713
+ },
+ {
+  "iso2": "SI",
+  "iso3": "SVN",
+  "name": {
+   "uk": "Словенія",
+   "en": "Slovenia"
+  },
+  "capital": {
+   "uk": "Любляна",
+   "en": "Ljubljana"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇸🇮",
+  "unMember": true,
+  "lat": 46.061,
+  "lng": 14.915
+ },
+ {
+  "iso2": "SK",
+  "iso3": "SVK",
+  "name": {
+   "uk": "Словаччина",
+   "en": "Slovakia"
+  },
+  "capital": {
+   "uk": "Братислава",
+   "en": "Bratislava"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇸🇰",
+  "unMember": true,
+  "lat": 48.734,
+  "lng": 19.05
+ },
+ {
+  "iso2": "SL",
+  "iso3": "SLE",
+  "name": {
+   "uk": "Сьєрра-Леоне",
+   "en": "Sierra Leone"
+  },
+  "capital": {
+   "uk": "Фрітаун",
+   "en": "Freetown"
+  },
+  "continent": "africa",
+  "currency": "SLE",
+  "flag": "🇸🇱",
+  "unMember": true,
+  "lat": 8.617,
+  "lng": -11.764
+ },
+ {
+  "iso2": "SM",
+  "iso3": "SMR",
+  "name": {
+   "uk": "Сан-Марино",
+   "en": "San Marino"
+  },
+  "capital": {
+   "uk": "Сан-Марино",
+   "en": "City of San Marino"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇸🇲",
+  "unMember": true,
+  "lat": 43.934,
+  "lng": 12.441
+ },
+ {
+  "iso2": "SN",
+  "iso3": "SEN",
+  "name": {
+   "uk": "Сенегал",
+   "en": "Senegal"
+  },
+  "capital": {
+   "uk": "Дакар",
+   "en": "Dakar"
+  },
+  "continent": "africa",
+  "currency": "XOF",
+  "flag": "🇸🇳",
+  "unMember": true,
+  "lat": 15.138,
+  "lng": -14.779
+ },
+ {
+  "iso2": "SO",
+  "iso3": "SOM",
+  "name": {
+   "uk": "Сомалі",
+   "en": "Somalia"
+  },
+  "capital": {
+   "uk": "Могадішо",
+   "en": "Mogadishu"
+  },
+  "continent": "africa",
+  "currency": "SOS",
+  "flag": "🇸🇴",
+  "unMember": true,
+  "lat": 3.569,
+  "lng": 45.192
+ },
+ {
+  "iso2": "SR",
+  "iso3": "SUR",
+  "name": {
+   "uk": "Суринам",
+   "en": "Suriname"
+  },
+  "capital": {
+   "uk": "Парамарибо",
+   "en": "Paramaribo"
+  },
+  "continent": "south-america",
+  "currency": "SRD",
+  "flag": "🇸🇷",
+  "unMember": true,
+  "lat": 4.144,
+  "lng": -55.911
+ },
+ {
+  "iso2": "SS",
+  "iso3": "SSD",
+  "name": {
+   "uk": "Південний Судан",
+   "en": "South Sudan"
+  },
+  "capital": {
+   "uk": "Джуба",
+   "en": "Juba"
+  },
+  "continent": "africa",
+  "currency": "SSP",
+  "flag": "🇸🇸",
+  "unMember": true,
+  "lat": 7.23,
+  "lng": 30.39
+ },
+ {
+  "iso2": "ST",
+  "iso3": "STP",
+  "name": {
+   "uk": "Сан-Томе і Принсіпі",
+   "en": "São Tomé and Príncipe"
+  },
+  "capital": {
+   "uk": "Сан-Томе",
+   "en": "São Tomé"
+  },
+  "continent": "africa",
+  "currency": "STN",
+  "flag": "🇸🇹",
+  "unMember": true,
+  "lat": 0.971,
+  "lng": 7.021
+ },
+ {
+  "iso2": "SV",
+  "iso3": "SLV",
+  "name": {
+   "uk": "Сальвадор",
+   "en": "El Salvador"
+  },
+  "capital": {
+   "uk": "Сан-Сальвадор",
+   "en": "San Salvador"
+  },
+  "continent": "north-america",
+  "currency": "USD",
+  "flag": "🇸🇻",
+  "unMember": true,
+  "lat": 13.685,
+  "lng": -88.89
+ },
+ {
+  "iso2": "SX",
+  "iso3": "SXM",
+  "name": {
+   "uk": "Сінт-Мартен",
+   "en": "Sint Maarten"
+  },
+  "capital": {
+   "uk": "Філіпсбург",
+   "en": "Philipsburg"
+  },
+  "continent": "north-america",
+  "currency": "XCG",
+  "flag": "🇸🇽",
+  "unMember": false,
+  "lat": 18.041,
+  "lng": -63.07
+ },
+ {
+  "iso2": "SY",
+  "iso3": "SYR",
+  "name": {
+   "uk": "Сирія",
+   "en": "Syria"
+  },
+  "capital": {
+   "uk": "Дамаск",
+   "en": "Damascus"
+  },
+  "continent": "asia",
+  "currency": "SYP",
+  "flag": "🇸🇾",
+  "unMember": true,
+  "lat": 35.007,
+  "lng": 38.278
+ },
+ {
+  "iso2": "SZ",
+  "iso3": "SWZ",
+  "name": {
+   "uk": "Есватіні",
+   "en": "Eswatini"
+  },
+  "capital": {
+   "uk": "Лобамба",
+   "en": "Lobamba"
+  },
+  "continent": "africa",
+  "currency": "SZL",
+  "flag": "🇸🇿",
+  "unMember": true,
+  "lat": -26.534,
+  "lng": 31.467
+ },
+ {
+  "iso2": "TC",
+  "iso3": "TCA",
+  "name": {
+   "uk": "Острови Теркс і Кайкос",
+   "en": "Turks and Caicos Islands"
+  },
+  "capital": {
+   "uk": "Коберн-Таун",
+   "en": "Cockburn Town"
+  },
+  "continent": "north-america",
+  "currency": "USD",
+  "flag": "🇹🇨",
+  "unMember": false,
+  "lat": 21.817,
+  "lng": -71.753
+ },
+ {
+  "iso2": "TD",
+  "iso3": "TCD",
+  "name": {
+   "uk": "Чад",
+   "en": "Chad"
+  },
+  "capital": {
+   "uk": "Нджамена",
+   "en": "N'Djamena"
+  },
+  "continent": "africa",
+  "currency": "XAF",
+  "flag": "🇹🇩",
+  "unMember": true,
+  "lat": 15.143,
+  "lng": 18.645
+ },
+ {
+  "iso2": "TF",
+  "iso3": "ATF",
+  "name": {
+   "uk": "Французькі Південні і Антарктичні території",
+   "en": "French Southern and Antarctic Lands"
+  },
+  "capital": {
+   "uk": "Порт-о-Франсе",
+   "en": "Port-aux-Français"
+  },
+  "continent": "antarctica",
+  "currency": "EUR",
+  "flag": "🇹🇫",
+  "unMember": false,
+  "lat": -49.304,
+  "lng": 69.122
+ },
+ {
+  "iso2": "TG",
+  "iso3": "TGO",
+  "name": {
+   "uk": "Того",
+   "en": "Togo"
+  },
+  "capital": {
+   "uk": "Ломе",
+   "en": "Lomé"
+  },
+  "continent": "africa",
+  "currency": "XOF",
+  "flag": "🇹🇬",
+  "unMember": true,
+  "lat": 8.807,
+  "lng": 1.058
+ },
+ {
+  "iso2": "TH",
+  "iso3": "THA",
+  "name": {
+   "uk": "Таїланд",
+   "en": "Thailand"
+  },
+  "capital": {
+   "uk": "Бангкок",
+   "en": "Bangkok"
+  },
+  "continent": "asia",
+  "currency": "THB",
+  "flag": "🇹🇭",
+  "unMember": true,
+  "lat": 15.46,
+  "lng": 101.073
+ },
+ {
+  "iso2": "TJ",
+  "iso3": "TJK",
+  "name": {
+   "uk": "Таджикистан",
+   "en": "Tajikistan"
+  },
+  "capital": {
+   "uk": "Душанбе",
+   "en": "Dushanbe"
+  },
+  "continent": "asia",
+  "currency": "TJS",
+  "flag": "🇹🇯",
+  "unMember": true,
+  "lat": 38.2,
+  "lng": 72.587
+ },
+ {
+  "iso2": "TL",
+  "iso3": "TLS",
+  "name": {
+   "uk": "Східний Тимор",
+   "en": "East Timor"
+  },
+  "capital": {
+   "uk": "Ділі",
+   "en": "Dili"
+  },
+  "continent": "asia",
+  "currency": "USD",
+  "flag": "🇹🇱",
+  "unMember": true,
+  "lat": -8.804,
+  "lng": 125.855
+ },
+ {
+  "iso2": "TM",
+  "iso3": "TKM",
+  "name": {
+   "uk": "Туркменістан",
+   "en": "Turkmenistan"
+  },
+  "capital": {
+   "uk": "Ашгабат",
+   "en": "Ashgabat"
+  },
+  "continent": "asia",
+  "currency": "TMT",
+  "flag": "🇹🇲",
+  "unMember": true,
+  "lat": 39.855,
+  "lng": 58.677
+ },
+ {
+  "iso2": "TN",
+  "iso3": "TUN",
+  "name": {
+   "uk": "Туніс",
+   "en": "Tunisia"
+  },
+  "capital": {
+   "uk": "Туніс",
+   "en": "Tunis"
+  },
+  "continent": "africa",
+  "currency": "TND",
+  "flag": "🇹🇳",
+  "unMember": true,
+  "lat": 33.687,
+  "lng": 9.008
+ },
+ {
+  "iso2": "TO",
+  "iso3": "TON",
+  "name": {
+   "uk": "Тонга",
+   "en": "Tonga"
+  },
+  "capital": {
+   "uk": "Нукуалофа",
+   "en": "Nuku'alofa"
+  },
+  "continent": "oceania",
+  "currency": "TOP",
+  "flag": "🇹🇴",
+  "unMember": true,
+  "lat": -21.21,
+  "lng": -175.163
+ },
+ {
+  "iso2": "TR",
+  "iso3": "TUR",
+  "name": {
+   "uk": "Туреччина",
+   "en": "Turkey"
+  },
+  "capital": {
+   "uk": "Анкара",
+   "en": "Ankara"
+  },
+  "continent": "asia",
+  "currency": "TRY",
+  "flag": "🇹🇷",
+  "unMember": true,
+  "lat": 39.345,
+  "lng": 34.508
+ },
+ {
+  "iso2": "TT",
+  "iso3": "TTO",
+  "name": {
+   "uk": "Тринідад і Тобаго",
+   "en": "Trinidad and Tobago"
+  },
+  "capital": {
+   "uk": "Порт-оф-Спейн",
+   "en": "Port of Spain"
+  },
+  "continent": "north-america",
+  "currency": "TTD",
+  "flag": "🇹🇹",
+  "unMember": true,
+  "lat": 10.999,
+  "lng": -60.918
+ },
+ {
+  "iso2": "TV",
+  "iso3": "TUV",
+  "name": {
+   "uk": "Тувалу",
+   "en": "Tuvalu"
+  },
+  "capital": {
+   "uk": "Фунафуті",
+   "en": "Funafuti"
+  },
+  "continent": "oceania",
+  "currency": "AUD",
+  "flag": "🇹🇻",
+  "unMember": true,
+  "lat": -8.514,
+  "lng": 179.21
+ },
+ {
+  "iso2": "TW",
+  "iso3": "TWN",
+  "name": {
+   "uk": "Тайвань",
+   "en": "Taiwan"
+  },
+  "capital": {
+   "uk": "Тайбей",
+   "en": "Taipei"
+  },
+  "continent": "asia",
+  "currency": "TWD",
+  "flag": "🇹🇼",
+  "unMember": false,
+  "lat": 23.652,
+  "lng": 120.868
+ },
+ {
+  "iso2": "TZ",
+  "iso3": "TZA",
+  "name": {
+   "uk": "Танзанія",
+   "en": "Tanzania"
+  },
+  "capital": {
+   "uk": "Додома",
+   "en": "Dodoma"
+  },
+  "continent": "africa",
+  "currency": "TZS",
+  "flag": "🇹🇿",
+  "unMember": true,
+  "lat": -6.052,
+  "lng": 34.959
+ },
+ {
+  "iso2": "UA",
+  "iso3": "UKR",
+  "name": {
+   "uk": "Україна",
+   "en": "Ukraine"
+  },
+  "capital": {
+   "uk": "Київ",
+   "en": "Kyiv"
+  },
+  "continent": "europe",
+  "currency": "UAH",
+  "flag": "🇺🇦",
+  "unMember": true,
+  "lat": 49.725,
+  "lng": 32.141
+ },
+ {
+  "iso2": "UG",
+  "iso3": "UGA",
+  "name": {
+   "uk": "Уганда",
+   "en": "Uganda"
+  },
+  "capital": {
+   "uk": "Кампала",
+   "en": "Kampala"
+  },
+  "continent": "africa",
+  "currency": "UGX",
+  "flag": "🇺🇬",
+  "unMember": true,
+  "lat": 1.973,
+  "lng": 32.949
+ },
+ {
+  "iso2": "UM",
+  "iso3": "UMI",
+  "name": {
+   "uk": "Зовнішні малі острови США",
+   "en": "United States Minor Outlying Islands"
+  },
+  "capital": null,
+  "continent": "north-america",
+  "currency": "USD",
+  "flag": "🇺🇲",
+  "unMember": false,
+  "lat": 19.286,
+  "lng": 166.645
+ },
+ {
+  "iso2": "US",
+  "iso3": "USA",
+  "name": {
+   "uk": "США",
+   "en": "United States"
+  },
+  "capital": {
+   "uk": "Вашингтон",
+   "en": "Washington D.C."
+  },
+  "continent": "north-america",
+  "currency": "USD",
+  "flag": "🇺🇸",
+  "unMember": true,
+  "lat": 39.538,
+  "lng": -97.483
+ },
+ {
+  "iso2": "UY",
+  "iso3": "URY",
+  "name": {
+   "uk": "Уругвай",
+   "en": "Uruguay"
+  },
+  "capital": {
+   "uk": "Монтевідео",
+   "en": "Montevideo"
+  },
+  "continent": "south-america",
+  "currency": "UYU",
+  "flag": "🇺🇾",
+  "unMember": true,
+  "lat": -32.961,
+  "lng": -55.967
+ },
+ {
+  "iso2": "UZ",
+  "iso3": "UZB",
+  "name": {
+   "uk": "Узбекистан",
+   "en": "Uzbekistan"
+  },
+  "capital": {
+   "uk": "Ташкент",
+   "en": "Tashkent"
+  },
+  "continent": "asia",
+  "currency": "UZS",
+  "flag": "🇺🇿",
+  "unMember": true,
+  "lat": 41.694,
+  "lng": 64.005
+ },
+ {
+  "iso2": "VA",
+  "iso3": "VAT",
+  "name": {
+   "uk": "Ватикан",
+   "en": "Vatican City"
+  },
+  "capital": {
+   "uk": "Ватикан",
+   "en": "Vatican City"
+  },
+  "continent": "europe",
+  "currency": "EUR",
+  "flag": "🇻🇦",
+  "unMember": false,
+  "lat": 41.903,
+  "lng": 12.453
+ },
+ {
+  "iso2": "VC",
+  "iso3": "VCT",
+  "name": {
+   "uk": "Сент-Вінсент і Гренадини",
+   "en": "Saint Vincent and the Grenadines"
+  },
+  "capital": {
+   "uk": "Кінгстаун",
+   "en": "Kingstown"
+  },
+  "continent": "north-america",
+  "currency": "XCD",
+  "flag": "🇻🇨",
+  "unMember": true,
+  "lat": 13.088,
+  "lng": -61.336
+ },
+ {
+  "iso2": "VE",
+  "iso3": "VEN",
+  "name": {
+   "uk": "Венесуела",
+   "en": "Venezuela"
+  },
+  "capital": {
+   "uk": "Каракас",
+   "en": "Caracas"
+  },
+  "continent": "south-america",
+  "currency": "VES",
+  "flag": "🇻🇪",
+  "unMember": true,
+  "lat": 7.182,
+  "lng": -64.599
+ },
+ {
+  "iso2": "VG",
+  "iso3": "VGB",
+  "name": {
+   "uk": "Британські Віргінські острови",
+   "en": "British Virgin Islands"
+  },
+  "capital": {
+   "uk": "Род-Таун",
+   "en": "Road Town"
+  },
+  "continent": "north-america",
+  "currency": "USD",
+  "flag": "🇻🇬",
+  "unMember": false,
+  "lat": 18.427,
+  "lng": -64.637
+ },
+ {
+  "iso2": "VI",
+  "iso3": "VIR",
+  "name": {
+   "uk": "Американські Віргінські Острови",
+   "en": "United States Virgin Islands"
+  },
+  "capital": {
+   "uk": "Шарлотта-Амалія",
+   "en": "Charlotte Amalie"
+  },
+  "continent": "north-america",
+  "currency": "USD",
+  "flag": "🇻🇮",
+  "unMember": false,
+  "lat": 17.747,
+  "lng": -64.779
+ },
+ {
+  "iso2": "VN",
+  "iso3": "VNM",
+  "name": {
+   "uk": "В'єтнам",
+   "en": "Vietnam"
+  },
+  "capital": {
+   "uk": "Ханой",
+   "en": "Hanoi"
+  },
+  "continent": "asia",
+  "currency": "VND",
+  "flag": "🇻🇳",
+  "unMember": true,
+  "lat": 21.715,
+  "lng": 105.387
+ },
+ {
+  "iso2": "VU",
+  "iso3": "VUT",
+  "name": {
+   "uk": "Вануату",
+   "en": "Vanuatu"
+  },
+  "capital": {
+   "uk": "Порт-Віла",
+   "en": "Port Vila"
+  },
+  "continent": "oceania",
+  "currency": "VUV",
+  "flag": "🇻🇺",
+  "unMember": true,
+  "lat": -15.372,
+  "lng": 166.909
+ },
+ {
+  "iso2": "WF",
+  "iso3": "WLF",
+  "name": {
+   "uk": "Волліс і Футуна",
+   "en": "Wallis and Futuna"
+  },
+  "capital": {
+   "uk": "Мата-Уту",
+   "en": "Mata-Utu"
+  },
+  "continent": "oceania",
+  "currency": "XPF",
+  "flag": "🇼🇫",
+  "unMember": false,
+  "lat": -14.286,
+  "lng": -178.137
+ },
+ {
+  "iso2": "WS",
+  "iso3": "WSM",
+  "name": {
+   "uk": "Самоа",
+   "en": "Samoa"
+  },
+  "capital": {
+   "uk": "Апіа",
+   "en": "Apia"
+  },
+  "continent": "oceania",
+  "currency": "WST",
+  "flag": "🇼🇸",
+  "unMember": true,
+  "lat": -13.639,
+  "lng": -172.438
+ },
+ {
+  "iso2": "YE",
+  "iso3": "YEM",
+  "name": {
+   "uk": "Ємен",
+   "en": "Yemen"
+  },
+  "capital": {
+   "uk": "Сана",
+   "en": "Sana'a"
+  },
+  "continent": "asia",
+  "currency": "YER",
+  "flag": "🇾🇪",
+  "unMember": true,
+  "lat": 15.328,
+  "lng": 45.874
+ },
+ {
+  "iso2": "ZA",
+  "iso3": "ZAF",
+  "name": {
+   "uk": "Південно-Африканська Республіка",
+   "en": "South Africa"
+  },
+  "capital": {
+   "uk": "Преторія",
+   "en": "Pretoria"
+  },
+  "continent": "africa",
+  "currency": "ZAR",
+  "flag": "🇿🇦",
+  "unMember": true,
+  "lat": -29.709,
+  "lng": 23.666
+ },
+ {
+  "iso2": "ZM",
+  "iso3": "ZMB",
+  "name": {
+   "uk": "Замбія",
+   "en": "Zambia"
+  },
+  "capital": {
+   "uk": "Лусака",
+   "en": "Lusaka"
+  },
+  "continent": "africa",
+  "currency": "ZMW",
+  "flag": "🇿🇲",
+  "unMember": true,
+  "lat": -14.661,
+  "lng": 26.395
+ },
+ {
+  "iso2": "ZW",
+  "iso3": "ZWE",
+  "name": {
+   "uk": "Зімбабве",
+   "en": "Zimbabwe"
+  },
+  "capital": {
+   "uk": "Хараре",
+   "en": "Harare"
+  },
+  "continent": "africa",
+  "currency": "BWP",
+  "flag": "🇿🇼",
+  "unMember": true,
+  "lat": -18.912,
+  "lng": 29.925
+ }
+]

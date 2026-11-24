@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "customConditions": []
+  },
+  "include": ["./**/*.ts", "../src/data/types.ts"],
+  "exclude": ["./.cache"]
+}
