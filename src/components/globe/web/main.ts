@@ -22,7 +22,15 @@ declare const __WORKER_SRC__: string;
 type GlobeData = {
   borders: FeatureCollection;
   cities: FeatureCollection;
+  /** Точки підписів країн: iso2, uk, en, z (наближення, з якого видно) */
+  labels: FeatureCollection;
+  /** Шрифт підписів (data: URL) — текст малюється локально, без сервера гліфів */
+  fontUrl: string;
 };
+
+const LABEL_FONT = 'Goldmap Inter';
+/** Наш глобус ближчий за веб-карту, для якої задано MIN_LABEL, — показуємо назви трохи раніше. */
+const LABEL_ZOOM_SHIFT = 1;
 
 declare global {
   interface Window {
@@ -66,11 +74,13 @@ const map = new MapLibreMap({
   style: {
     version: 8,
     projection: { type: 'globe' },
+    'font-faces': { [LABEL_FONT]: data.fontUrl },
     // Вбудована атмосфера MapLibre фізично блакитна — вимикаємо, золоте світіння дає #halo.
     sky: { 'atmosphere-blend': 0 },
     sources: {
       countries: { type: 'geojson', data: data.borders, promoteId: 'iso2' },
       cities: { type: 'geojson', data: data.cities },
+      labels: { type: 'geojson', data: data.labels },
     },
     layers: [
       { id: 'ocean', type: 'background', paint: { 'background-color': colors.ocean } },
@@ -111,6 +121,19 @@ const map = new MapLibreMap({
         },
       },
       {
+        // Між відвіданими сусідами золотий контур зливається із золотою заливкою —
+        // поверх золота кордон малюємо темним пунктиром.
+        id: 'countries-line-visited',
+        type: 'line',
+        source: 'countries',
+        paint: {
+          'line-color': colors.borderOnGold,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 1, 0.6, 6, 1.4],
+          'line-dasharray': [2, 2],
+          'line-opacity': ['to-number', ['coalesce', ['feature-state', 'fill'], 0]],
+        },
+      },
+      {
         id: 'cities',
         type: 'circle',
         source: 'cities',
@@ -124,6 +147,28 @@ const map = new MapLibreMap({
           'circle-stroke-color': colors.bg,
           'circle-stroke-width': 1,
           'circle-pitch-alignment': 'map',
+        },
+      },
+      {
+        id: 'country-labels',
+        type: 'symbol',
+        source: 'labels',
+        // Великі країни видно одразу, малі — з наближенням (Natural Earth MIN_LABEL).
+        filter: ['>=', ['zoom'], ['-', ['get', 'z'], LABEL_ZOOM_SHIFT]],
+        layout: {
+          'text-field': ['get', 'uk'],
+          'text-font': [LABEL_FONT],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 1, 9, 4, 12, 7, 15],
+          'text-transform': 'uppercase',
+          'text-letter-spacing': 0.08,
+          'text-max-width': 7,
+          'text-padding': 4,
+        },
+        paint: {
+          'text-color': colors.text,
+          'text-halo-color': colors.bg,
+          'text-halo-width': 1.2,
+          'text-halo-blur': 0.4,
         },
       },
     ],
@@ -270,6 +315,9 @@ window[WEB_RECEIVER] = (message: ToWebMessage) => {
     case 'setCountries':
       fills.setVisited(new Set(message.visited));
       applyPlanned(new Set(message.planned));
+      break;
+    case 'setLanguage':
+      map.setLayoutProperty('country-labels', 'text-field', ['get', message.lang]);
       break;
     case 'setAutoRotate':
       rotateEnabled = message.enabled;

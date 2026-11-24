@@ -19,6 +19,10 @@ export const CONTINENT_OVERRIDES: Record<string, Continent> = {
 /** Коротші або прийняті в Україні назви замість довгих форм із Natural Earth. */
 export const NAME_OVERRIDES: Record<string, Partial<LocalizedName>> = {
   TW: { uk: 'Тайвань' },
+  CN: { uk: 'Китай', en: 'China' }, // NE: «Китайська Народна Республіка»
+  ZA: { uk: 'ПАР' }, // NE: «Південно-Африканська Республіка»
+  CD: { uk: 'ДР Конго', en: 'DR Congo' },
+  FM: { en: 'Micronesia' }, // NE: «Federated States of Micronesia»
   KP: { uk: 'Північна Корея' },
   US: { uk: 'США', en: 'United States' },
   CZ: { en: 'Czechia' },

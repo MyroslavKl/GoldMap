@@ -20,6 +20,8 @@ export type Country = {
   /** Центр для камери глобуса */
   lat: number;
   lng: number;
+  /** Наближення, з якого на глобусі видно назву (Natural Earth MIN_LABEL) */
+  labelZoom: number;
 };
 
 export type City = {

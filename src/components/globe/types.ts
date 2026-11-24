@@ -11,6 +11,8 @@ export type GlobeViewProps = {
   planned?: readonly string[];
   /** Повільне обертання (~3°/с), зупиняється при першому дотику. За замовчуванням true */
   autoRotate?: boolean;
+  /** Мова назв країн на глобусі. За замовчуванням 'en' */
+  language?: 'uk' | 'en';
   /** Тап по країні */
   onCountryPress?: (iso2: string) => void;
   /** Користувач торкнувся глобуса (обертання зупинилось) */

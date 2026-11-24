@@ -76,6 +76,7 @@ type NeCountry = {
   LABEL_X: number;
   LABEL_Y: number;
   POP_EST: number;
+  MIN_LABEL: number;
 };
 
 type NePlace = {
@@ -241,6 +242,7 @@ async function main() {
       unMember: unMembers.has(iso2),
       lat: round(p.LABEL_Y, 3),
       lng: round(p.LABEL_X, 3),
+      labelZoom: p.MIN_LABEL,
     });
     if (!p.NAME_UK && !NAME_OVERRIDES[iso2]?.uk) problems.push(`${iso2}: немає назви uk`);
   }

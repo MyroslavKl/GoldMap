@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 
 import { build } from 'esbuild';
 
-import type { City } from '../src/data/types.ts';
+import type { City, Country } from '../src/data/types.ts';
 import { colors } from '../src/theme/colors.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -63,6 +63,28 @@ async function main() {
     })),
   };
 
+  // Назви країн: точка підпису + назви uk/en + наближення, з якого видно.
+  const countries = JSON.parse(
+    readFileSync(join(ROOT, 'src', 'data', 'countries.json'), 'utf8'),
+  ) as Country[];
+  const labelsGeo = {
+    type: 'FeatureCollection',
+    features: countries.map((c) => ({
+      type: 'Feature',
+      properties: { iso2: c.iso2, uk: c.name.uk, en: c.name.en, z: c.labelZoom },
+      geometry: { type: 'Point', coordinates: [c.lng, c.lat] },
+    })),
+  };
+
+  // Шрифт підписів вшиваємо як data: URL — MapLibre малює текст локально (style `font-faces`),
+  // сервер гліфів не потрібен. Inter, кирилиця + латиниця.
+  const fontPath = join(
+    dirname(require.resolve('@expo-google-fonts/inter/package.json')),
+    '500Medium',
+    'Inter_500Medium.ttf',
+  );
+  const fontUrl = `data:font/ttf;base64,${readFileSync(fontPath).toString('base64')}`;
+
   const html = `<!doctype html>
 <html><head>
 <meta charset="utf-8">
@@ -73,7 +95,7 @@ html,body,#map{margin:0;padding:0;width:100%;height:100%;overflow:hidden;backgro
 </style>
 </head><body>
 <div id="map"></div><div id="halo"></div>
-<script>window.__GM_DATA__={borders:${scriptSafe(borders)},cities:${scriptSafe(JSON.stringify(citiesGeo))}};</script>
+<script>window.__GM_DATA__={borders:${scriptSafe(borders)},cities:${scriptSafe(JSON.stringify(citiesGeo))},labels:${scriptSafe(JSON.stringify(labelsGeo))},fontUrl:${JSON.stringify(fontUrl)}};</script>
 <script>${scriptSafe(js)}</script>
 </body></html>`;
 

@@ -7,6 +7,7 @@
 export type ToWebMessage =
   | { type: 'setCountries'; visited: string[]; planned: string[] }
   | { type: 'setAutoRotate'; enabled: boolean }
+  | { type: 'setLanguage'; lang: 'uk' | 'en' }
   | { type: 'flyTo'; lat: number; lng: number; zoom: number };
 
 /** WebView → React Native */

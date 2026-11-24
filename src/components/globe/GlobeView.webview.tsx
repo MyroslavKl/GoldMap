@@ -26,6 +26,7 @@ export function GlobeView({
   visited,
   planned = [],
   autoRotate = true,
+  language = 'en',
   onCountryPress,
   onInteraction,
   onReady,
@@ -77,6 +78,10 @@ export function GlobeView({
   useEffect(() => {
     if (ready) send({ type: 'setAutoRotate', enabled: autoRotate });
   }, [ready, autoRotate, send]);
+
+  useEffect(() => {
+    if (ready) send({ type: 'setLanguage', lang: language });
+  }, [ready, language, send]);
 
   const onMessage = useCallback(
     (event: WebViewMessageEvent) => {

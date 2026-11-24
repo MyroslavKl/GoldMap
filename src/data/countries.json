@@ -15,7 +15,8 @@
   "flag": "🇦🇩",
   "unMember": true,
   "lat": 42.548,
-  "lng": 1.539
+  "lng": 1.539,
+  "labelZoom": 5
  },
  {
   "iso2": "AE",
@@ -33,7 +34,8 @@
   "flag": "🇦🇪",
   "unMember": true,
   "lat": 23.466,
-  "lng": 54.547
+  "lng": 54.547,
+  "labelZoom": 4
  },
  {
   "iso2": "AF",
@@ -51,7 +53,8 @@
   "flag": "🇦🇫",
   "unMember": true,
   "lat": 34.164,
-  "lng": 66.497
+  "lng": 66.497,
+  "labelZoom": 3
  },
  {
   "iso2": "AG",
@@ -69,7 +72,8 @@
   "flag": "🇦🇬",
   "unMember": true,
   "lat": 17.352,
-  "lng": -61.791
+  "lng": -61.791,
+  "labelZoom": 5
  },
  {
   "iso2": "AI",
@@ -87,7 +91,8 @@
   "flag": "🇦🇮",
   "unMember": false,
   "lat": 18.243,
-  "lng": -63.026
+  "lng": -63.026,
+  "labelZoom": 5
  },
  {
   "iso2": "AL",
@@ -105,7 +110,8 @@
   "flag": "🇦🇱",
   "unMember": true,
   "lat": 40.655,
-  "lng": 20.114
+  "lng": 20.114,
+  "labelZoom": 5
  },
  {
   "iso2": "AM",
@@ -123,7 +129,8 @@
   "flag": "🇦🇲",
   "unMember": true,
   "lat": 40.459,
-  "lng": 44.801
+  "lng": 44.801,
+  "labelZoom": 5
  },
  {
   "iso2": "AO",
@@ -141,7 +148,8 @@
   "flag": "🇦🇴",
   "unMember": true,
   "lat": -12.183,
-  "lng": 17.984
+  "lng": 17.984,
+  "labelZoom": 3
  },
  {
   "iso2": "AQ",
@@ -156,7 +164,8 @@
   "flag": "🇦🇶",
   "unMember": false,
   "lat": -79.843,
-  "lng": 35.885
+  "lng": 35.885,
+  "labelZoom": 4
  },
  {
   "iso2": "AR",
@@ -174,7 +183,8 @@
   "flag": "🇦🇷",
   "unMember": true,
   "lat": -33.501,
-  "lng": -64.173
+  "lng": -64.173,
+  "labelZoom": 2
  },
  {
   "iso2": "AS",
@@ -192,7 +202,8 @@
   "flag": "🇦🇸",
   "unMember": false,
   "lat": -14.327,
-  "lng": -170.747
+  "lng": -170.747,
+  "labelZoom": 4
  },
  {
   "iso2": "AT",
@@ -210,7 +221,8 @@
   "flag": "🇦🇹",
   "unMember": true,
   "lat": 47.519,
-  "lng": 14.131
+  "lng": 14.131,
+  "labelZoom": 3
  },
  {
   "iso2": "AU",
@@ -228,7 +240,8 @@
   "flag": "🇦🇺",
   "unMember": true,
   "lat": -24.13,
-  "lng": 134.05
+  "lng": 134.05,
+  "labelZoom": 1.7
  },
  {
   "iso2": "AW",
@@ -246,7 +259,8 @@
   "flag": "🇦🇼",
   "unMember": false,
   "lat": 12.517,
-  "lng": -69.973
+  "lng": -69.973,
+  "labelZoom": 5
  },
  {
   "iso2": "AX",
@@ -264,7 +278,8 @@
   "flag": "🇦🇽",
   "unMember": false,
   "lat": 60.156,
-  "lng": 19.87
+  "lng": 19.87,
+  "labelZoom": 5
  },
  {
   "iso2": "AZ",
@@ -282,7 +297,8 @@
   "flag": "🇦🇿",
   "unMember": true,
   "lat": 40.402,
-  "lng": 47.211
+  "lng": 47.211,
+  "labelZoom": 4
  },
  {
   "iso2": "BA",
@@ -300,7 +316,8 @@
   "flag": "🇧🇦",
   "unMember": true,
   "lat": 44.091,
-  "lng": 18.068
+  "lng": 18.068,
+  "labelZoom": 4.5
  },
  {
   "iso2": "BB",
@@ -318,7 +335,8 @@
   "flag": "🇧🇧",
   "unMember": true,
   "lat": 13.164,
-  "lng": -59.569
+  "lng": -59.569,
+  "labelZoom": 4.5
  },
  {
   "iso2": "BD",
@@ -336,7 +354,8 @@
   "flag": "🇧🇩",
   "unMember": true,
   "lat": 24.215,
-  "lng": 89.685
+  "lng": 89.685,
+  "labelZoom": 3
  },
  {
   "iso2": "BE",
@@ -354,7 +373,8 @@
   "flag": "🇧🇪",
   "unMember": true,
   "lat": 50.785,
-  "lng": 4.8
+  "lng": 4.8,
+  "labelZoom": 4
  },
  {
   "iso2": "BF",
@@ -372,7 +392,8 @@
   "flag": "🇧🇫",
   "unMember": true,
   "lat": 12.673,
-  "lng": -1.364
+  "lng": -1.364,
+  "labelZoom": 3
  },
  {
   "iso2": "BG",
@@ -390,7 +411,8 @@
   "flag": "🇧🇬",
   "unMember": true,
   "lat": 42.509,
-  "lng": 25.157
+  "lng": 25.157,
+  "labelZoom": 4
  },
  {
   "iso2": "BH",
@@ -408,7 +430,8 @@
   "flag": "🇧🇭",
   "unMember": true,
   "lat": 26.056,
-  "lng": 50.555
+  "lng": 50.555,
+  "labelZoom": 4
  },
  {
   "iso2": "BI",
@@ -426,7 +449,8 @@
   "flag": "🇧🇮",
   "unMember": true,
   "lat": -3.333,
-  "lng": 29.917
+  "lng": 29.917,
+  "labelZoom": 4
  },
  {
   "iso2": "BJ",
@@ -444,7 +468,8 @@
   "flag": "🇧🇯",
   "unMember": true,
   "lat": 10.325,
-  "lng": 2.352
+  "lng": 2.352,
+  "labelZoom": 4
  },
  {
   "iso2": "BL",
@@ -462,7 +487,8 @@
   "flag": "🇧🇱",
   "unMember": false,
   "lat": 17.902,
-  "lng": -62.833
+  "lng": -62.833,
+  "labelZoom": 5.7
  },
  {
   "iso2": "BM",
@@ -480,7 +506,8 @@
   "flag": "🇧🇲",
   "unMember": false,
   "lat": 32.297,
-  "lng": -64.764
+  "lng": -64.764,
+  "labelZoom": 4
  },
  {
   "iso2": "BN",
@@ -498,7 +525,8 @@
   "flag": "🇧🇳",
   "unMember": true,
   "lat": 4.448,
-  "lng": 114.552
+  "lng": 114.552,
+  "labelZoom": 4
  },
  {
   "iso2": "BO",
@@ -516,7 +544,8 @@
   "flag": "🇧🇴",
   "unMember": true,
   "lat": -16.666,
-  "lng": -64.593
+  "lng": -64.593,
+  "labelZoom": 3
  },
  {
   "iso2": "BR",
@@ -534,7 +563,8 @@
   "flag": "🇧🇷",
   "unMember": true,
   "lat": -12.099,
-  "lng": -49.559
+  "lng": -49.559,
+  "labelZoom": 1.7
  },
  {
   "iso2": "BS",
@@ -552,7 +582,8 @@
   "flag": "🇧🇸",
   "unMember": true,
   "lat": 26.402,
-  "lng": -77.147
+  "lng": -77.147,
+  "labelZoom": 4
  },
  {
   "iso2": "BT",
@@ -570,7 +601,8 @@
   "flag": "🇧🇹",
   "unMember": true,
   "lat": 27.537,
-  "lng": 90.04
+  "lng": 90.04,
+  "labelZoom": 4
  },
  {
   "iso2": "BW",
@@ -588,7 +620,8 @@
   "flag": "🇧🇼",
   "unMember": true,
   "lat": -22.103,
-  "lng": 24.179
+  "lng": 24.179,
+  "labelZoom": 4
  },
  {
   "iso2": "BY",
@@ -606,7 +639,8 @@
   "flag": "🇧🇾",
   "unMember": true,
   "lat": 53.822,
-  "lng": 28.418
+  "lng": 28.418,
+  "labelZoom": 3
  },
  {
   "iso2": "BZ",
@@ -624,7 +658,8 @@
   "flag": "🇧🇿",
   "unMember": true,
   "lat": 17.202,
-  "lng": -88.713
+  "lng": -88.713,
+  "labelZoom": 5
  },
  {
   "iso2": "CA",
@@ -642,14 +677,15 @@
   "flag": "🇨🇦",
   "unMember": true,
   "lat": 60.324,
-  "lng": -101.911
+  "lng": -101.911,
+  "labelZoom": 1.7
  },
  {
   "iso2": "CD",
   "iso3": "COD",
   "name": {
-   "uk": "Демократична Республіка Конго",
-   "en": "Democratic Republic of the Congo"
+   "uk": "ДР Конго",
+   "en": "DR Congo"
   },
   "capital": {
    "uk": "Кіншаса",
@@ -660,7 +696,8 @@
   "flag": "🇨🇩",
   "unMember": true,
   "lat": -1.858,
-  "lng": 23.459
+  "lng": 23.459,
+  "labelZoom": 2
  },
  {
   "iso2": "CF",
@@ -678,7 +715,8 @@
   "flag": "🇨🇫",
   "unMember": true,
   "lat": 6.99,
-  "lng": 20.907
+  "lng": 20.907,
+  "labelZoom": 4
  },
  {
   "iso2": "CG",
@@ -696,7 +734,8 @@
   "flag": "🇨🇬",
   "unMember": true,
   "lat": 0.142,
-  "lng": 15.901
+  "lng": 15.901,
+  "labelZoom": 4
  },
  {
   "iso2": "CH",
@@ -714,7 +753,8 @@
   "flag": "🇨🇭",
   "unMember": true,
   "lat": 46.719,
-  "lng": 7.464
+  "lng": 7.464,
+  "labelZoom": 4
  },
  {
   "iso2": "CI",
@@ -732,7 +772,8 @@
   "flag": "🇨🇮",
   "unMember": true,
   "lat": 7.491,
-  "lng": -5.569
+  "lng": -5.569,
+  "labelZoom": 2.5
  },
  {
   "iso2": "CK",
@@ -750,7 +791,8 @@
   "flag": "🇨🇰",
   "unMember": false,
   "lat": -21.216,
-  "lng": -159.786
+  "lng": -159.786,
+  "labelZoom": 4
  },
  {
   "iso2": "CL",
@@ -768,7 +810,8 @@
   "flag": "🇨🇱",
   "unMember": true,
   "lat": -38.152,
-  "lng": -72.319
+  "lng": -72.319,
+  "labelZoom": 1.7
  },
  {
   "iso2": "CM",
@@ -786,14 +829,15 @@
   "flag": "🇨🇲",
   "unMember": true,
   "lat": 4.585,
-  "lng": 12.473
+  "lng": 12.473,
+  "labelZoom": 3
  },
  {
   "iso2": "CN",
   "iso3": "CHN",
   "name": {
-   "uk": "Китайська Народна Республіка",
-   "en": "People's Republic of China"
+   "uk": "Китай",
+   "en": "China"
   },
   "capital": {
    "uk": "Пекін",
@@ -804,7 +848,8 @@
   "flag": "🇨🇳",
   "unMember": true,
   "lat": 32.498,
-  "lng": 106.337
+  "lng": 106.337,
+  "labelZoom": 1.7
  },
  {
   "iso2": "CO",
@@ -822,7 +867,8 @@
   "flag": "🇨🇴",
   "unMember": true,
   "lat": 3.373,
-  "lng": -73.174
+  "lng": -73.174,
+  "labelZoom": 3
  },
  {
   "iso2": "CR",
@@ -840,7 +886,8 @@
   "flag": "🇨🇷",
   "unMember": true,
   "lat": 10.065,
-  "lng": -84.078
+  "lng": -84.078,
+  "labelZoom": 2.5
  },
  {
   "iso2": "CU",
@@ -858,7 +905,8 @@
   "flag": "🇨🇺",
   "unMember": true,
   "lat": 21.334,
-  "lng": -77.976
+  "lng": -77.976,
+  "labelZoom": 2.7
  },
  {
   "iso2": "CV",
@@ -876,7 +924,8 @@
   "flag": "🇨🇻",
   "unMember": true,
   "lat": 15.075,
-  "lng": -23.639
+  "lng": -23.639,
+  "labelZoom": 4
  },
  {
   "iso2": "CW",
@@ -894,7 +943,8 @@
   "flag": "🇨🇼",
   "unMember": false,
   "lat": 12.145,
-  "lng": -68.921
+  "lng": -68.921,
+  "labelZoom": 5
  },
  {
   "iso2": "CY",
@@ -912,7 +962,8 @@
   "flag": "🇨🇾",
   "unMember": true,
   "lat": 34.913,
-  "lng": 33.084
+  "lng": 33.084,
+  "labelZoom": 4.5
  },
  {
   "iso2": "CZ",
@@ -930,7 +981,8 @@
   "flag": "🇨🇿",
   "unMember": true,
   "lat": 49.882,
-  "lng": 15.378
+  "lng": 15.378,
+  "labelZoom": 4
  },
  {
   "iso2": "DE",
@@ -948,7 +1000,8 @@
   "flag": "🇩🇪",
   "unMember": true,
   "lat": 50.962,
-  "lng": 9.678
+  "lng": 9.678,
+  "labelZoom": 1.7
  },
  {
   "iso2": "DJ",
@@ -966,7 +1019,8 @@
   "flag": "🇩🇯",
   "unMember": true,
   "lat": 11.976,
-  "lng": 42.499
+  "lng": 42.499,
+  "labelZoom": 4
  },
  {
   "iso2": "DK",
@@ -984,7 +1038,8 @@
   "flag": "🇩🇰",
   "unMember": true,
   "lat": 55.967,
-  "lng": 9.018
+  "lng": 9.018,
+  "labelZoom": 3
  },
  {
   "iso2": "DM",
@@ -1002,7 +1057,8 @@
   "flag": "🇩🇲",
   "unMember": true,
   "lat": 15.459,
-  "lng": -61.345
+  "lng": -61.345,
+  "labelZoom": 4
  },
  {
   "iso2": "DO",
@@ -1020,7 +1076,8 @@
   "flag": "🇩🇴",
   "unMember": true,
   "lat": 19.104,
-  "lng": -70.654
+  "lng": -70.654,
+  "labelZoom": 4.5
  },
  {
   "iso2": "DZ",
@@ -1038,7 +1095,8 @@
   "flag": "🇩🇿",
   "unMember": true,
   "lat": 27.397,
-  "lng": 2.808
+  "lng": 2.808,
+  "labelZoom": 2.5
  },
  {
   "iso2": "EC",
@@ -1056,7 +1114,8 @@
   "flag": "🇪🇨",
   "unMember": true,
   "lat": -1.259,
-  "lng": -78.188
+  "lng": -78.188,
+  "labelZoom": 3
  },
  {
   "iso2": "EE",
@@ -1074,7 +1133,8 @@
   "flag": "🇪🇪",
   "unMember": true,
   "lat": 58.725,
-  "lng": 25.867
+  "lng": 25.867,
+  "labelZoom": 3
  },
  {
   "iso2": "EG",
@@ -1092,7 +1152,8 @@
   "flag": "🇪🇬",
   "unMember": true,
   "lat": 26.186,
-  "lng": 29.446
+  "lng": 29.446,
+  "labelZoom": 1.7
  },
  {
   "iso2": "EH",
@@ -1110,7 +1171,8 @@
   "flag": "🇪🇭",
   "unMember": false,
   "lat": 23.968,
-  "lng": -12.63
+  "lng": -12.63,
+  "labelZoom": 6
  },
  {
   "iso2": "ER",
@@ -1128,7 +1190,8 @@
   "flag": "🇪🇷",
   "unMember": true,
   "lat": 15.787,
-  "lng": 38.286
+  "lng": 38.286,
+  "labelZoom": 4
  },
  {
   "iso2": "ES",
@@ -1146,7 +1209,8 @@
   "flag": "🇪🇸",
   "unMember": true,
   "lat": 40.091,
-  "lng": -3.465
+  "lng": -3.465,
+  "labelZoom": 2
  },
  {
   "iso2": "ET",
@@ -1164,7 +1228,8 @@
   "flag": "🇪🇹",
   "unMember": true,
   "lat": 8.033,
-  "lng": 39.089
+  "lng": 39.089,
+  "labelZoom": 2
  },
  {
   "iso2": "FI",
@@ -1182,7 +1247,8 @@
   "flag": "🇫🇮",
   "unMember": true,
   "lat": 63.252,
-  "lng": 27.276
+  "lng": 27.276,
+  "labelZoom": 3
  },
  {
   "iso2": "FJ",
@@ -1200,7 +1266,8 @@
   "flag": "🇫🇯",
   "unMember": true,
   "lat": -17.826,
-  "lng": 177.975
+  "lng": 177.975,
+  "labelZoom": 3
  },
  {
   "iso2": "FK",
@@ -1218,14 +1285,15 @@
   "flag": "🇫🇰",
   "unMember": false,
   "lat": -51.609,
-  "lng": -58.739
+  "lng": -58.739,
+  "labelZoom": 4.5
  },
  {
   "iso2": "FM",
   "iso3": "FSM",
   "name": {
    "uk": "Мікронезія",
-   "en": "Federated States of Micronesia"
+   "en": "Micronesia"
   },
   "capital": {
    "uk": "Палікір",
@@ -1236,7 +1304,8 @@
   "flag": "🇫🇲",
   "unMember": true,
   "lat": 6.888,
-  "lng": 158.234
+  "lng": 158.234,
+  "labelZoom": 5
  },
  {
   "iso2": "FO",
@@ -1254,7 +1323,8 @@
   "flag": "🇫🇴",
   "unMember": false,
   "lat": 62.186,
-  "lng": -7.058
+  "lng": -7.058,
+  "labelZoom": 4
  },
  {
   "iso2": "FR",
@@ -1272,7 +1342,8 @@
   "flag": "🇫🇷",
   "unMember": true,
   "lat": 46.696,
-  "lng": 2.552
+  "lng": 2.552,
+  "labelZoom": 1.7
  },
  {
   "iso2": "GA",
@@ -1290,7 +1361,8 @@
   "flag": "🇬🇦",
   "unMember": true,
   "lat": -0.438,
-  "lng": 11.836
+  "lng": 11.836,
+  "labelZoom": 3
  },
  {
   "iso2": "GB",
@@ -1308,7 +1380,8 @@
   "flag": "🇬🇧",
   "unMember": true,
   "lat": 54.403,
-  "lng": -2.116
+  "lng": -2.116,
+  "labelZoom": 1.7
  },
  {
   "iso2": "GD",
@@ -1326,7 +1399,8 @@
   "flag": "🇬🇩",
   "unMember": true,
   "lat": 12.113,
-  "lng": -61.68
+  "lng": -61.68,
+  "labelZoom": 4
  },
  {
   "iso2": "GE",
@@ -1344,7 +1418,8 @@
   "flag": "🇬🇪",
   "unMember": true,
   "lat": 41.87,
-  "lng": 43.736
+  "lng": 43.736,
+  "labelZoom": 4
  },
  {
   "iso2": "GG",
@@ -1362,7 +1437,8 @@
   "flag": "🇬🇬",
   "unMember": false,
   "lat": 49.464,
-  "lng": -2.562
+  "lng": -2.562,
+  "labelZoom": 5
  },
  {
   "iso2": "GH",
@@ -1380,7 +1456,8 @@
   "flag": "🇬🇭",
   "unMember": true,
   "lat": 7.718,
-  "lng": -1.037
+  "lng": -1.037,
+  "labelZoom": 2.7
  },
  {
   "iso2": "GI",
@@ -1398,7 +1475,8 @@
   "flag": "🇬🇮",
   "unMember": false,
   "lat": 36.129,
-  "lng": -5.347
+  "lng": -5.347,
+  "labelZoom": 5
  },
  {
   "iso2": "GL",
@@ -1416,7 +1494,8 @@
   "flag": "🇬🇱",
   "unMember": false,
   "lat": 74.319,
-  "lng": -39.335
+  "lng": -39.335,
+  "labelZoom": 1.7
  },
  {
   "iso2": "GM",
@@ -1434,7 +1513,8 @@
   "flag": "🇬🇲",
   "unMember": true,
   "lat": 13.642,
-  "lng": -14.998
+  "lng": -14.998,
+  "labelZoom": 5
  },
  {
   "iso2": "GN",
@@ -1452,7 +1532,8 @@
   "flag": "🇬🇳",
   "unMember": true,
   "lat": 10.619,
-  "lng": -10.016
+  "lng": -10.016,
+  "labelZoom": 3
  },
  {
   "iso2": "GQ",
@@ -1470,7 +1551,8 @@
   "flag": "🇬🇶",
   "unMember": true,
   "lat": 2.333,
-  "lng": 8.99
+  "lng": 8.99,
+  "labelZoom": 4
  },
  {
   "iso2": "GR",
@@ -1488,7 +1570,8 @@
   "flag": "🇬🇷",
   "unMember": true,
   "lat": 39.493,
-  "lng": 21.726
+  "lng": 21.726,
+  "labelZoom": 2.7
  },
  {
   "iso2": "GS",
@@ -1506,7 +1589,8 @@
   "flag": "🇬🇸",
   "unMember": false,
   "lat": -55.683,
-  "lng": -31.063
+  "lng": -31.063,
+  "labelZoom": 5
  },
  {
   "iso2": "GT",
@@ -1524,7 +1608,8 @@
   "flag": "🇬🇹",
   "unMember": true,
   "lat": 14.982,
-  "lng": -90.497
+  "lng": -90.497,
+  "labelZoom": 3
  },
  {
   "iso2": "GU",
@@ -1542,7 +1627,8 @@
   "flag": "🇬🇺",
   "unMember": false,
   "lat": 13.354,
-  "lng": 144.704
+  "lng": 144.704,
+  "labelZoom": 3
  },
  {
   "iso2": "GW",
@@ -1560,7 +1646,8 @@
   "flag": "🇬🇼",
   "unMember": true,
   "lat": 12.164,
-  "lng": -14.524
+  "lng": -14.524,
+  "labelZoom": 5
  },
  {
   "iso2": "GY",
@@ -1578,7 +1665,8 @@
   "flag": "🇬🇾",
   "unMember": true,
   "lat": 5.124,
-  "lng": -58.943
+  "lng": -58.943,
+  "labelZoom": 4
  },
  {
   "iso2": "HK",
@@ -1596,7 +1684,8 @@
   "flag": "🇭🇰",
   "unMember": false,
   "lat": 22.449,
-  "lng": 114.098
+  "lng": 114.098,
+  "labelZoom": 4
  },
  {
   "iso2": "HM",
@@ -1611,7 +1700,8 @@
   "flag": "🇭🇲",
   "unMember": false,
   "lat": -53.103,
-  "lng": 73.505
+  "lng": 73.505,
+  "labelZoom": 4.5
  },
  {
   "iso2": "HN",
@@ -1629,7 +1719,8 @@
   "flag": "🇭🇳",
   "unMember": true,
   "lat": 14.795,
-  "lng": -86.888
+  "lng": -86.888,
+  "labelZoom": 4.5
  },
  {
   "iso2": "HR",
@@ -1647,7 +1738,8 @@
   "flag": "🇭🇷",
   "unMember": true,
   "lat": 45.806,
-  "lng": 16.372
+  "lng": 16.372,
+  "labelZoom": 4
  },
  {
   "iso2": "HT",
@@ -1665,7 +1757,8 @@
   "flag": "🇭🇹",
   "unMember": true,
   "lat": 19.264,
-  "lng": -72.224
+  "lng": -72.224,
+  "labelZoom": 4
  },
  {
   "iso2": "HU",
@@ -1683,7 +1776,8 @@
   "flag": "🇭🇺",
   "unMember": true,
   "lat": 47.087,
-  "lng": 19.448
+  "lng": 19.448,
+  "labelZoom": 4
  },
  {
   "iso2": "ID",
@@ -1701,7 +1795,8 @@
   "flag": "🇮🇩",
   "unMember": true,
   "lat": -0.954,
-  "lng": 101.893
+  "lng": 101.893,
+  "labelZoom": 1.7
  },
  {
   "iso2": "IE",
@@ -1719,7 +1814,8 @@
   "flag": "🇮🇪",
   "unMember": true,
   "lat": 53.079,
-  "lng": -7.799
+  "lng": -7.799,
+  "labelZoom": 3
  },
  {
   "iso2": "IL",
@@ -1737,7 +1833,8 @@
   "flag": "🇮🇱",
   "unMember": true,
   "lat": 30.911,
-  "lng": 34.848
+  "lng": 34.848,
+  "labelZoom": 3
  },
  {
   "iso2": "IM",
@@ -1755,7 +1852,8 @@
   "flag": "🇮🇲",
   "unMember": false,
   "lat": 54.221,
-  "lng": -4.53
+  "lng": -4.53,
+  "labelZoom": 5
  },
  {
   "iso2": "IN",
@@ -1773,7 +1871,8 @@
   "flag": "🇮🇳",
   "unMember": true,
   "lat": 22.687,
-  "lng": 79.358
+  "lng": 79.358,
+  "labelZoom": 1.7
  },
  {
   "iso2": "IO",
@@ -1791,7 +1890,8 @@
   "flag": "🇮🇴",
   "unMember": false,
   "lat": -6.191,
-  "lng": 71.348
+  "lng": 71.348,
+  "labelZoom": 5
  },
  {
   "iso2": "IQ",
@@ -1809,7 +1909,8 @@
   "flag": "🇮🇶",
   "unMember": true,
   "lat": 33.094,
-  "lng": 43.262
+  "lng": 43.262,
+  "labelZoom": 3
  },
  {
   "iso2": "IR",
@@ -1827,7 +1928,8 @@
   "flag": "🇮🇷",
   "unMember": true,
   "lat": 32.166,
-  "lng": 54.931
+  "lng": 54.931,
+  "labelZoom": 2.5
  },
  {
   "iso2": "IS",
@@ -1845,7 +1947,8 @@
   "flag": "🇮🇸",
   "unMember": true,
   "lat": 64.779,
-  "lng": -18.674
+  "lng": -18.674,
+  "labelZoom": 2
  },
  {
   "iso2": "IT",
@@ -1863,7 +1966,8 @@
   "flag": "🇮🇹",
   "unMember": true,
   "lat": 44.732,
-  "lng": 11.077
+  "lng": 11.077,
+  "labelZoom": 2
  },
  {
   "iso2": "JE",
@@ -1881,7 +1985,8 @@
   "flag": "🇯🇪",
   "unMember": false,
   "lat": 49.221,
-  "lng": -2.09
+  "lng": -2.09,
+  "labelZoom": 5
  },
  {
   "iso2": "JM",
@@ -1899,7 +2004,8 @@
   "flag": "🇯🇲",
   "unMember": true,
   "lat": 18.137,
-  "lng": -77.319
+  "lng": -77.319,
+  "labelZoom": 4
  },
  {
   "iso2": "JO",
@@ -1917,7 +2023,8 @@
   "flag": "🇯🇴",
   "unMember": true,
   "lat": 30.805,
-  "lng": 36.376
+  "lng": 36.376,
+  "labelZoom": 4
  },
  {
   "iso2": "JP",
@@ -1935,7 +2042,8 @@
   "flag": "🇯🇵",
   "unMember": true,
   "lat": 36.143,
-  "lng": 138.442
+  "lng": 138.442,
+  "labelZoom": 1.7
  },
  {
   "iso2": "KE",
@@ -1953,7 +2061,8 @@
   "flag": "🇰🇪",
   "unMember": true,
   "lat": 0.549,
-  "lng": 37.908
+  "lng": 37.908,
+  "labelZoom": 1.7
  },
  {
   "iso2": "KG",
@@ -1971,7 +2080,8 @@
   "flag": "🇰🇬",
   "unMember": true,
   "lat": 41.669,
-  "lng": 74.533
+  "lng": 74.533,
+  "labelZoom": 3
  },
  {
   "iso2": "KH",
@@ -1989,7 +2099,8 @@
   "flag": "🇰🇭",
   "unMember": true,
   "lat": 12.648,
-  "lng": 104.505
+  "lng": 104.505,
+  "labelZoom": 3
  },
  {
   "iso2": "KI",
@@ -2007,7 +2118,8 @@
   "flag": "🇰🇮",
   "unMember": true,
   "lat": 1.82,
-  "lng": -157.385
+  "lng": -157.385,
+  "labelZoom": 5
  },
  {
   "iso2": "KM",
@@ -2025,7 +2137,8 @@
   "flag": "🇰🇲",
   "unMember": true,
   "lat": -11.728,
-  "lng": 43.318
+  "lng": 43.318,
+  "labelZoom": 4
  },
  {
   "iso2": "KN",
@@ -2043,7 +2156,8 @@
   "flag": "🇰🇳",
   "unMember": true,
   "lat": 17.337,
-  "lng": -62.758
+  "lng": -62.758,
+  "labelZoom": 5
  },
  {
   "iso2": "KP",
@@ -2061,7 +2175,8 @@
   "flag": "🇰🇵",
   "unMember": true,
   "lat": 39.885,
-  "lng": 126.445
+  "lng": 126.445,
+  "labelZoom": 3
  },
  {
   "iso2": "KR",
@@ -2079,7 +2194,8 @@
   "flag": "🇰🇷",
   "unMember": true,
   "lat": 36.385,
-  "lng": 128.13
+  "lng": 128.13,
+  "labelZoom": 2.5
  },
  {
   "iso2": "KW",
@@ -2097,7 +2213,8 @@
   "flag": "🇰🇼",
   "unMember": true,
   "lat": 29.414,
-  "lng": 47.314
+  "lng": 47.314,
+  "labelZoom": 5
  },
  {
   "iso2": "KY",
@@ -2115,7 +2232,8 @@
   "flag": "🇰🇾",
   "unMember": false,
   "lat": 19.32,
-  "lng": -81.241
+  "lng": -81.241,
+  "labelZoom": 5
  },
  {
   "iso2": "KZ",
@@ -2133,7 +2251,8 @@
   "flag": "🇰🇿",
   "unMember": true,
   "lat": 49.054,
-  "lng": 68.686
+  "lng": 68.686,
+  "labelZoom": 2.7
  },
  {
   "iso2": "LA",
@@ -2151,7 +2270,8 @@
   "flag": "🇱🇦",
   "unMember": true,
   "lat": 19.432,
-  "lng": 102.534
+  "lng": 102.534,
+  "labelZoom": 4
  },
  {
   "iso2": "LB",
@@ -2169,7 +2289,8 @@
   "flag": "🇱🇧",
   "unMember": true,
   "lat": 34.133,
-  "lng": 35.993
+  "lng": 35.993,
+  "labelZoom": 4
  },
  {
   "iso2": "LC",
@@ -2187,7 +2308,8 @@
   "flag": "🇱🇨",
   "unMember": true,
   "lat": 13.892,
-  "lng": -60.98
+  "lng": -60.98,
+  "labelZoom": 5
  },
  {
   "iso2": "LI",
@@ -2205,7 +2327,8 @@
   "flag": "🇱🇮",
   "unMember": true,
   "lat": 47.111,
-  "lng": 9.559
+  "lng": 9.559,
+  "labelZoom": 5
  },
  {
   "iso2": "LK",
@@ -2223,7 +2346,8 @@
   "flag": "🇱🇰",
   "unMember": true,
   "lat": 7.581,
-  "lng": 80.705
+  "lng": 80.705,
+  "labelZoom": 3
  },
  {
   "iso2": "LR",
@@ -2241,7 +2365,8 @@
   "flag": "🇱🇷",
   "unMember": true,
   "lat": 6.447,
-  "lng": -9.46
+  "lng": -9.46,
+  "labelZoom": 4
  },
  {
   "iso2": "LS",
@@ -2259,7 +2384,8 @@
   "flag": "🇱🇸",
   "unMember": true,
   "lat": -29.48,
-  "lng": 28.247
+  "lng": 28.247,
+  "labelZoom": 4
  },
  {
   "iso2": "LT",
@@ -2277,7 +2403,8 @@
   "flag": "🇱🇹",
   "unMember": true,
   "lat": 55.104,
-  "lng": 24.09
+  "lng": 24.09,
+  "labelZoom": 4
  },
  {
   "iso2": "LU",
@@ -2295,7 +2422,8 @@
   "flag": "🇱🇺",
   "unMember": true,
   "lat": 49.734,
-  "lng": 6.078
+  "lng": 6.078,
+  "labelZoom": 5.7
  },
  {
   "iso2": "LV",
@@ -2313,7 +2441,8 @@
   "flag": "🇱🇻",
   "unMember": true,
   "lat": 57.067,
-  "lng": 25.459
+  "lng": 25.459,
+  "labelZoom": 4
  },
  {
   "iso2": "LY",
@@ -2331,7 +2460,8 @@
   "flag": "🇱🇾",
   "unMember": true,
   "lat": 26.639,
-  "lng": 18.011
+  "lng": 18.011,
+  "labelZoom": 3
  },
  {
   "iso2": "MA",
@@ -2349,7 +2479,8 @@
   "flag": "🇲🇦",
   "unMember": true,
   "lat": 31.651,
-  "lng": -7.187
+  "lng": -7.187,
+  "labelZoom": 2.7
  },
  {
   "iso2": "MC",
@@ -2367,7 +2498,8 @@
   "flag": "🇲🇨",
   "unMember": true,
   "lat": 43.74,
-  "lng": 7.398
+  "lng": 7.398,
+  "labelZoom": 5
  },
  {
   "iso2": "MD",
@@ -2385,7 +2517,8 @@
   "flag": "🇲🇩",
   "unMember": true,
   "lat": 47.435,
-  "lng": 28.488
+  "lng": 28.488,
+  "labelZoom": 5
  },
  {
   "iso2": "ME",
@@ -2403,7 +2536,8 @@
   "flag": "🇲🇪",
   "unMember": true,
   "lat": 42.803,
-  "lng": 19.144
+  "lng": 19.144,
+  "labelZoom": 5
  },
  {
   "iso2": "MF",
@@ -2421,7 +2555,8 @@
   "flag": "🇲🇫",
   "unMember": false,
   "lat": 18.081,
-  "lng": -63.049
+  "lng": -63.049,
+  "labelZoom": 5
  },
  {
   "iso2": "MG",
@@ -2439,7 +2574,8 @@
   "flag": "🇲🇬",
   "unMember": true,
   "lat": -18.628,
-  "lng": 46.704
+  "lng": 46.704,
+  "labelZoom": 2.7
  },
  {
   "iso2": "MH",
@@ -2457,7 +2593,8 @@
   "flag": "🇲🇭",
   "unMember": true,
   "lat": 7.083,
-  "lng": 171.194
+  "lng": 171.194,
+  "labelZoom": 5
  },
  {
   "iso2": "MK",
@@ -2475,7 +2612,8 @@
   "flag": "🇲🇰",
   "unMember": true,
   "lat": 41.558,
-  "lng": 21.556
+  "lng": 21.556,
+  "labelZoom": 5
  },
  {
   "iso2": "ML",
@@ -2493,7 +2631,8 @@
   "flag": "🇲🇱",
   "unMember": true,
   "lat": 18.693,
-  "lng": -2.038
+  "lng": -2.038,
+  "labelZoom": 3
  },
  {
   "iso2": "MM",
@@ -2511,7 +2650,8 @@
   "flag": "🇲🇲",
   "unMember": true,
   "lat": 21.574,
-  "lng": 95.804
+  "lng": 95.804,
+  "labelZoom": 3
  },
  {
   "iso2": "MN",
@@ -2529,7 +2669,8 @@
   "flag": "🇲🇳",
   "unMember": true,
   "lat": 45.997,
-  "lng": 104.15
+  "lng": 104.15,
+  "labelZoom": 3
  },
  {
   "iso2": "MO",
@@ -2544,7 +2685,8 @@
   "flag": "🇲🇴",
   "unMember": false,
   "lat": 22.13,
-  "lng": 113.556
+  "lng": 113.556,
+  "labelZoom": 4
  },
  {
   "iso2": "MP",
@@ -2562,7 +2704,8 @@
   "flag": "🇲🇵",
   "unMember": false,
   "lat": 15.188,
-  "lng": 145.734
+  "lng": 145.734,
+  "labelZoom": 5
  },
  {
   "iso2": "MR",
@@ -2580,7 +2723,8 @@
   "flag": "🇲🇷",
   "unMember": true,
   "lat": 19.587,
-  "lng": -9.74
+  "lng": -9.74,
+  "labelZoom": 3
  },
  {
   "iso2": "MS",
@@ -2598,7 +2742,8 @@
   "flag": "🇲🇸",
   "unMember": false,
   "lat": 16.737,
-  "lng": -62.188
+  "lng": -62.188,
+  "labelZoom": 5
  },
  {
   "iso2": "MT",
@@ -2616,7 +2761,8 @@
   "flag": "🇲🇹",
   "unMember": true,
   "lat": 35.893,
-  "lng": 14.433
+  "lng": 14.433,
+  "labelZoom": 4
  },
  {
   "iso2": "MU",
@@ -2634,7 +2780,8 @@
   "flag": "🇲🇺",
   "unMember": true,
   "lat": -20.3,
-  "lng": 57.566
+  "lng": 57.566,
+  "labelZoom": 4
  },
  {
   "iso2": "MV",
@@ -2652,7 +2799,8 @@
   "flag": "🇲🇻",
   "unMember": true,
   "lat": 4.174,
-  "lng": 73.508
+  "lng": 73.508,
+  "labelZoom": 4
  },
  {
   "iso2": "MW",
@@ -2670,7 +2818,8 @@
   "flag": "🇲🇼",
   "unMember": true,
   "lat": -13.387,
-  "lng": 33.608
+  "lng": 33.608,
+  "labelZoom": 4
  },
  {
   "iso2": "MX",
@@ -2688,7 +2837,8 @@
   "flag": "🇲🇽",
   "unMember": true,
   "lat": 23.92,
-  "lng": -102.289
+  "lng": -102.289,
+  "labelZoom": 2
  },
  {
   "iso2": "MY",
@@ -2706,7 +2856,8 @@
   "flag": "🇲🇾",
   "unMember": true,
   "lat": 2.529,
-  "lng": 113.837
+  "lng": 113.837,
+  "labelZoom": 3
  },
  {
   "iso2": "MZ",
@@ -2724,7 +2875,8 @@
   "flag": "🇲🇿",
   "unMember": true,
   "lat": -13.943,
-  "lng": 37.838
+  "lng": 37.838,
+  "labelZoom": 3
  },
  {
   "iso2": "NA",
@@ -2742,7 +2894,8 @@
   "flag": "🇳🇦",
   "unMember": true,
   "lat": -20.575,
-  "lng": 17.108
+  "lng": 17.108,
+  "labelZoom": 3
  },
  {
   "iso2": "NC",
@@ -2760,7 +2913,8 @@
   "flag": "🇳🇨",
   "unMember": false,
   "lat": -21.065,
-  "lng": 165.084
+  "lng": 165.084,
+  "labelZoom": 4.6
  },
  {
   "iso2": "NE",
@@ -2778,7 +2932,8 @@
   "flag": "🇳🇪",
   "unMember": true,
   "lat": 17.446,
-  "lng": 9.504
+  "lng": 9.504,
+  "labelZoom": 3
  },
  {
   "iso2": "NF",
@@ -2796,7 +2951,8 @@
   "flag": "🇳🇫",
   "unMember": false,
   "lat": -29.033,
-  "lng": 167.955
+  "lng": 167.955,
+  "labelZoom": 4.5
  },
  {
   "iso2": "NG",
@@ -2814,7 +2970,8 @@
   "flag": "🇳🇬",
   "unMember": true,
   "lat": 9.44,
-  "lng": 7.503
+  "lng": 7.503,
+  "labelZoom": 1.7
  },
  {
   "iso2": "NI",
@@ -2832,7 +2989,8 @@
   "flag": "🇳🇮",
   "unMember": true,
   "lat": 12.671,
-  "lng": -85.069
+  "lng": -85.069,
+  "labelZoom": 4
  },
  {
   "iso2": "NL",
@@ -2850,7 +3008,8 @@
   "flag": "🇳🇱",
   "unMember": true,
   "lat": 52.422,
-  "lng": 5.611
+  "lng": 5.611,
+  "labelZoom": 4
  },
  {
   "iso2": "NO",
@@ -2868,7 +3027,8 @@
   "flag": "🇳🇴",
   "unMember": true,
   "lat": 61.357,
-  "lng": 9.68
+  "lng": 9.68,
+  "labelZoom": 3
  },
  {
   "iso2": "NP",
@@ -2886,7 +3046,8 @@
   "flag": "🇳🇵",
   "unMember": true,
   "lat": 28.298,
-  "lng": 83.64
+  "lng": 83.64,
+  "labelZoom": 3
  },
  {
   "iso2": "NR",
@@ -2904,7 +3065,8 @@
   "flag": "🇳🇷",
   "unMember": true,
   "lat": -0.52,
-  "lng": 166.933
+  "lng": 166.933,
+  "labelZoom": 5
  },
  {
   "iso2": "NU",
@@ -2922,7 +3084,8 @@
   "flag": "🇳🇺",
   "unMember": false,
   "lat": -19.046,
-  "lng": -169.863
+  "lng": -169.863,
+  "labelZoom": 4
  },
  {
   "iso2": "NZ",
@@ -2940,7 +3103,8 @@
   "flag": "🇳🇿",
   "unMember": true,
   "lat": -39.759,
-  "lng": 172.787
+  "lng": 172.787,
+  "labelZoom": 2
  },
  {
   "iso2": "OM",
@@ -2958,7 +3122,8 @@
   "flag": "🇴🇲",
   "unMember": true,
   "lat": 22.12,
-  "lng": 57.337
+  "lng": 57.337,
+  "labelZoom": 4
  },
  {
   "iso2": "PA",
@@ -2976,7 +3141,8 @@
   "flag": "🇵🇦",
   "unMember": true,
   "lat": 8.722,
-  "lng": -80.352
+  "lng": -80.352,
+  "labelZoom": 4
  },
  {
   "iso2": "PE",
@@ -2994,7 +3160,8 @@
   "flag": "🇵🇪",
   "unMember": true,
   "lat": -12.977,
-  "lng": -72.9
+  "lng": -72.9,
+  "labelZoom": 2
  },
  {
   "iso2": "PF",
@@ -3012,7 +3179,8 @@
   "flag": "🇵🇫",
   "unMember": false,
   "lat": -17.628,
-  "lng": -149.462
+  "lng": -149.462,
+  "labelZoom": 3.5
  },
  {
   "iso2": "PG",
@@ -3030,7 +3198,8 @@
   "flag": "🇵🇬",
   "unMember": true,
   "lat": -5.695,
-  "lng": 143.91
+  "lng": 143.91,
+  "labelZoom": 2.5
  },
  {
   "iso2": "PH",
@@ -3048,7 +3217,8 @@
   "flag": "🇵🇭",
   "unMember": true,
   "lat": 11.198,
-  "lng": 122.465
+  "lng": 122.465,
+  "labelZoom": 2.5
  },
  {
   "iso2": "PK",
@@ -3066,7 +3236,8 @@
   "flag": "🇵🇰",
   "unMember": true,
   "lat": 29.328,
-  "lng": 68.546
+  "lng": 68.546,
+  "labelZoom": 2.7
  },
  {
   "iso2": "PL",
@@ -3084,7 +3255,8 @@
   "flag": "🇵🇱",
   "unMember": true,
   "lat": 51.99,
-  "lng": 19.49
+  "lng": 19.49,
+  "labelZoom": 2.5
  },
  {
   "iso2": "PM",
@@ -3102,7 +3274,8 @@
   "flag": "🇵🇲",
   "unMember": false,
   "lat": 47.04,
-  "lng": -56.332
+  "lng": -56.332,
+  "labelZoom": 5
  },
  {
   "iso2": "PN",
@@ -3120,7 +3293,8 @@
   "flag": "🇵🇳",
   "unMember": false,
   "lat": -24.365,
-  "lng": -128.318
+  "lng": -128.318,
+  "labelZoom": 5
  },
  {
   "iso2": "PR",
@@ -3138,7 +3312,8 @@
   "flag": "🇵🇷",
   "unMember": false,
   "lat": 18.235,
-  "lng": -66.481
+  "lng": -66.481,
+  "labelZoom": 3
  },
  {
   "iso2": "PS",
@@ -3156,7 +3331,8 @@
   "flag": "🇵🇸",
   "unMember": false,
   "lat": 32.047,
-  "lng": 35.291
+  "lng": 35.291,
+  "labelZoom": 4.5
  },
  {
   "iso2": "PT",
@@ -3174,7 +3350,8 @@
   "flag": "🇵🇹",
   "unMember": true,
   "lat": 39.607,
-  "lng": -8.272
+  "lng": -8.272,
+  "labelZoom": 3
  },
  {
   "iso2": "PW",
@@ -3192,7 +3369,8 @@
   "flag": "🇵🇼",
   "unMember": true,
   "lat": 7.518,
-  "lng": 134.58
+  "lng": 134.58,
+  "labelZoom": 5
  },
  {
   "iso2": "PY",
@@ -3210,7 +3388,8 @@
   "flag": "🇵🇾",
   "unMember": true,
   "lat": -21.675,
-  "lng": -60.146
+  "lng": -60.146,
+  "labelZoom": 3
  },
  {
   "iso2": "QA",
@@ -3228,7 +3407,8 @@
   "flag": "🇶🇦",
   "unMember": true,
   "lat": 25.237,
-  "lng": 51.144
+  "lng": 51.144,
+  "labelZoom": 4
  },
  {
   "iso2": "RO",
@@ -3246,7 +3426,8 @@
   "flag": "🇷🇴",
   "unMember": true,
   "lat": 45.733,
-  "lng": 24.973
+  "lng": 24.973,
+  "labelZoom": 3
  },
  {
   "iso2": "RS",
@@ -3264,7 +3445,8 @@
   "flag": "🇷🇸",
   "unMember": true,
   "lat": 44.19,
-  "lng": 20.788
+  "lng": 20.788,
+  "labelZoom": 4
  },
  {
   "iso2": "RU",
@@ -3282,7 +3464,8 @@
   "flag": "🇷🇺",
   "unMember": true,
   "lat": 58.249,
-  "lng": 44.686
+  "lng": 44.686,
+  "labelZoom": 1.7
  },
  {
   "iso2": "RW",
@@ -3300,7 +3483,8 @@
   "flag": "🇷🇼",
   "unMember": true,
   "lat": -1.897,
-  "lng": 30.104
+  "lng": 30.104,
+  "labelZoom": 3
  },
  {
   "iso2": "SA",
@@ -3318,7 +3502,8 @@
   "flag": "🇸🇦",
   "unMember": true,
   "lat": 23.807,
-  "lng": 44.7
+  "lng": 44.7,
+  "labelZoom": 1.7
  },
  {
   "iso2": "SB",
@@ -3336,7 +3521,8 @@
   "flag": "🇸🇧",
   "unMember": true,
   "lat": -8.03,
-  "lng": 159.17
+  "lng": 159.17,
+  "labelZoom": 3
  },
  {
   "iso2": "SC",
@@ -3354,7 +3540,8 @@
   "flag": "🇸🇨",
   "unMember": true,
   "lat": -4.677,
-  "lng": 55.48
+  "lng": 55.48,
+  "labelZoom": 5
  },
  {
   "iso2": "SD",
@@ -3372,7 +3559,8 @@
   "flag": "🇸🇩",
   "unMember": true,
   "lat": 16.331,
-  "lng": 29.261
+  "lng": 29.261,
+  "labelZoom": 2.5
  },
  {
   "iso2": "SE",
@@ -3390,7 +3578,8 @@
   "flag": "🇸🇪",
   "unMember": true,
   "lat": 65.859,
-  "lng": 19.017
+  "lng": 19.017,
+  "labelZoom": 2
  },
  {
   "iso2": "SG",
@@ -3408,7 +3597,8 @@
   "flag": "🇸🇬",
   "unMember": true,
   "lat": 1.367,
-  "lng": 103.817
+  "lng": 103.817,
+  "labelZoom": 4
  },
  {
   "iso2": "SH",
@@ -3426,7 +3616,8 @@
   "flag": "🇸🇭",
   "unMember": false,
   "lat": -15.95,
-  "lng": -5.713
+  "lng": -5.713,
+  "labelZoom": 5
  },
  {
   "iso2": "SI",
@@ -3444,7 +3635,8 @@
   "flag": "🇸🇮",
   "unMember": true,
   "lat": 46.061,
-  "lng": 14.915
+  "lng": 14.915,
+  "labelZoom": 5
  },
  {
   "iso2": "SK",
@@ -3462,7 +3654,8 @@
   "flag": "🇸🇰",
   "unMember": true,
   "lat": 48.734,
-  "lng": 19.05
+  "lng": 19.05,
+  "labelZoom": 4
  },
  {
   "iso2": "SL",
@@ -3480,7 +3673,8 @@
   "flag": "🇸🇱",
   "unMember": true,
   "lat": 8.617,
-  "lng": -11.764
+  "lng": -11.764,
+  "labelZoom": 4
  },
  {
   "iso2": "SM",
@@ -3498,7 +3692,8 @@
   "flag": "🇸🇲",
   "unMember": true,
   "lat": 43.934,
-  "lng": 12.441
+  "lng": 12.441,
+  "labelZoom": 5
  },
  {
   "iso2": "SN",
@@ -3516,7 +3711,8 @@
   "flag": "🇸🇳",
   "unMember": true,
   "lat": 15.138,
-  "lng": -14.779
+  "lng": -14.779,
+  "labelZoom": 2.7
  },
  {
   "iso2": "SO",
@@ -3534,7 +3730,8 @@
   "flag": "🇸🇴",
   "unMember": true,
   "lat": 3.569,
-  "lng": 45.192
+  "lng": 45.192,
+  "labelZoom": 4
  },
  {
   "iso2": "SR",
@@ -3552,7 +3749,8 @@
   "flag": "🇸🇷",
   "unMember": true,
   "lat": 4.144,
-  "lng": -55.911
+  "lng": -55.911,
+  "labelZoom": 4
  },
  {
   "iso2": "SS",
@@ -3570,7 +3768,8 @@
   "flag": "🇸🇸",
   "unMember": true,
   "lat": 7.23,
-  "lng": 30.39
+  "lng": 30.39,
+  "labelZoom": 3
  },
  {
   "iso2": "ST",
@@ -3588,7 +3787,8 @@
   "flag": "🇸🇹",
   "unMember": true,
   "lat": 0.971,
-  "lng": 7.021
+  "lng": 7.021,
+  "labelZoom": 5
  },
  {
   "iso2": "SV",
@@ -3606,7 +3806,8 @@
   "flag": "🇸🇻",
   "unMember": true,
   "lat": 13.685,
-  "lng": -88.89
+  "lng": -88.89,
+  "labelZoom": 5
  },
  {
   "iso2": "SX",
@@ -3624,7 +3825,8 @@
   "flag": "🇸🇽",
   "unMember": false,
   "lat": 18.041,
-  "lng": -63.07
+  "lng": -63.07,
+  "labelZoom": 5
  },
  {
   "iso2": "SY",
@@ -3642,7 +3844,8 @@
   "flag": "🇸🇾",
   "unMember": true,
   "lat": 35.007,
-  "lng": 38.278
+  "lng": 38.278,
+  "labelZoom": 3
  },
  {
   "iso2": "SZ",
@@ -3660,7 +3863,8 @@
   "flag": "🇸🇿",
   "unMember": true,
   "lat": -26.534,
-  "lng": 31.467
+  "lng": 31.467,
+  "labelZoom": 4
  },
  {
   "iso2": "TC",
@@ -3678,7 +3882,8 @@
   "flag": "🇹🇨",
   "unMember": false,
   "lat": 21.817,
-  "lng": -71.753
+  "lng": -71.753,
+  "labelZoom": 5
  },
  {
   "iso2": "TD",
@@ -3696,7 +3901,8 @@
   "flag": "🇹🇩",
   "unMember": true,
   "lat": 15.143,
-  "lng": 18.645
+  "lng": 18.645,
+  "labelZoom": 3
  },
  {
   "iso2": "TF",
@@ -3714,7 +3920,8 @@
   "flag": "🇹🇫",
   "unMember": false,
   "lat": -49.304,
-  "lng": 69.122
+  "lng": 69.122,
+  "labelZoom": 4
  },
  {
   "iso2": "TG",
@@ -3732,7 +3939,8 @@
   "flag": "🇹🇬",
   "unMember": true,
   "lat": 8.807,
-  "lng": 1.058
+  "lng": 1.058,
+  "labelZoom": 5
  },
  {
   "iso2": "TH",
@@ -3750,7 +3958,8 @@
   "flag": "🇹🇭",
   "unMember": true,
   "lat": 15.46,
-  "lng": 101.073
+  "lng": 101.073,
+  "labelZoom": 2.7
  },
  {
   "iso2": "TJ",
@@ -3768,7 +3977,8 @@
   "flag": "🇹🇯",
   "unMember": true,
   "lat": 38.2,
-  "lng": 72.587
+  "lng": 72.587,
+  "labelZoom": 4
  },
  {
   "iso2": "TL",
@@ -3786,7 +3996,8 @@
   "flag": "🇹🇱",
   "unMember": true,
   "lat": -8.804,
-  "lng": 125.855
+  "lng": 125.855,
+  "labelZoom": 4
  },
  {
   "iso2": "TM",
@@ -3804,7 +4015,8 @@
   "flag": "🇹🇲",
   "unMember": true,
   "lat": 39.855,
-  "lng": 58.677
+  "lng": 58.677,
+  "labelZoom": 3
  },
  {
   "iso2": "TN",
@@ -3822,7 +4034,8 @@
   "flag": "🇹🇳",
   "unMember": true,
   "lat": 33.687,
-  "lng": 9.008
+  "lng": 9.008,
+  "labelZoom": 3
  },
  {
   "iso2": "TO",
@@ -3840,7 +4053,8 @@
   "flag": "🇹🇴",
   "unMember": true,
   "lat": -21.21,
-  "lng": -175.163
+  "lng": -175.163,
+  "labelZoom": 4
  },
  {
   "iso2": "TR",
@@ -3858,7 +4072,8 @@
   "flag": "🇹🇷",
   "unMember": true,
   "lat": 39.345,
-  "lng": 34.508
+  "lng": 34.508,
+  "labelZoom": 2
  },
  {
   "iso2": "TT",
@@ -3876,7 +4091,8 @@
   "flag": "🇹🇹",
   "unMember": true,
   "lat": 10.999,
-  "lng": -60.918
+  "lng": -60.918,
+  "labelZoom": 4.5
  },
  {
   "iso2": "TV",
@@ -3894,7 +4110,8 @@
   "flag": "🇹🇻",
   "unMember": true,
   "lat": -8.514,
-  "lng": 179.21
+  "lng": 179.21,
+  "labelZoom": 5
  },
  {
   "iso2": "TW",
@@ -3912,7 +4129,8 @@
   "flag": "🇹🇼",
   "unMember": false,
   "lat": 23.652,
-  "lng": 120.868
+  "lng": 120.868,
+  "labelZoom": 4.5
  },
  {
   "iso2": "TZ",
@@ -3930,7 +4148,8 @@
   "flag": "🇹🇿",
   "unMember": true,
   "lat": -6.052,
-  "lng": 34.959
+  "lng": 34.959,
+  "labelZoom": 3
  },
  {
   "iso2": "UA",
@@ -3948,7 +4167,8 @@
   "flag": "🇺🇦",
   "unMember": true,
   "lat": 49.725,
-  "lng": 32.141
+  "lng": 32.141,
+  "labelZoom": 2.7
  },
  {
   "iso2": "UG",
@@ -3966,7 +4186,8 @@
   "flag": "🇺🇬",
   "unMember": true,
   "lat": 1.973,
-  "lng": 32.949
+  "lng": 32.949,
+  "labelZoom": 3
  },
  {
   "iso2": "UM",
@@ -3981,7 +4202,8 @@
   "flag": "🇺🇲",
   "unMember": false,
   "lat": 19.286,
-  "lng": 166.645
+  "lng": 166.645,
+  "labelZoom": 7
  },
  {
   "iso2": "US",
@@ -3999,7 +4221,8 @@
   "flag": "🇺🇸",
   "unMember": true,
   "lat": 39.538,
-  "lng": -97.483
+  "lng": -97.483,
+  "labelZoom": 1.7
  },
  {
   "iso2": "UY",
@@ -4017,7 +4240,8 @@
   "flag": "🇺🇾",
   "unMember": true,
   "lat": -32.961,
-  "lng": -55.967
+  "lng": -55.967,
+  "labelZoom": 3
  },
  {
   "iso2": "UZ",
@@ -4035,7 +4259,8 @@
   "flag": "🇺🇿",
   "unMember": true,
   "lat": 41.694,
-  "lng": 64.005
+  "lng": 64.005,
+  "labelZoom": 3
  },
  {
   "iso2": "VA",
@@ -4053,7 +4278,8 @@
   "flag": "🇻🇦",
   "unMember": false,
   "lat": 41.903,
-  "lng": 12.453
+  "lng": 12.453,
+  "labelZoom": 5
  },
  {
   "iso2": "VC",
@@ -4071,7 +4297,8 @@
   "flag": "🇻🇨",
   "unMember": true,
   "lat": 13.088,
-  "lng": -61.336
+  "lng": -61.336,
+  "labelZoom": 5
  },
  {
   "iso2": "VE",
@@ -4089,7 +4316,8 @@
   "flag": "🇻🇪",
   "unMember": true,
   "lat": 7.182,
-  "lng": -64.599
+  "lng": -64.599,
+  "labelZoom": 2.5
  },
  {
   "iso2": "VG",
@@ -4107,7 +4335,8 @@
   "flag": "🇻🇬",
   "unMember": false,
   "lat": 18.427,
-  "lng": -64.637
+  "lng": -64.637,
+  "labelZoom": 5
  },
  {
   "iso2": "VI",
@@ -4125,7 +4354,8 @@
   "flag": "🇻🇮",
   "unMember": false,
   "lat": 17.747,
-  "lng": -64.779
+  "lng": -64.779,
+  "labelZoom": 5
  },
  {
   "iso2": "VN",
@@ -4143,7 +4373,8 @@
   "flag": "🇻🇳",
   "unMember": true,
   "lat": 21.715,
-  "lng": 105.387
+  "lng": 105.387,
+  "labelZoom": 2
  },
  {
   "iso2": "VU",
@@ -4161,7 +4392,8 @@
   "flag": "🇻🇺",
   "unMember": true,
   "lat": -15.372,
-  "lng": 166.909
+  "lng": 166.909,
+  "labelZoom": 4
  },
  {
   "iso2": "WF",
@@ -4179,7 +4411,8 @@
   "flag": "🇼🇫",
   "unMember": false,
   "lat": -14.286,
-  "lng": -178.137
+  "lng": -178.137,
+  "labelZoom": 4.7
  },
  {
   "iso2": "WS",
@@ -4197,7 +4430,8 @@
   "flag": "🇼🇸",
   "unMember": true,
   "lat": -13.639,
-  "lng": -172.438
+  "lng": -172.438,
+  "labelZoom": 3
  },
  {
   "iso2": "YE",
@@ -4215,13 +4449,14 @@
   "flag": "🇾🇪",
   "unMember": true,
   "lat": 15.328,
-  "lng": 45.874
+  "lng": 45.874,
+  "labelZoom": 3
  },
  {
   "iso2": "ZA",
   "iso3": "ZAF",
   "name": {
-   "uk": "Південно-Африканська Республіка",
+   "uk": "ПАР",
    "en": "South Africa"
   },
   "capital": {
@@ -4233,7 +4468,8 @@
   "flag": "🇿🇦",
   "unMember": true,
   "lat": -29.709,
-  "lng": 23.666
+  "lng": 23.666,
+  "labelZoom": 1.7
  },
  {
   "iso2": "ZM",
@@ -4251,7 +4487,8 @@
   "flag": "🇿🇲",
   "unMember": true,
   "lat": -14.661,
-  "lng": 26.395
+  "lng": 26.395,
+  "labelZoom": 3
  },
  {
   "iso2": "ZW",
@@ -4269,6 +4506,7 @@
   "flag": "🇿🇼",
   "unMember": true,
   "lat": -18.912,
-  "lng": 29.925
+  "lng": 29.925,
+  "labelZoom": 2.5
  }
 ]

@@ -46,6 +46,29 @@ describe('офлайн-HTML глобуса', () => {
     );
   });
 
+  test('шрифт підписів вшито (font-faces з data: URL), сервер гліфів не потрібен', () => {
+    assert.match(html, /fontUrl:"data:font\/ttf;base64,[A-Za-z0-9+/]{1000}/);
+    assert.match(html, /font-faces/);
+    assert.doesNotMatch(html, /\bglyphs\s*:\s*["'`]/, 'style.glyphs не задано');
+  });
+
+  test('підписи: точка для кожної країни з назвами uk/en і наближенням', () => {
+    const countries = JSON.parse(readFileSync(join(ROOT, 'src/data/countries.json'), 'utf8')) as {
+      iso2: string;
+    }[];
+    const m = /labels:(\{"type":"FeatureCollection".*?\}),fontUrl:/.exec(html);
+    assert.ok(m, 'labels не вшито');
+    const labels = JSON.parse(m[1]) as {
+      features: { properties: { iso2: string; uk: string; en: string; z: number } }[];
+    };
+    assert.equal(labels.features.length, countries.length);
+    for (const { properties: p } of labels.features) {
+      assert.ok(p.uk && p.en && p.z > 0, p.iso2);
+    }
+    const ua = labels.features.find((f) => f.properties.iso2 === 'UA');
+    assert.equal(ua?.properties.uk, 'Україна');
+  });
+
   test('воркер MapLibre вшито (Blob URL, не мережа)', () => {
     assert.match(html, /createObjectURL/);
     assert.doesNotMatch(html, /maplibre-gl-worker\.mjs\?v=/);

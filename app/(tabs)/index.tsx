@@ -12,6 +12,7 @@ import { countableIsos, getCountry } from '@/data/countries';
 import { activeVisitDatesQuery, computeCounter, plannedIsosQuery } from '@/db';
 import { expoDb } from '@/db/client';
 import { groupVisitDates } from '@/lib/country-list';
+import { useLanguage } from '@/i18n';
 import { useToggleVisited } from '@/lib/use-toggle-visited';
 import { spacing } from '@/theme';
 
@@ -22,6 +23,7 @@ export default function GlobeTab() {
   const globe = useRef<GlobeViewHandle>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const toggleVisited = useToggleVisited();
+  const lang = useLanguage();
 
   const { data: visitRows } = useLiveQuery(activeVisitDatesQuery(expoDb));
   const { data: plannedRows } = useLiveQuery(plannedIsosQuery(expoDb));
@@ -52,7 +54,13 @@ export default function GlobeTab() {
 
   return (
     <View style={styles.root}>
-      <GlobeView ref={globe} visited={visited} planned={planned} onCountryPress={selectCountry} />
+      <GlobeView
+        ref={globe}
+        visited={visited}
+        planned={planned}
+        language={lang}
+        onCountryPress={selectCountry}
+      />
       <View pointerEvents="none" style={[styles.counter, { top: insets.top + spacing.md }]}>
         <AppText variant="counter" accessibilityRole="header">
           {t('globe.counter', counter)}
