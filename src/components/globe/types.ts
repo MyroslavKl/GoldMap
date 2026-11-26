@@ -27,6 +27,10 @@ export type GlobeLongPress = {
   iso2: string | null;
 };
 
+/** Сонце й планети — для підписів Сонячної системи при сильному віддаленні глобуса. */
+export type SpaceBodyId =
+  'sun' | 'mercury' | 'venus' | 'earth' | 'mars' | 'jupiter' | 'saturn' | 'uranus' | 'neptune';
+
 /** Положення камери — щоб відновити глобус після вивантаження. */
 export type GlobeCamera = { lat: number; lng: number; zoom: number };
 
@@ -42,6 +46,11 @@ export type GlobeViewProps = {
   autoRotate?: boolean;
   /** Мова назв на карті. За замовчуванням 'en' */
   language?: 'uk' | 'en';
+  /**
+   * Підписи Сонця й планет. Коли глобус дуже віддалений, навколо нього з'являється Сонячна
+   * система (глобус — Земля на своїй орбіті). Без підписів її не показуємо.
+   */
+  spaceLabels?: Readonly<Record<SpaceBodyId, string>>;
   /** Точки: кружечки, з наближенням (zoom ≥ 6) — круглі мініатюри фото */
   points?: readonly GlobePoint[];
   /**

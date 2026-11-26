@@ -226,5 +226,16 @@
   "currency": {
     "otherPlaceholder": "Other currency, e.g. PLN",
     "other": "Other currency code"
+  },
+  "space": {
+    "sun": "Sun",
+    "mercury": "Mercury",
+    "venus": "Venus",
+    "earth": "Earth",
+    "mars": "Mars",
+    "jupiter": "Jupiter",
+    "saturn": "Saturn",
+    "uranus": "Uranus",
+    "neptune": "Neptune"
   }
 }

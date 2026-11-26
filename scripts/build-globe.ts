@@ -91,12 +91,16 @@ async function main() {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <style>${css}
-html,body,#map{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:${colors.bg};touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:${colors.transparent}}
+html,body,#map{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:${colors.bg};}
+#map{background:${colors.transparent};}
+html,body,#map{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:${colors.transparent}}
+#world{position:absolute;inset:0;transform-origin:50% 50%;will-change:transform}
+#space{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0}
 #halo{position:absolute;border-radius:50%;pointer-events:none;opacity:0;transition:opacity .3s}
 #attribution{position:absolute;right:6px;bottom:4px;padding:1px 6px;border-radius:6px;font:10px/1.4 -apple-system,system-ui,sans-serif;color:${colors.textMuted};background:${colors.scrim};pointer-events:none;opacity:0;transition:opacity .3s}
 </style>
 </head><body>
-<div id="map"></div><div id="halo"></div><div id="attribution"></div>
+<canvas id="space"></canvas><div id="world"><div id="map"></div><div id="halo"></div></div><div id="attribution"></div>
 <script>window.__GM_DATA__={borders:${scriptSafe(borders)},cities:${scriptSafe(JSON.stringify(citiesGeo))},labels:${scriptSafe(JSON.stringify(labelsGeo))},fontUrl:${JSON.stringify(fontUrl)}};</script>
 <script>${scriptSafe(js)}</script>
 </body></html>`;

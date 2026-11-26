@@ -265,5 +265,16 @@
   "currency": {
     "otherPlaceholder": "Інша валюта, напр. PLN",
     "other": "Код іншої валюти"
+  },
+  "space": {
+    "sun": "Сонце",
+    "mercury": "Меркурій",
+    "venus": "Венера",
+    "earth": "Земля",
+    "mars": "Марс",
+    "jupiter": "Юпітер",
+    "saturn": "Сатурн",
+    "uranus": "Уран",
+    "neptune": "Нептун"
   }
 }

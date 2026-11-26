@@ -16,6 +16,7 @@
     "../src/lib/money.ts",
     "../src/components/globe/protocol.ts",
     "../src/components/globe/web/fill-animator.ts",
-    "../src/components/globe/web/detail-layers.ts"
+    "../src/components/globe/web/detail-layers.ts",
+    "../src/components/globe/web/solar.ts"
   ]
 }

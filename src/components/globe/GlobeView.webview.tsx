@@ -48,6 +48,7 @@ export function GlobeView({
   autoRotate = true,
   language = 'en',
   points,
+  spaceLabels,
   detailMap = false,
   focus,
   initialCamera,
@@ -122,6 +123,13 @@ export function GlobeView({
   useEffect(() => {
     if (ready) send({ type: 'setDetailMap', enabled: detailMap });
   }, [ready, detailMap, send]);
+
+  const spaceKey = spaceLabels ? JSON.stringify(spaceLabels) : '';
+  useEffect(() => {
+    if (ready && spaceKey) {
+      send({ type: 'setSpaceLabels', labels: JSON.parse(spaceKey) as Record<string, string> });
+    }
+  }, [ready, spaceKey, send]);
 
   // Точки: ключ мініатюри — сам URI файлу; зображення WebView попросить, коли точка в кадрі.
   const pointsJson = JSON.stringify(

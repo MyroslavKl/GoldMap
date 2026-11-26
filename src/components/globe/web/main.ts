@@ -34,6 +34,15 @@ import {
   placeName,
 } from './detail-layers';
 import { createFillAnimator } from './fill-animator';
+import {
+  LABEL_PRIORITY,
+  ORBIT_TILT,
+  overlaps,
+  spaceLayout,
+  spaceProgress,
+  type LabelBox,
+  type SpaceBody,
+} from './solar';
 
 /** Вихідний код воркера MapLibre — підставляє esbuild (define). */
 declare const __WORKER_SRC__: string;
@@ -78,6 +87,8 @@ const LONG_PRESS_SLOP_PX = 8;
 const THUMB_SIZE = 44;
 const THUMB_PREFIX = 'thumb:';
 const CAMERA_DEBOUNCE_MS = 400;
+/** Найбільше віддалення глобуса (MapLibre допускає до −2) — з Сонячною системою навколо */
+const MIN_SPACE_ZOOM = -2;
 
 function post(message: FromWebMessage): void {
   window.ReactNativeWebView?.postMessage(JSON.stringify(message));
@@ -368,6 +379,7 @@ function rotateFrame(now: number): void {
     map.jumpTo({ center: [c.lng - ROTATE_DEG_PER_SEC * dt, c.lat] });
   }
   lastFrame = now;
+  renderSpace(now);
   requestAnimationFrame(rotateFrame);
 }
 
@@ -424,6 +436,8 @@ function globeRadius(): number {
 }
 
 let lastZoom = NaN;
+/** Останній відомий радіус глобуса, px (для підпису «Земля» в Сонячній системі) */
+let lastGlobeRadius = 0;
 function updateHalo(force = false): void {
   const zoom = map.getZoom();
   if (!force && Math.abs(zoom - lastZoom) < 0.01) return;
@@ -431,6 +445,7 @@ function updateHalo(force = false): void {
   const { clientWidth: w, clientHeight: h } = map.getContainer();
   // На наближенні край глобуса не видно — ореол не потрібен (і пошук радіуса не рахуємо).
   const r = zoom > 4 ? Infinity : globeRadius();
+  if (Number.isFinite(r)) lastGlobeRadius = r;
   if (r * 2 > Math.hypot(w, h)) {
     halo.style.opacity = '0';
     return;
@@ -445,11 +460,129 @@ function updateHalo(force = false): void {
 
 // ---------- вписати глобус або країну в екран ----------
 
-function fitGlobe(): void {
+/** Наближення, з яким глобус вписується в екран (від нього рахується поява Сонячної системи). */
+function computeFitZoom(): number {
   const { clientWidth: w, clientHeight: h } = map.getContainer();
   const target = (Math.min(w, h) * GLOBE_FIT) / 2;
   const r = globeRadius();
-  if (r > 0) map.jumpTo({ zoom: map.getZoom() + Math.log2(target / r) });
+  return r > 0 ? map.getZoom() + Math.log2(target / r) : map.getZoom();
+}
+
+// ---------- Сонячна система при сильному віддаленні ----------
+
+const space = document.getElementById('space') as HTMLCanvasElement;
+const world = document.getElementById('world')!;
+const spaceCtx = space.getContext('2d');
+/** Підписи з RN (i18n); без них систему не показуємо */
+let spaceLabels: Record<string, string> | null = null;
+let fitZoom = 1.2;
+let spaceShown = false;
+const spaceStart = performance.now();
+const SPACE_COLORS = colors.space as Record<string, string>;
+const SPACE_LABEL_FONT = `500 11px "${LABEL_FONT}", -apple-system, system-ui, sans-serif`;
+// Той самий вшитий Inter — для підписів на полотні (MapLibre тримає свою копію окремо)
+new FontFace(LABEL_FONT, `url(${data.fontUrl})`)
+  .load()
+  .then((face) => document.fonts.add(face))
+  .catch(() => {});
+
+function drawBody(ctx: CanvasRenderingContext2D, body: SpaceBody): void {
+  const { x, y, r } = body;
+  if (body.id === 'sun') {
+    const glow = ctx.createRadialGradient(x, y, r * 0.6, x, y, r * 3.2);
+    glow.addColorStop(0, SPACE_COLORS.sunGlow);
+    glow.addColorStop(1, colors.transparent);
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(x, y, r * 3.2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  if (body.id === 'saturn') {
+    ctx.strokeStyle = SPACE_COLORS.saturnRing;
+    ctx.lineWidth = Math.max(1, r * 0.28);
+    ctx.beginPath();
+    ctx.ellipse(x, y, r * 2, r * 0.7, -0.35, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  ctx.fillStyle = SPACE_COLORS[body.id];
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fill();
+  if (body.id === 'jupiter') {
+    ctx.save();
+    ctx.clip();
+    ctx.fillStyle = SPACE_COLORS.jupiterBand;
+    for (const dy of [-0.35, 0.15]) ctx.fillRect(x - r, y + dy * r, r * 2, r * 0.22);
+    ctx.restore();
+  }
+}
+
+/** Кадр Сонячної системи. Поки глобус не віддалений — нічого не робить. */
+function renderSpace(now: number): void {
+  const progress = spaceLabels && !focusIso ? spaceProgress(map.getZoom(), fitZoom) : 0;
+  if (progress === 0) {
+    if (spaceShown) {
+      spaceShown = false;
+      world.style.transform = '';
+      space.style.opacity = '0';
+    }
+    return;
+  }
+  spaceShown = true;
+  const w = space.clientWidth;
+  const h = space.clientHeight;
+  const ratio = Math.min(window.devicePixelRatio || 1, 3);
+  if (space.width !== Math.round(w * ratio) || space.height !== Math.round(h * ratio)) {
+    space.width = Math.round(w * ratio);
+    space.height = Math.round(h * ratio);
+  }
+  const layout = spaceLayout(progress, (now - spaceStart) / 1000, Math.min(w, h) / 2);
+  world.style.transform = `translate(${layout.worldX}px, ${layout.worldY}px) scale(${layout.globeScale})`;
+  space.style.opacity = String(progress);
+
+  const ctx = spaceCtx;
+  if (!ctx) return;
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  ctx.translate(w / 2, h / 2);
+
+  ctx.strokeStyle = SPACE_COLORS.orbit;
+  ctx.lineWidth = 1;
+  for (const r of layout.orbits) {
+    ctx.beginPath();
+    ctx.ellipse(layout.sunX, layout.sunY, r, r * ORBIT_TILT, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  for (const body of layout.bodies) drawBody(ctx, body);
+
+  // Підписи: над тілом (Сонце — під ним); той, що налазить на вже поставлений, пропускаємо
+  const labels = spaceLabels ?? {};
+  ctx.font = SPACE_LABEL_FONT;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const earthR = lastGlobeRadius * layout.globeScale;
+  const anchors = new Map<string, { x: number; y: number }>();
+  for (const body of layout.bodies) {
+    anchors.set(
+      body.id,
+      body.id === 'sun'
+        ? { x: body.x, y: body.y + body.r * 1.4 + 10 }
+        : { x: body.x, y: body.y - body.r - 10 },
+    );
+  }
+  anchors.set('earth', { x: layout.worldX, y: layout.worldY - earthR - 10 });
+  const placed: LabelBox[] = [];
+  ctx.fillStyle = SPACE_COLORS.label;
+  for (const id of LABEL_PRIORITY) {
+    const text = labels[id];
+    const at = anchors.get(id);
+    if (!text || !at) continue;
+    const w = ctx.measureText(text).width;
+    const box = { x: at.x - w / 2, y: at.y - 7, w, h: 14 };
+    if (placed.some((other) => overlaps(box, other))) continue;
+    placed.push(box);
+    ctx.fillText(text, at.x, at.y);
+  }
 }
 
 /** Межі країни; для країн через антимеридіан (Фіджі, Росія) — довготи зсуваються за 180°. */
@@ -765,6 +898,9 @@ window[WEB_RECEIVER] = (message: ToWebMessage) => {
     case 'pointThumb':
       addThumb(message.key, message.dataUrl);
       break;
+    case 'setSpaceLabels':
+      spaceLabels = message.labels;
+      break;
     case 'setDetailMap':
       setDetailMap(message.enabled);
       break;
@@ -776,7 +912,16 @@ map.on('load', () => {
     map.setPaintProperty('countries-fill', 'fill-opacity', fillOpacity(false));
     fitCountry(focusIso);
     map.on('moveend', clampCamera);
-  } else if (!init.camera) fitGlobe();
+  } else {
+    // Міряємо на віддаленому глобусі (на наближенні край кулі за екраном і радіус не виміряти)
+    const startZoom = map.getZoom();
+    map.jumpTo({ zoom: 1 });
+    fitZoom = computeFitZoom();
+    map.jumpTo({ zoom: startZoom });
+    // Можна віддалити далі, ніж зазвичай, — туди, де видно Сонячну систему
+    map.setMinZoom(MIN_SPACE_ZOOM);
+    if (!init.camera) map.jumpTo({ zoom: fitZoom });
+  }
   updateHalo(true);
   map.on('move', () => updateHalo());
   map.on('zoom', updateAttribution);

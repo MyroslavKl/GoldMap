@@ -12,4 +12,5 @@ export type {
   GlobePoint,
   GlobeViewHandle,
   GlobeViewProps,
+  SpaceBodyId,
 } from './types';

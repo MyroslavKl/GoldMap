@@ -38,6 +38,21 @@ export default function GlobeTab() {
   const toggleVisited = useToggleVisited();
   const lang = useLanguage();
   const { points } = useMapPoints();
+  // Підписи Сонячної системи (з'являється, коли глобус дуже віддалений)
+  const spaceLabels = useMemo(
+    () => ({
+      sun: t('space.sun'),
+      mercury: t('space.mercury'),
+      venus: t('space.venus'),
+      earth: t('space.earth'),
+      mars: t('space.mars'),
+      jupiter: t('space.jupiter'),
+      saturn: t('space.saturn'),
+      uranus: t('space.uranus'),
+      neptune: t('space.neptune'),
+    }),
+    [t],
+  );
   const detailMap = useDetailMapAllowed();
   const [sheet, setSheet] = useState<PlaceSheetTarget | null>(null);
 
@@ -107,6 +122,7 @@ export default function GlobeTab() {
           planned={planned}
           language={lang}
           points={points}
+          spaceLabels={spaceLabels}
           detailMap={detailMap}
           // Повернення з екрана країни: те саме місце; обертання — після 5 с бездіяльності
           initialCamera={resumeCamera ?? undefined}

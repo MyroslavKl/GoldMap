@@ -39,6 +39,25 @@ export const colors = {
   /** Затемнення фону під модальними картками */
   scrim: 'rgba(0, 0, 0, 0.6)',
   transparent: 'transparent',
+  /**
+   * Сонячна система при сильному віддаленні глобуса: природні кольори, приглушені під
+   * чорний фон (Сонце — золоте, як і решта акцентів).
+   */
+  space: {
+    sun: GOLD,
+    sunGlow: goldAlpha(0.35),
+    orbit: goldAlpha(0.22),
+    label: '#8A8578',
+    mercury: '#8E8780',
+    venus: '#C2A878',
+    mars: '#A9583D',
+    jupiter: '#B89470',
+    jupiterBand: '#8F6E52',
+    saturn: '#C7B07C',
+    saturnRing: '#9C8A63',
+    uranus: '#7EA6AC',
+    neptune: '#4F6E9E',
+  },
 } as const;
 
 export type ColorToken = keyof typeof colors;

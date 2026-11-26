@@ -30,6 +30,8 @@ export type ToWebMessage =
   | { type: 'flyTo'; lat: number; lng: number; zoom: number }
   | { type: 'setPoints'; points: WebPoint[] }
   | { type: 'setDetailMap'; enabled: boolean }
+  /** Підписи Сонця й планет (з i18n) для Сонячної системи при віддаленні */
+  | { type: 'setSpaceLabels'; labels: Record<string, string> }
   /** Відповідь на needThumb: data: URL мініатюри, або null — файлу немає */
   | { type: 'pointThumb'; key: string; dataUrl: string | null };
 
