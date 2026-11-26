@@ -136,6 +136,8 @@ docs/SPEC.md          # ТЗ
 - Відносні імпорти всередині `src/db` — з розширенням `.ts` (потрібно для Node-тестів;
   Metro їх розуміє). `src/db` не імпортує нічого з `@/…` і з Expo, крім `client.ts`.
 - Живі дані в компонентах — `useLiveQuery` з `drizzle-orm/expo-sqlite` (напр. `visitedIsosQuery`).
+  Він слухає лише головну таблицю запиту; запит із join — через `useLiveJoinQuery`
+  (`src/lib/use-live-query.ts`), інакше зміни приєднаної таблиці не оновлять екран.
 
 ## Позначка «був тут»
 

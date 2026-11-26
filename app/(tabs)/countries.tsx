@@ -22,6 +22,7 @@ import {
   type ListFilter,
   type ListSort,
 } from '@/lib/country-list';
+import { useLiveJoinQuery } from '@/lib/use-live-query';
 import { useToggleVisited } from '@/lib/use-toggle-visited';
 import { colors, fonts, fontSizes, radius, spacing } from '@/theme';
 
@@ -36,7 +37,7 @@ export default function CountriesTab() {
   const [query, setQuery] = useState('');
 
   const { data: visitRows } = useLiveQuery(activeVisitDatesQuery(expoDb));
-  const { data: plannedRows } = useLiveQuery(plannedIsosQuery(expoDb));
+  const plannedRows = useLiveJoinQuery(plannedIsosQuery(expoDb));
   const visits = useMemo(() => groupVisitDates(visitRows), [visitRows]);
   const planned = useMemo(() => new Set(plannedRows.map((r) => r.countryIso)), [plannedRows]);
 

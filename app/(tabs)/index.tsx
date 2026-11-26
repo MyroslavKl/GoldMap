@@ -24,6 +24,7 @@ import { groupVisitDates } from '@/lib/country-list';
 import { useLanguage } from '@/i18n';
 import { hapticSelection } from '@/lib/haptics';
 import { useMapPresence } from '@/lib/map-presence';
+import { useLiveJoinQuery } from '@/lib/use-live-query';
 import { useDetailMapAllowed, useMapPoints } from '@/lib/use-map-data';
 import { useToggleVisited } from '@/lib/use-toggle-visited';
 import { useToday, useTripQuestions, useTrips } from '@/lib/use-trips';
@@ -82,7 +83,7 @@ export default function GlobeTab() {
   );
 
   const { data: visitRows } = useLiveQuery(activeVisitDatesQuery(expoDb));
-  const { data: plannedRows } = useLiveQuery(plannedIsosQuery(expoDb));
+  const plannedRows = useLiveJoinQuery(plannedIsosQuery(expoDb));
   const visitsByCountry = useMemo(() => groupVisitDates(visitRows), [visitRows]);
   const visited = useMemo(() => [...visitsByCountry.keys()], [visitsByCountry]);
   const planned = useMemo(() => plannedRows.map((r) => r.countryIso), [plannedRows]);

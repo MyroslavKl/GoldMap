@@ -11,6 +11,7 @@ import { expensesByCountryQuery, tripsWithCountryQuery, type Expense } from '@/d
 import { expoDb } from '@/db/client';
 import { formatDay } from '@/lib/dates';
 import { foreignCurrencies, formatMoney, summarizeExpenses } from '@/lib/money';
+import { useLiveJoinQuery } from '@/lib/use-live-query';
 import { useMoneySettings } from '@/lib/use-money-settings';
 import { colors, fonts, fontSizes, radius, spacing } from '@/theme';
 
@@ -24,7 +25,7 @@ export function ExpensesSection({ iso2 }: { iso2: string }) {
   const { t } = useTranslation();
   const months = t('months.short', { returnObjects: true });
   const { data: expenses } = useLiveQuery(expensesByCountryQuery(expoDb, iso2), [iso2]);
-  const { data: tripOptions } = useLiveQuery(tripsWithCountryQuery(expoDb, iso2), [iso2]);
+  const tripOptions = useLiveJoinQuery(tripsWithCountryQuery(expoDb, iso2), [iso2]);
   const { mainCurrency, rates, numberStyle } = useMoneySettings();
   const [editing, setEditing] = useState<Editing>(null);
   const [ratesOpen, setRatesOpen] = useState(false);
