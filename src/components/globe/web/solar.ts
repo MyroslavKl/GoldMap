@@ -52,8 +52,11 @@ export const SECONDS_PER_YEAR = 60;
 const OUTER_FIT = 0.92;
 /** Радіус Сонця при progress = 1, частка меншої половини екрана */
 const SUN_SIZE = 0.06;
-/** У скільки разів зменшується глобус при progress = 1 (CSS-масштаб) */
-export const GLOBE_MIN_SCALE = 0.75;
+/**
+ * Радіус Землі (нашого глобуса) при progress = 1, частка меншої половини екрана — у ряду
+ * з іншими планетами: більша за Венеру, менша за Уран і набагато менша за Юпітер.
+ */
+export const EARTH_SIZE = 0.024;
 
 /** Орбіти — еліпси: легкий нахил площини, щоб система виглядала об'ємною */
 export const ORBIT_TILT = 0.7;
@@ -91,17 +94,29 @@ export type SpaceLayout = {
   bodies: SpaceBody[];
 };
 
+/** CSS-масштаб, за якого глобус має розмір Землі серед планет (не більше 1). */
+export function earthScale(halfMin: number, globeRadius: number): number {
+  if (!(globeRadius > 0)) return 1;
+  return Math.min(1, (EARTH_SIZE * halfMin) / globeRadius);
+}
+
 /** Кут планети на орбіті в момент t (секунди анімації). */
 export function planetAngle(planet: PlanetDef, t: number): number {
   return planet.phase + (2 * Math.PI * t) / (planet.period * SECONDS_PER_YEAR);
 }
 
 /**
- * Розташування тіл на екрані. `halfMin` — половина меншої сторони екрана, px.
+ * Розташування тіл на екрані. `halfMin` — половина меншої сторони екрана, px;
+ * `globeRadius` — поточний радіус глобуса MapLibre, px (його зменшуємо CSS-масштабом).
  * Масштаб орбіт плавно зменшується з progress: на 0 Сонце далеко за екраном, на 1 вся
  * система вміщається.
  */
-export function spaceLayout(progress: number, t: number, halfMin: number): SpaceLayout {
+export function spaceLayout(
+  progress: number,
+  t: number,
+  halfMin: number,
+  globeRadius: number,
+): SpaceLayout {
   const p = Math.min(1, Math.max(0, progress));
   const outer = PLANETS[PLANETS.length - 1].orbit;
   const unitAtFull = (halfMin * OUTER_FIT) / outer;
@@ -132,7 +147,7 @@ export function spaceLayout(progress: number, t: number, halfMin: number): Space
   return {
     worldX,
     worldY,
-    globeScale: 1 - (1 - GLOBE_MIN_SCALE) * p,
+    globeScale: 1 - (1 - earthScale(halfMin, globeRadius)) * p,
     sunX,
     sunY,
     orbits: PLANETS.map((pl) => pl.orbit * unit),

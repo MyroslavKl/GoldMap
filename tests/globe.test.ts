@@ -20,7 +20,8 @@ import {
   PLACE_CLASSES,
 } from '../src/components/globe/web/detail-layers.ts';
 import {
-  GLOBE_MIN_SCALE,
+  EARTH_SIZE,
+  earthScale,
   LABEL_PRIORITY,
   overlaps,
   PLANET_IDS,
@@ -260,6 +261,7 @@ describe('детальна карта (OpenFreeMap)', () => {
 
 describe('Сонячна система при віддаленні', () => {
   const HALF = 195; // половина ширини екрана телефону, px
+  const GLOBE_R = 40; // радіус глобуса MapLibre на найбільшому віддаленні, px
 
   test('з’являється лише при сильному віддаленні, плавно', () => {
     const fit = 1.2;
@@ -271,7 +273,7 @@ describe('Сонячна система при віддаленні', () => {
   });
 
   test('progress 0: глобус на місці, Сонце за межами екрана', () => {
-    const l = spaceLayout(0, 12.3, HALF);
+    const l = spaceLayout(0, 12.3, HALF, GLOBE_R);
     assert.ok(Math.abs(l.worldX) < 1e-9 && Math.abs(l.worldY) < 1e-9, 'світ не зсунуто');
     assert.equal(l.globeScale, 1);
     assert.ok(Math.hypot(l.sunX, l.sunY) > HALF, 'Сонце не видно');
@@ -279,19 +281,22 @@ describe('Сонячна система при віддаленні', () => {
 
   test('progress 1: Сонце в центрі, вся система на екрані, глобус — на орбіті Землі', () => {
     for (const t of [0, 7, 33, 120]) {
-      const l = spaceLayout(1, t, HALF);
+      const l = spaceLayout(1, t, HALF, GLOBE_R);
       assert.ok(Math.hypot(l.sunX, l.sunY) < 1e-6, 'Сонце в центрі');
       assert.ok(Math.max(...l.orbits) <= HALF, 'найдальша орбіта вміщається');
       const earthOrbit = l.orbits[PLANET_IDS.indexOf('earth')];
       const tilt = Math.abs(l.worldY / Math.max(Math.abs(l.worldX), 1e-9));
       assert.ok(Math.abs(l.worldX) <= earthOrbit + 1e-6, `t=${t}`);
       assert.ok(Number.isFinite(tilt));
-      assert.equal(l.globeScale, GLOBE_MIN_SCALE);
+      assert.ok(
+        Math.abs(l.globeScale * GLOBE_R - EARTH_SIZE * HALF) < 1e-9,
+        'Земля — розміру планети',
+      );
     }
   });
 
   test('орбіти — від Меркурія до Нептуна за зростанням; 8 планет + Сонце (Земля — глобус)', () => {
-    const l = spaceLayout(1, 0, HALF);
+    const l = spaceLayout(1, 0, HALF, GLOBE_R);
     assert.deepEqual(
       l.orbits,
       [...l.orbits].sort((a, b) => a - b),
@@ -305,11 +310,15 @@ describe('Сонячна система при віддаленні', () => {
     const size = (id: string) => l.bodies.find((b) => b.id === id)!.r;
     assert.ok(size('jupiter') > size('saturn') && size('saturn') > size('mars'));
     assert.ok(size('mars') > size('mercury'));
+    // Земля (глобус) — більша за Венеру, менша за Уран і Юпітер
+    const earth = GLOBE_R * l.globeScale;
+    assert.ok(earth > size('venus') && earth < size('uranus') && earth < size('jupiter'));
+    assert.equal(earthScale(HALF, 1), 1, 'глобус не збільшується');
   });
 
   test('планети рухаються, внутрішні — швидше за зовнішні', () => {
     const angle = (id: string, t: number) => {
-      const l = spaceLayout(1, t, HALF);
+      const l = spaceLayout(1, t, HALF, GLOBE_R);
       const b = l.bodies.find((x) => x.id === id)!;
       return Math.atan2(b.y / 0.7, b.x);
     };

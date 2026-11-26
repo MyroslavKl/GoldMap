@@ -276,6 +276,11 @@ const map = new MapLibreMap({
   },
 });
 
+// Два пальці — лише наближення відносно центру глобуса: без повороту карти й без зсуву
+// за точкою між пальцями (інакше наближення плутається з обертанням Землі).
+map.touchZoomRotate.disableRotation();
+map.touchZoomRotate.enable({ around: 'center' });
+
 /**
  * Прозорість заливки країн: з детальною картою золото напівпрозоре (видно воду й дороги);
  * у мінікарті інші країни приглушені — видно, де межа «своєї».
@@ -536,7 +541,12 @@ function renderSpace(now: number): void {
     space.width = Math.round(w * ratio);
     space.height = Math.round(h * ratio);
   }
-  const layout = spaceLayout(progress, (now - spaceStart) / 1000, Math.min(w, h) / 2);
+  const layout = spaceLayout(
+    progress,
+    (now - spaceStart) / 1000,
+    Math.min(w, h) / 2,
+    lastGlobeRadius,
+  );
   world.style.transform = `translate(${layout.worldX}px, ${layout.worldY}px) scale(${layout.globeScale})`;
   space.style.opacity = String(progress);
 
