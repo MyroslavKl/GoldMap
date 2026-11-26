@@ -62,6 +62,10 @@ declare global {
 
 /** Швидкість автообертання, градусів довготи за секунду */
 const ROTATE_DEG_PER_SEC = 3;
+/** Через скільки без дотиків обертання відновлюється… */
+const RESUME_IDLE_MS = 5000;
+/** …і лише якщо глобус віддалений (видно майже всю кулю), а не наближений до країни */
+const RESUME_MAX_ZOOM = 2;
 /** Частка меншої сторони екрана, яку займає діаметр глобуса на старті */
 const GLOBE_FIT = 0.86;
 const FLY_DURATION_MS = 1600;
@@ -339,10 +343,25 @@ function updatePulse(): void {
 // ---------- автообертання ----------
 
 let rotateEnabled = !focusIso;
-let stoppedByUser = false;
+// Повернення на збережене місце (initialCamera) — стоїмо, доки не мине час бездіяльності
+let stoppedByUser = init.camera !== null;
 let lastFrame = 0;
+/** Остання дія людини (дотик, колесо, flyTo) і чи палець зараз на екрані */
+let lastActivity = performance.now();
+let touching = false;
 
 function rotateFrame(now: number): void {
+  if (
+    rotateEnabled &&
+    stoppedByUser &&
+    !touching &&
+    !map.isMoving() &&
+    now - lastActivity > RESUME_IDLE_MS &&
+    map.getZoom() <= RESUME_MAX_ZOOM
+  ) {
+    stoppedByUser = false; // 5 с без дій і глобус віддалений — крутимо далі
+    lastFrame = now;
+  }
   if (rotateEnabled && !stoppedByUser && !map.isMoving()) {
     const dt = lastFrame ? Math.min(now - lastFrame, 100) / 1000 : 0;
     const c = map.getCenter();
@@ -353,13 +372,28 @@ function rotateFrame(now: number): void {
 }
 
 function stopByUser(): void {
+  lastActivity = performance.now();
   if (stoppedByUser) return;
   stoppedByUser = true;
   post({ type: 'interaction' });
 }
 
 const canvas = map.getCanvasContainer();
-canvas.addEventListener('touchstart', stopByUser, { passive: true });
+canvas.addEventListener(
+  'touchstart',
+  (e: TouchEvent) => {
+    touching = e.touches.length > 0;
+    stopByUser();
+  },
+  { passive: true },
+);
+canvas.addEventListener('touchmove', () => (lastActivity = performance.now()), { passive: true });
+const touchEnd = (e: TouchEvent) => {
+  touching = e.touches.length > 0;
+  lastActivity = performance.now();
+};
+canvas.addEventListener('touchend', touchEnd, { passive: true });
+canvas.addEventListener('touchcancel', touchEnd, { passive: true });
 canvas.addEventListener('mousedown', stopByUser);
 canvas.addEventListener('wheel', stopByUser, { passive: true });
 
@@ -711,11 +745,13 @@ window[WEB_RECEIVER] = (message: ToWebMessage) => {
       }
       break;
     case 'setAutoRotate':
+      // Вмикання після вимкнення — крутимо одразу; повторне «увімкнено» стан не скидає
+      if (message.enabled && !rotateEnabled) stoppedByUser = false;
       rotateEnabled = message.enabled && !focusIso;
-      if (message.enabled) stoppedByUser = false;
       break;
     case 'flyTo':
       stoppedByUser = true;
+      lastActivity = performance.now();
       map.flyTo({
         center: [message.lng, message.lat],
         zoom: message.zoom,

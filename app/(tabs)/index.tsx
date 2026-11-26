@@ -108,9 +108,8 @@ export default function GlobeTab() {
           language={lang}
           points={points}
           detailMap={detailMap}
-          // Повернення з екрана країни: те саме місце, без автообертання
+          // Повернення з екрана країни: те саме місце; обертання — після 5 с бездіяльності
           initialCamera={resumeCamera ?? undefined}
-          autoRotate={resumeCamera === null}
           onCountryPress={selectCountry}
           onLongPress={onLongPress}
           onPointPress={onPointPress}
