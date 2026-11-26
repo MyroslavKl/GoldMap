@@ -276,10 +276,10 @@ const map = new MapLibreMap({
   },
 });
 
-// Два пальці — лише наближення відносно центру глобуса: без повороту карти й без зсуву
-// за точкою між пальцями (інакше наближення плутається з обертанням Землі).
-map.touchZoomRotate.disableRotation();
-map.touchZoomRotate.enable({ around: 'center' });
+// Щипок двома пальцями обробляє не MapLibre, а pinch нижче (у координатах екрана): поки видно
+// Сонячну систему, глобус зменшено CSS-масштабом, і в координатах MapLibre відстань між
+// пальцями «росла» разом зі зменшенням — віддалення боролося само з собою.
+map.touchZoomRotate.disable();
 
 /**
  * Прозорість заливки країн: з детальною картою золото напівпрозоре (видно воду й дороги);
@@ -658,7 +658,8 @@ function insideLock(lng: number, lat: number): boolean {
 }
 
 function clampCamera(): void {
-  if (!lock) return;
+  // Під час щипка не втручаємося (кожен крок щипка — moveend); повернемо після жесту
+  if (!lock || spaceGesture.mode === 'pinch') return;
   const c = map.getCenter();
   // Довгота в системі меж (для країн через антимеридіан межі можуть бути > 180)
   let lng = c.lng;
@@ -919,7 +920,7 @@ map.on('movestart', (e: { originalEvent?: unknown }) => {
   if (e.originalEvent) cancelPress();
 });
 
-// ---------- жести в режимі Сонячної системи ----------
+// ---------- жести: щипок (завжди) і жести в режимі Сонячної системи ----------
 
 /** Градусів довготи на піксель, коли крутиш Землю пальцем у космосі */
 const SPACE_DRAG_DEG_PER_PX = 0.5;
@@ -941,17 +942,27 @@ function touchDist(e: TouchEvent): number {
   return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
 }
 
+/**
+ * Щипок — завжди тут, у координатах екрана: один жест плавно веде і через межу появи
+ * Сонячної системи (у будь-який бік). Наближення — відносно центру глобуса, без повороту.
+ * Один палець: на звичайному глобусі — MapLibre (dragPan), у космосі — тут.
+ */
 document.addEventListener(
   'touchstart',
   (e: TouchEvent) => {
-    if (!spaceShown) return;
-    touching = true;
-    stopByUser();
     if (e.touches.length >= 2) {
+      touching = true;
+      stopByUser();
       spaceGesture.mode = 'pinch';
       spaceGesture.startDist = touchDist(e);
       spaceGesture.startZoom = map.getZoom();
-    } else {
+      map.dragPan.disable(); // другий палець не має тягнути глобус
+      return;
+    }
+    if (!spaceShown) return;
+    touching = true;
+    stopByUser();
+    {
       const t = e.touches[0];
       spaceGesture.mode = 'drag';
       spaceGesture.lastX = t.clientX;
@@ -967,11 +978,14 @@ document.addEventListener(
 document.addEventListener(
   'touchmove',
   (e: TouchEvent) => {
-    if (!spaceShown || !spaceGesture.mode) return;
+    if (!spaceGesture.mode) return;
     lastActivity = performance.now();
     if (spaceGesture.mode === 'pinch' && e.touches.length >= 2) {
       const zoom = spaceGesture.startZoom + Math.log2(touchDist(e) / spaceGesture.startDist);
-      map.jumpTo({ zoom: Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), zoom)) });
+      // Мінікарта не віддаляється далі за всю країну (lock.minZoom)
+      const min = Math.max(map.getMinZoom(), lock?.minZoom ?? -Infinity);
+      const clamped = Math.max(min, Math.min(map.getMaxZoom(), zoom));
+      map.jumpTo({ zoom: clamped });
     } else if (spaceGesture.mode === 'drag' && e.touches.length === 1) {
       const t = e.touches[0];
       const dx = t.clientX - spaceGesture.lastX;
@@ -991,7 +1005,16 @@ document.addEventListener(
   (e: TouchEvent) => {
     touching = e.touches.length > 0;
     lastActivity = performance.now();
-    if (!spaceShown || !spaceGesture.mode) return;
+    if (!spaceGesture.mode) return;
+    if (spaceGesture.mode === 'pinch') {
+      if (e.touches.length < 2) {
+        // Щипок закінчено. Наступний щипок почнеться з нової відстані між пальцями
+        spaceGesture.mode = null;
+        map.dragPan.enable();
+        clampCamera(); // мінікарта: після жесту повернути в межі країни
+      }
+      return;
+    }
     const wasTap =
       spaceGesture.mode === 'drag' &&
       !spaceGesture.moved &&
@@ -1010,6 +1033,16 @@ document.addEventListener(
     } else {
       lastSpaceTap = { x, y, time: now };
     }
+  },
+  { passive: true },
+);
+
+document.addEventListener(
+  'touchcancel',
+  () => {
+    touching = false;
+    if (spaceGesture.mode === 'pinch') map.dragPan.enable();
+    spaceGesture.mode = null;
   },
   { passive: true },
 );
