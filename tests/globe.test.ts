@@ -27,6 +27,7 @@ import {
   PLANET_IDS,
   PLANETS,
   spaceLayout,
+  SPACE_START,
   spaceProgress,
 } from '../src/components/globe/web/solar.ts';
 import {
@@ -263,13 +264,17 @@ describe('Сонячна система при віддаленні', () => {
   const HALF = 195; // половина ширини екрана телефону, px
   const GLOBE_R = 40; // радіус глобуса MapLibre на найбільшому віддаленні, px
 
-  test('з’являється лише при сильному віддаленні, плавно', () => {
+  test('з’являється лише після 80 % шляху віддалення, плавно', () => {
     const fit = 1.2;
-    assert.equal(spaceProgress(fit, fit), 0, 'звичайний глобус — без системи');
-    assert.equal(spaceProgress(fit - 0.9, fit), 0);
-    const mid = spaceProgress(fit - 1.8, fit);
+    const min = -2;
+    const at = (share: number) => spaceProgress(fit - (fit - min) * share, fit, min);
+    assert.equal(spaceProgress(fit, fit, min), 0, 'звичайний глобус — без системи');
+    assert.equal(at(0.5), 0, 'на половині віддалення ще нічого');
+    assert.equal(at(0.79), 0, 'до 80 % — нічого');
+    assert.equal(at(SPACE_START), 0, 'на 80 % лише починає');
+    const mid = at(0.9);
     assert.ok(mid > 0 && mid < 1, String(mid));
-    assert.equal(spaceProgress(-2, fit), 1);
+    assert.equal(spaceProgress(min, fit, min), 1);
   });
 
   test('progress 0: глобус на місці, Сонце за межами екрана', () => {

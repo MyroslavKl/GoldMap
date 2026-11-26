@@ -525,7 +525,8 @@ function drawBody(ctx: CanvasRenderingContext2D, body: SpaceBody): void {
 
 /** Кадр Сонячної системи. Поки глобус не віддалений — нічого не робить. */
 function renderSpace(now: number): void {
-  const progress = spaceLabels && !focusIso ? spaceProgress(map.getZoom(), fitZoom) : 0;
+  const progress =
+    spaceLabels && !focusIso ? spaceProgress(map.getZoom(), fitZoom, MIN_SPACE_ZOOM) : 0;
   if (progress === 0) {
     if (spaceShown) {
       spaceShown = false;

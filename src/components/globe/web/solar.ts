@@ -68,13 +68,20 @@ export function smoothstep(x: number): number {
 }
 
 /**
- * Наскільки видно Сонячну систему (0..1) залежно від наближення глобуса.
- * `fitZoom` — наближення, з яким глобус вписано на старті.
+ * З якої частки шляху віддалення (від стартового глобуса до найбільшого віддалення)
+ * починає з'являтися Сонячна система. До цього — звичайний глобус, без зсуву й масштабу.
  */
-export function spaceProgress(zoom: number, fitZoom: number): number {
-  const start = fitZoom - 1; // глобус удвічі менший за стартовий — починаємо проявляти
-  const end = fitZoom - 2.6;
-  return smoothstep((start - zoom) / (start - end));
+export const SPACE_START = 0.8;
+
+/**
+ * Наскільки видно Сонячну систему (0..1) залежно від наближення глобуса.
+ * `fitZoom` — наближення стартового глобуса, `minZoom` — найбільше віддалення.
+ * 0 до 80 % шляху віддалення, далі плавно до 1 на самому краю.
+ */
+export function spaceProgress(zoom: number, fitZoom: number, minZoom: number): number {
+  const start = fitZoom - (fitZoom - minZoom) * SPACE_START;
+  if (start <= minZoom) return zoom <= minZoom ? 1 : 0;
+  return smoothstep((start - zoom) / (start - minZoom));
 }
 
 export type SpaceBody = { id: PlanetId | 'sun'; x: number; y: number; r: number };
