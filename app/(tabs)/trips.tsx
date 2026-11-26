@@ -7,9 +7,13 @@ import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { EmptyState } from '@/components/EmptyState';
 import { Screen } from '@/components/Screen';
+import { SwipeToDelete } from '@/components/trips/SwipeToDelete';
 import { TripRow } from '@/components/trips/TripRow';
 import { TripSheet } from '@/components/trips/TripSheet';
+import { removeTrip, restoreTrip } from '@/db';
+import { dbContext } from '@/db/client';
 import { splitTrips } from '@/lib/trips';
+import { showUndo } from '@/lib/undo';
 import { useToday, useTrips } from '@/lib/use-trips';
 import { spacing } from '@/theme';
 
@@ -27,6 +31,10 @@ export default function TripsTab() {
   ].filter((s) => s.data.length > 0);
 
   const open = (id: string) => router.push({ pathname: '/trip/[id]', params: { id } });
+  const remove = async (id: string) => {
+    await removeTrip(dbContext, id);
+    showUndo({ message: t('undo.tripDeleted'), undo: () => restoreTrip(dbContext, id) });
+  };
 
   return (
     <Screen title={t('trips.title')}>
@@ -52,7 +60,14 @@ export default function TripsTab() {
           )}
           ItemSeparatorComponent={Separator}
           renderItem={({ item }) => (
-            <TripRow trip={item} today={today} onPress={() => open(item.id)} />
+            <SwipeToDelete onDelete={() => void remove(item.id)}>
+              <TripRow
+                trip={item}
+                today={today}
+                onPress={() => open(item.id)}
+                onDelete={() => void remove(item.id)}
+              />
+            </SwipeToDelete>
           )}
         />
       )}

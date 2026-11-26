@@ -13,6 +13,8 @@ type Props = {
   trip: TripWithCountries;
   today: string;
   onPress: () => void;
+  /** Є — видалення доступне VoiceOver як дія рядка (свайп — у SwipeToDelete). */
+  onDelete?: () => void;
 };
 
 /** Статус поїздки одним рядком: «через 12 днів», «триває», «завершена»… */
@@ -33,7 +35,7 @@ export function useTripStatus() {
 }
 
 /** Рядок поїздки у списку: прапори, назва, дати, статус. */
-export function TripRow({ trip, today, onPress }: Props) {
+export function TripRow({ trip, today, onPress, onDelete }: Props) {
   const { t } = useTranslation();
   const months = t('months.short', { returnObjects: true });
   const status = useTripStatus()(trip, today);
@@ -45,6 +47,10 @@ export function TripRow({ trip, today, onPress }: Props) {
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
+      accessibilityActions={onDelete ? [{ name: 'delete', label: t('common.delete') }] : undefined}
+      onAccessibilityAction={(e) => {
+        if (e.nativeEvent.actionName === 'delete') onDelete?.();
+      }}
       style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
       <View style={styles.text}>
         {flags ? <AppText style={styles.flags}>{flags}</AppText> : null}
