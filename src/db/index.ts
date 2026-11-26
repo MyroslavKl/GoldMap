@@ -1,5 +1,8 @@
 export type { AppDatabase, DbContext } from './context.ts';
 export * from './queries/country-content.ts';
+export * from './queries/expenses.ts';
+export * from './queries/notes.ts';
+export * from './queries/photos.ts';
 export * from './queries/settings.ts';
 export * from './queries/trips.ts';
 export * from './queries/visits.ts';

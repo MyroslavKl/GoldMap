@@ -1,6 +1,6 @@
-import { eq } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
-import type { DbContext } from '../context.ts';
+import type { AppDatabase, DbContext } from '../context.ts';
 import { settings } from '../schema.ts';
 
 /** Відомі налаштування і типи їхніх значень. */
@@ -11,6 +11,11 @@ export type SettingValues = {
   currency: string;
   /** Знаменник лічильника: 193 члени ООН або всі території */
   countryListMode: 'un' | 'extended';
+  /**
+   * Ручні курси для підсумку витрат: ключ 'EUR>UAH' — скільки UAH за 1 EUR.
+   * Див. src/lib/money.ts (rateKey, convert).
+   */
+  exchangeRates: Record<string, number>;
 };
 export type SettingKey = keyof SettingValues;
 
@@ -41,4 +46,21 @@ export async function setSetting<K extends SettingKey>(
       target: settings.key,
       set: { value: json, updatedAt: ts, deletedAt: null },
     });
+}
+
+/** Рядок налаштування — для useLiveQuery; значення розбирає parseSetting. */
+export function settingQuery(db: AppDatabase, key: SettingKey) {
+  return db
+    .select({ value: settings.value })
+    .from(settings)
+    .where(and(eq(settings.key, key), isNull(settings.deletedAt)));
+}
+
+/** Значення з рядків settingQuery, або null. */
+export function parseSetting<K extends SettingKey>(
+  _key: K,
+  rows: readonly { value: string }[],
+): SettingValues[K] | null {
+  const row = rows[0];
+  return row ? (JSON.parse(row.value) as SettingValues[K]) : null;
 }

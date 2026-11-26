@@ -63,10 +63,11 @@ Developer акаунта, тож development build на iOS неможливий
 ```
 app/                  # маршрути expo-router (лише екрани й _layout)
   (tabs)/             # Глобус (index), Країни, Поїздки, Налаштування
-  country/[iso].tsx   # модальний екран країни
+  country/[iso].tsx   # екран країни (звичайний перехід, не модальний — поверх видно «Скасувати»)
   trip/[id].tsx       # модальний екран поїздки
 src/
-  components/         # AppText, Screen, EmptyState, далі GlobeView, CountryCard ...
+  components/         # AppText, Screen, Button, Sheet, DateField, UndoToast, CountryCard ...
+    country/          # секції екрана країни: візити, фото, нотатки, витрати
   db/                 # схема Drizzle, міграції, запити
   data/               # countries.json, borders.geojson, cities.json
   theme/              # colors, fonts, spacing, navigationTheme
@@ -120,10 +121,33 @@ docs/SPEC.md          # ТЗ
 - Силуети — `src/data/outlines.json` (генерує `build:data`); тест перевіряє, що Сімферополь
   усередині силуету UA.
 
+## Екран країни (етап 6)
+
+- **Візит без дат** (з «Був тут» / галочки) заповнюється першим візитом з датами — `addVisit`
+  не створює другого запису (є тест). Наступні візити з датами — окремі записи.
+- **Фото** — `src/lib/photos.ts`: копія в `documentDirectory/photos/<id>.jpg` (довша сторона
+  ≤ 2000 px, JPEG 0.85) + мініатюра `<id>_t.jpg` (400 px). Не посилання на галерею: фото
+  лишається, навіть якщо його видалили з галереї. Дата зйомки й GPS — з EXIF
+  (`src/lib/exif.ts`, iOS `{GPS}` і Android-раціонали) у `photos.taken_at/lat/lng`.
+  Відображення — лише через `photoUri(relativePath)`.
+- **Видалення з «Скасувати».** Фото, нотатка, витрата, візит: м'яке видалення →
+  `showUndo({ message, undo, commit })` (`src/lib/undo.ts`, 5 с). Файли фото стираються в
+  `commit` після вікна «Скасувати»; при старті — `cleanupDeletedPhotoFiles()` (видалені > 5 хв).
+- **Гроші** — `src/lib/money.ts` (чистий, без Intl): мінімальні одиниці за ISO 4217 (JPY — 0,
+  KWD — 3 знаки), кожна витрата у своїй валюті. Підсумок — в основній валюті (`settings.currency`,
+  за замовчуванням UAH для регіону UA, інакше USD) за ручними курсами
+  `settings.exchangeRates` (`'EUR>UAH': 45`). Витрати без курсу в підсумок не йдуть —
+  показуються окремо з кнопкою «Вказати курс».
+- Діаграма витрат — упорядковані горизонтальні смуги одним кольором (золото), з назвою, сумою
+  й часткою в кожному рядку.
+- Тексти дозволів (фото) — `locales/uk.json`, `locales/en.json` + плагін expo-image-picker в
+  `app.json` (камера й мікрофон вимкнені). В Expo Go не видно — лише в збірці.
+
 ## Чисті модулі й тести
 
-- Логіка без React/Expo — у `src/lib/*.ts` (напр. `country-list.ts`, `dates.ts`) з відносними
-  імпортами `.ts`; тести — `tests/lib.test.ts`. Хуки й код з Expo — окремими файлами.
+- Логіка без React/Expo — у `src/lib/*.ts` (`country-list.ts`, `dates.ts`, `money.ts`,
+  `exif.ts`) з відносними імпортами `.ts`; тести — `tests/lib.test.ts` (і додати файл у
+  `tests/tsconfig.json`). Хуки й код з Expo — окремими файлами.
 - Назви місяців — з i18n (`months.short`), не з `Intl`: однаково на iOS і Android.
 
 ## Команди
@@ -136,7 +160,7 @@ npm run format         # Prettier
 npm run build:data     # перезібрати src/data з джерел (потрібен інтернет)
 npm run test:data      # тести даних (кордони України, 193, назви)
 npm run test:db        # unit-тести бази (node:sqlite у пам'яті)
-npm run test:lib       # чисті модулі src/lib (список країн, дати)
+npm run test:lib       # чисті модулі src/lib (список країн, дати, гроші, EXIF) + паритет uk/en
 npm test               # усі тести
 npm run db:generate    # нова міграція після зміни схеми
 npm run build:globe    # перезібрати офлайн-HTML глобуса

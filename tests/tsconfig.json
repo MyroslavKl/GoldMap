@@ -9,6 +9,8 @@
     "../src/db/**/*.ts",
     "../src/lib/country-list.ts",
     "../src/lib/dates.ts",
+    "../src/lib/exif.ts",
+    "../src/lib/money.ts",
     "../src/components/globe/protocol.ts",
     "../src/components/globe/web/fill-animator.ts"
   ]

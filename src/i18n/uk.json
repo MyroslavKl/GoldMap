@@ -18,10 +18,14 @@
   "settings": {
     "title": "Налаштування",
     "language": "Мова",
-    "version": "Версія {{version}}"
+    "version": "Версія {{version}}",
+    "currency": "Основна валюта",
+    "currencyHint": "У ній рахуються підсумки витрат."
   },
   "country": {
-    "unknown": "Невідома країна"
+    "unknown": "Невідома країна",
+    "capital": "Столиця: {{capital}}",
+    "currency": "Валюта: {{currency}}"
   },
   "trip": {
     "title": "Поїздка"
@@ -32,7 +36,11 @@
   },
   "common": {
     "comingSoon": "Незабаром",
-    "close": "Закрити"
+    "close": "Закрити",
+    "add": "Додати",
+    "save": "Зберегти",
+    "delete": "Видалити",
+    "editHint": "Відкриває редагування"
   },
   "errors": {
     "database": "Не вдалося відкрити локальну базу даних. Спробуйте перезапустити додаток."
@@ -119,5 +127,96 @@
     "emptyVisited": "Ще немає відвіданих країн. Позначте їх у режимі «Всі» або на глобусі.",
     "emptyPlanned": "Немає запланованих поїздок",
     "emptySearch": "Нічого не знайдено"
+  },
+  "undo": {
+    "action": "Скасувати",
+    "dismiss": "Закрити сповіщення",
+    "visitDeleted": "Візит видалено",
+    "photoDeleted": "Фото видалено",
+    "noteDeleted": "Нотатку видалено",
+    "expenseDeleted": "Витрату видалено"
+  },
+  "dates": {
+    "notSet": "Не вказано",
+    "clear": "Очистити: {{label}}"
+  },
+  "visits": {
+    "title": "Візити",
+    "empty": "Ще немає візитів. Додайте дати поїздки — або позначте «Був тут».",
+    "days_one": "{{count}} день",
+    "days_few": "{{count}} дні",
+    "days_many": "{{count}} днів",
+    "days_other": "{{count}} дня",
+    "noDates": "Без дат",
+    "addDatesHint": "Торкніться, щоб додати дати",
+    "edit": "Візит",
+    "new": "Новий візит",
+    "from": "З",
+    "to": "По",
+    "datesOptional": "Дати необов’язкові: можна вказати лише початок або нічого."
+  },
+  "photos": {
+    "title": "Фото",
+    "empty": "Додайте фото з галереї — Goldmap збереже копії у себе, тож вони лишаться, навіть якщо видалити їх з галереї.",
+    "importing": "Зберігаю фото: {{done}} з {{total}}",
+    "importFailed_one": "Не вдалося зберегти {{count}} фото",
+    "importFailed_few": "Не вдалося зберегти {{count}} фото",
+    "importFailed_many": "Не вдалося зберегти {{count}} фото",
+    "importFailed_other": "Не вдалося зберегти {{count}} фото",
+    "pickFailed": "Не вдалося відкрити галерею",
+    "open": "Фото {{index}} з {{total}}",
+    "counter": "{{index}} / {{total}}",
+    "delete": "Видалити фото",
+    "takenAt": "Знято {{date}}"
+  },
+  "places": {
+    "title": "Точки",
+    "soon": "Міні-карта з точками — незабаром"
+  },
+  "notes": {
+    "title": "Нотатки",
+    "empty": "Ще немає нотаток",
+    "edit": "Нотатка",
+    "new": "Нова нотатка",
+    "placeholder": "Що запам’яталося?"
+  },
+  "expenses": {
+    "title": "Витрати",
+    "empty": "Ще немає витрат",
+    "total": "Разом",
+    "withoutRate": "Ще без курсу: {{amounts}}",
+    "setRates": "Вказати курс",
+    "rates": "Курси валют",
+    "rowSubtitle": "{{category}} · {{date}}",
+    "categories": {
+      "transport": "Дорога",
+      "lodging": "Житло",
+      "food": "Їжа",
+      "entertainment": "Розваги",
+      "other": "Інше"
+    },
+    "chartLabel": "Витрати за категоріями",
+    "chartRow": "{{category}}: {{amount}}, {{share}}%",
+    "amountShare": "{{amount}} · {{share}}%",
+    "amountInvalid": "Введіть суму, напр. 12,50",
+    "edit": "Витрата",
+    "new": "Нова витрата",
+    "amount": "Сума",
+    "amountPlaceholder": "0,00",
+    "currency": "Валюта",
+    "category": "Категорія",
+    "date": "Дата",
+    "comment": "Коментар",
+    "commentPlaceholder": "Необов’язково",
+    "ratesTitle": "Курси валют",
+    "ratesHint": "Курс вводиться вручну й потрібен лише для підсумку в {{currency}}. Самі витрати зберігаються у своїй валюті.",
+    "rateOne": "1 {{currency}} =",
+    "ratePlaceholder": "Курс",
+    "rateLabel": "Курс {{from}} до {{to}}",
+    "rateInvalid": "Невірне число"
+  },
+  "currency": {
+    "otherPlaceholder": "Інша валюта, напр. PLN",
+    "other": "Код іншої валюти"
   }
 }

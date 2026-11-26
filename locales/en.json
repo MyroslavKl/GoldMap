@@ -1,0 +1,9 @@
+{
+  "ios": {
+    "CFBundleDisplayName": "Goldmap",
+    "NSPhotoLibraryUsageDescription": "Goldmap adds the photos you choose to your countries and keeps copies only on this phone. The date and location in a photo help place it on the map."
+  },
+  "android": {
+    "app_name": "Goldmap"
+  }
+}

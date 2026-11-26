@@ -5,8 +5,25 @@ import assert from 'node:assert/strict';
 import { beforeEach, describe, test } from 'node:test';
 
 import {
+  addExpense,
+  addNote,
+  addPhoto,
   addVisit,
   expenses,
+  getExpensesByCountry,
+  getNotesByCountry,
+  getPhotosByCountry,
+  getPhotosForFileCleanup,
+  removeExpense,
+  removeNote,
+  removePhoto,
+  restoreExpense,
+  restoreNote,
+  restorePhoto,
+  restoreVisit,
+  updateExpense,
+  updateNote,
+  type NewPhoto,
   getCountryContentSummary,
   getPlannedCountryIsos,
   needsUnmarkConfirmation,
@@ -98,8 +115,8 @@ describe('addVisit', () => {
 
   test('кілька візитів на країну; сортування: новіші зверху, без дат — у кінці', async () => {
     await addVisit(t, { countryIso: 'IT', startDate: '2023-05-01' });
-    await addVisit(t, { countryIso: 'IT' });
     await addVisit(t, { countryIso: 'IT', startDate: '2025-08-01' });
+    await addVisit(t, { countryIso: 'IT' });
     const list = await getVisitsByCountry(t, 'IT');
     assert.deepEqual(
       list.map((v) => v.startDate),
@@ -358,5 +375,252 @@ describe('зняття позначки «був» і підтвердження
       };
       assert.equal(row.deleted_at, null, `${table} видалено`);
     }
+  });
+});
+
+describe('візит без дат і перший візит з датами', () => {
+  test('«Був тут», потім візит з датами — заповнює той самий запис, а не створює другий', async () => {
+    await setCountryVisited(t, 'PT', true);
+    const [undated] = await getVisitsByCountry(t, 'PT');
+    t.tick();
+
+    const filled = await addVisit(t, {
+      countryIso: 'PT',
+      startDate: '2025-05-01',
+      endDate: '2025-05-07',
+    });
+
+    const list = await getVisitsByCountry(t, 'PT');
+    assert.equal(list.length, 1, 'другий візит не створено');
+    assert.equal(filled.id, undated.id);
+    assert.deepEqual(list[0], filled);
+    assert.equal(list[0].startDate, '2025-05-01');
+    assert.equal(list[0].endDate, '2025-05-07');
+    assert.equal(list[0].createdAt, undated.createdAt);
+    assert.equal(list[0].updatedAt, '2026-01-01T12:00:01.000Z');
+  });
+
+  test('наступний візит з датами — вже окремий запис', async () => {
+    await setCountryVisited(t, 'PT', true);
+    await addVisit(t, { countryIso: 'PT', startDate: '2025-05-01' });
+    await addVisit(t, { countryIso: 'PT', startDate: '2026-02-10' });
+    assert.deepEqual(
+      (await getVisitsByCountry(t, 'PT')).map((v) => v.startDate),
+      ['2026-02-10', '2025-05-01'],
+    );
+  });
+
+  test('досить і однієї дати (лише кінець) — запис без дат теж заповнюється', async () => {
+    await setCountryVisited(t, 'PT', true);
+    await addVisit(t, { countryIso: 'PT', endDate: '2025-05-07' });
+    const list = await getVisitsByCountry(t, 'PT');
+    assert.equal(list.length, 1);
+    assert.equal(list[0].endDate, '2025-05-07');
+  });
+
+  test('візит без дат не заповнює інший візит без дат; чужі країни й видалені не чіпаються', async () => {
+    await setCountryVisited(t, 'PT', true);
+    await addVisit(t, { countryIso: 'PT' });
+    assert.equal((await getVisitsByCountry(t, 'PT')).length, 2);
+
+    await setCountryVisited(t, 'ES', true);
+    const removed = await addVisit(t, { countryIso: 'AD' });
+    await removeVisit(t, removed.id);
+    await addVisit(t, { countryIso: 'AD', startDate: '2024-01-01' });
+    assert.equal((await getVisitsByCountry(t, 'ES'))[0].startDate, null);
+    const ad = t.sqlite
+      .prepare("SELECT COUNT(*) AS n FROM visits WHERE country_iso = 'AD'")
+      .get() as {
+      n: number;
+    };
+    assert.equal(ad.n, 2, 'видалений візит не «оживає»');
+  });
+});
+
+describe('restoreVisit', () => {
+  test('«Скасувати» повертає видалений візит і позначку країни', async () => {
+    const v = await addVisit(t, { countryIso: 'NO', startDate: '2024-07-01' });
+    await removeVisit(t, v.id);
+    assert.equal(await isCountryVisited(t, 'NO'), false);
+    await restoreVisit(t, v.id);
+    assert.equal(await isCountryVisited(t, 'NO'), true);
+    assert.equal((await getVisitsByCountry(t, 'NO'))[0].startDate, '2024-07-01');
+  });
+});
+
+describe('фото', () => {
+  const photo = (over: Partial<NewPhoto> = {}): NewPhoto => ({
+    countryIso: 'JP',
+    fileUri: 'photos/abc.jpg',
+    thumbUri: 'photos/abc_t.jpg',
+    width: 2000,
+    height: 1500,
+    ...over,
+  });
+
+  test('зберігає шляхи, розмір, дату зйомки й GPS з EXIF; id можна задати наперед', async () => {
+    const p = await addPhoto(
+      t,
+      photo({ id: 'fixed-id', takenAt: '2024-04-02T10:11:12', lat: 35.6586, lng: 139.7454 }),
+    );
+    assert.equal(p.id, 'fixed-id');
+    const [stored] = await getPhotosByCountry(t, 'JP');
+    assert.deepEqual(stored, p);
+    assert.equal(stored.takenAt, '2024-04-02T10:11:12');
+    assert.equal(stored.lat, 35.6586);
+    assert.equal(stored.lng, 139.7454);
+  });
+
+  test('без EXIF — дата й координати порожні', async () => {
+    const p = await addPhoto(t, photo());
+    assert.equal(p.takenAt, null);
+    assert.equal(p.lat, null);
+    assert.equal(p.lng, null);
+  });
+
+  test('відхиляє абсолютні шляхи, «..», нульовий розмір і половину координат', async () => {
+    for (const bad of [
+      photo({ fileUri: 'file:///var/mobile/photo.jpg' }),
+      photo({ fileUri: 'photos/../goldmap.db' }),
+      photo({ thumbUri: '/photos/a_t.jpg' }),
+      photo({ width: 0 }),
+      photo({ lat: 10 }),
+      photo({ lat: 91, lng: 0 }),
+      photo({ countryIso: 'jp' }),
+    ]) {
+      await assert.rejects(addPhoto(t, bad), DbValidationError, JSON.stringify(bad));
+    }
+    assert.deepEqual(await getPhotosByCountry(t, 'JP'), []);
+  });
+
+  test('сітка: за датою зйомки, без дати — у кінці за порядком додавання', async () => {
+    await addPhoto(t, photo({ id: 'nodate1' }));
+    t.tick();
+    await addPhoto(t, photo({ id: 'late', takenAt: '2024-05-01T08:00:00' }));
+    await addPhoto(t, photo({ id: 'early', takenAt: '2023-01-01T08:00:00' }));
+    t.tick();
+    await addPhoto(t, photo({ id: 'nodate2' }));
+    assert.deepEqual(
+      (await getPhotosByCountry(t, 'JP')).map((p) => p.id),
+      ['early', 'late', 'nodate1', 'nodate2'],
+    );
+  });
+
+  test('видалення м’яке, «Скасувати» повертає фото', async () => {
+    const p = await addPhoto(t, photo());
+    await removePhoto(t, p.id);
+    assert.deepEqual(await getPhotosByCountry(t, 'JP'), []);
+    await restorePhoto(t, p.id);
+    assert.equal((await getPhotosByCountry(t, 'JP')).length, 1);
+  });
+
+  test('файли до прибирання — лише видалених раніше за межу', async () => {
+    const old = await addPhoto(t, photo({ id: 'old', fileUri: 'photos/old.jpg' }));
+    const fresh = await addPhoto(t, photo({ id: 'fresh', fileUri: 'photos/fresh.jpg' }));
+    await addPhoto(t, photo({ id: 'alive' }));
+    await removePhoto(t, old.id);
+    t.tick(10 * 60_000);
+    const cutoff = t.now();
+    t.tick();
+    await removePhoto(t, fresh.id);
+
+    assert.deepEqual(await getPhotosForFileCleanup(t, cutoff), [
+      { id: 'old', fileUri: 'photos/old.jpg', thumbUri: 'photos/abc_t.jpg' },
+    ]);
+  });
+});
+
+describe('нотатки', () => {
+  test('додавання обрізає пробіли, порожню не зберігає', async () => {
+    const n = await addNote(t, { countryIso: 'IS', text: '  Блакитна лагуна  ' });
+    assert.equal(n.text, 'Блакитна лагуна');
+    await assert.rejects(addNote(t, { countryIso: 'IS', text: '   ' }), DbValidationError);
+    assert.equal((await getNotesByCountry(t, 'IS')).length, 1);
+  });
+
+  test('редагування змінює текст і updated_at; нові нотатки зверху', async () => {
+    const first = await addNote(t, { countryIso: 'IS', text: 'перша' });
+    t.tick();
+    await addNote(t, { countryIso: 'IS', text: 'друга' });
+    t.tick();
+    await updateNote(t, first.id, 'перша, виправлена');
+    const list = await getNotesByCountry(t, 'IS');
+    assert.deepEqual(
+      list.map((n) => n.text),
+      ['друга', 'перша, виправлена'],
+    );
+    assert.equal(list[1].updatedAt, '2026-01-01T12:00:02.000Z');
+    await assert.rejects(updateNote(t, first.id, ''), DbValidationError);
+  });
+
+  test('видалення м’яке, «Скасувати» повертає нотатку', async () => {
+    const n = await addNote(t, { countryIso: 'IS', text: 'x' });
+    await removeNote(t, n.id);
+    assert.deepEqual(await getNotesByCountry(t, 'IS'), []);
+    await restoreNote(t, n.id);
+    assert.equal((await getNotesByCountry(t, 'IS'))[0].text, 'x');
+  });
+});
+
+describe('витрати', () => {
+  const expense = {
+    countryIso: 'CZ',
+    amount: 45_000,
+    currency: 'CZK',
+    category: 'lodging' as const,
+    date: '2025-03-02',
+  };
+
+  test('кожна витрата зі своєю валютою; новіші зверху', async () => {
+    await addExpense(t, expense);
+    await addExpense(t, {
+      ...expense,
+      amount: 12_50,
+      currency: 'EUR',
+      category: 'food',
+      date: '2025-03-04',
+      comment: '  обід ',
+    });
+    const list = await getExpensesByCountry(t, 'CZ');
+    assert.deepEqual(
+      list.map((e) => [e.amount, e.currency, e.category, e.comment]),
+      [
+        [1250, 'EUR', 'food', 'обід'],
+        [45000, 'CZK', 'lodging', null],
+      ],
+    );
+  });
+
+  test('відхиляє дробову, нульову чи від’ємну суму, біту валюту, категорію й дату', async () => {
+    for (const bad of [
+      { amount: 12.5 },
+      { amount: 0 },
+      { amount: -100 },
+      { currency: 'eur' },
+      { currency: 'EURO' },
+      { category: 'shopping' as never },
+      { date: '2025-02-30' },
+    ]) {
+      await assert.rejects(addExpense(t, { ...expense, ...bad }), DbValidationError);
+    }
+    assert.deepEqual(await getExpensesByCountry(t, 'CZ'), []);
+  });
+
+  test('редагування й «Скасувати» після видалення', async () => {
+    const e = await addExpense(t, expense);
+    await updateExpense(t, e.id, { ...expense, amount: 50_000, comment: '' });
+    assert.equal((await getExpensesByCountry(t, 'CZ'))[0].amount, 50_000);
+    await removeExpense(t, e.id);
+    assert.deepEqual(await getExpensesByCountry(t, 'CZ'), []);
+    await restoreExpense(t, e.id);
+    assert.equal((await getExpensesByCountry(t, 'CZ'))[0].amount, 50_000);
+  });
+});
+
+describe('ручні курси в налаштуваннях', () => {
+  test('зберігаються словником пар валют', async () => {
+    await setSetting(t, 'currency', 'UAH');
+    await setSetting(t, 'exchangeRates', { 'EUR>UAH': 45, 'CZK>UAH': 1.8 });
+    assert.deepEqual(await getSetting(t, 'exchangeRates'), { 'EUR>UAH': 45, 'CZK>UAH': 1.8 });
   });
 });

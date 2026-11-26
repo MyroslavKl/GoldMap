@@ -12,16 +12,48 @@ export type NewVisit = {
   endDate?: string | null;
 };
 
-/** Додати візит (період перебування). Кілька візитів на країну — нормально. */
+/**
+ * Додати візит (період перебування). Кілька візитів на країну — нормально.
+ *
+ * Якщо в країни є візит без дат (його створює кнопка «Був тут» чи галочка у списку), то
+ * перший візит з датами заповнює той запис, а не створює другий: людина просто уточнює,
+ * коли саме була. Повертає збережений рядок (новий або заповнений).
+ */
 export async function addVisit(ctx: DbContext, input: NewVisit): Promise<Visit> {
   assertIso2(input.countryIso);
   assertDateRange(input.startDate, input.endDate);
+  const startDate = input.startDate ?? null;
+  const endDate = input.endDate ?? null;
   const ts = ctx.now();
+
+  if (startDate || endDate) {
+    const [undated] = await ctx.db
+      .select()
+      .from(visits)
+      .where(
+        and(
+          eq(visits.countryIso, input.countryIso),
+          active,
+          isNull(visits.startDate),
+          isNull(visits.endDate),
+        ),
+      )
+      .orderBy(asc(visits.createdAt))
+      .limit(1);
+    if (undated) {
+      await ctx.db
+        .update(visits)
+        .set({ startDate, endDate, updatedAt: ts })
+        .where(eq(visits.id, undated.id));
+      return { ...undated, startDate, endDate, updatedAt: ts };
+    }
+  }
+
   const row: Visit = {
     id: ctx.newId(),
     countryIso: input.countryIso,
-    startDate: input.startDate ?? null,
-    endDate: input.endDate ?? null,
+    startDate,
+    endDate,
     createdAt: ts,
     updatedAt: ts,
     deletedAt: null,
@@ -52,13 +84,26 @@ export async function removeVisit(ctx: DbContext, id: string): Promise<void> {
     .where(and(eq(visits.id, id), active));
 }
 
-/** Візити країни: найновіші зверху, без дат — у кінці. */
-export async function getVisitsByCountry(ctx: DbContext, countryIso: string): Promise<Visit[]> {
-  return ctx.db
+/** Скасувати видалення візиту («Скасувати» у сповіщенні). */
+export async function restoreVisit(ctx: DbContext, id: string): Promise<void> {
+  await ctx.db
+    .update(visits)
+    .set({ deletedAt: null, updatedAt: ctx.now() })
+    .where(eq(visits.id, id));
+}
+
+/** Візити однієї країни: найновіші зверху, без дат — у кінці. Для useLiveQuery. */
+export function visitsByCountryQuery(db: AppDatabase, countryIso: string) {
+  return db
     .select()
     .from(visits)
     .where(and(eq(visits.countryIso, countryIso), active))
     .orderBy(sql`${visits.startDate} IS NULL`, desc(visits.startDate), asc(visits.createdAt));
+}
+
+/** Візити країни: найновіші зверху, без дат — у кінці. */
+export async function getVisitsByCountry(ctx: DbContext, countryIso: string): Promise<Visit[]> {
+  return visitsByCountryQuery(ctx.db, countryIso);
 }
 
 export type VisitedCountry = {

@@ -18,10 +18,14 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
-    "version": "Version {{version}}"
+    "version": "Version {{version}}",
+    "currency": "Main currency",
+    "currencyHint": "Expense totals are shown in it."
   },
   "country": {
-    "unknown": "Unknown country"
+    "unknown": "Unknown country",
+    "capital": "Capital: {{capital}}",
+    "currency": "Currency: {{currency}}"
   },
   "trip": {
     "title": "Trip"
@@ -32,7 +36,11 @@
   },
   "common": {
     "comingSoon": "Coming soon",
-    "close": "Close"
+    "close": "Close",
+    "add": "Add",
+    "save": "Save",
+    "delete": "Delete",
+    "editHint": "Opens the editor"
   },
   "errors": {
     "database": "Could not open the local database. Try restarting the app."
@@ -96,5 +104,92 @@
     "emptyVisited": "No visited countries yet. Mark them in “All” or on the globe.",
     "emptyPlanned": "No planned trips",
     "emptySearch": "Nothing found"
+  },
+  "undo": {
+    "action": "Undo",
+    "dismiss": "Dismiss notification",
+    "visitDeleted": "Visit deleted",
+    "photoDeleted": "Photo deleted",
+    "noteDeleted": "Note deleted",
+    "expenseDeleted": "Expense deleted"
+  },
+  "dates": {
+    "notSet": "Not set",
+    "clear": "Clear: {{label}}"
+  },
+  "visits": {
+    "title": "Visits",
+    "empty": "No visits yet. Add your trip dates — or tap “Been here”.",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "noDates": "No dates",
+    "addDatesHint": "Tap to add dates",
+    "edit": "Visit",
+    "new": "New visit",
+    "from": "From",
+    "to": "To",
+    "datesOptional": "Dates are optional: you can set only the start, or nothing."
+  },
+  "photos": {
+    "title": "Photos",
+    "empty": "Add photos from your library — Goldmap keeps its own copies, so they stay even if you delete them from the library.",
+    "importing": "Saving photos: {{done}} of {{total}}",
+    "importFailed_one": "Could not save {{count}} photo",
+    "importFailed_other": "Could not save {{count}} photos",
+    "pickFailed": "Could not open the photo library",
+    "open": "Photo {{index}} of {{total}}",
+    "counter": "{{index}} / {{total}}",
+    "delete": "Delete photo",
+    "takenAt": "Taken {{date}}"
+  },
+  "places": {
+    "title": "Places",
+    "soon": "A mini map with places is coming soon"
+  },
+  "notes": {
+    "title": "Notes",
+    "empty": "No notes yet",
+    "edit": "Note",
+    "new": "New note",
+    "placeholder": "What do you want to remember?"
+  },
+  "expenses": {
+    "title": "Expenses",
+    "empty": "No expenses yet",
+    "total": "Total",
+    "withoutRate": "No rate yet: {{amounts}}",
+    "setRates": "Set exchange rate",
+    "rates": "Exchange rates",
+    "rowSubtitle": "{{category}} · {{date}}",
+    "categories": {
+      "transport": "Transport",
+      "lodging": "Lodging",
+      "food": "Food",
+      "entertainment": "Entertainment",
+      "other": "Other"
+    },
+    "chartLabel": "Expenses by category",
+    "chartRow": "{{category}}: {{amount}}, {{share}}%",
+    "amountShare": "{{amount}} · {{share}}%",
+    "amountInvalid": "Enter an amount, e.g. 12.50",
+    "edit": "Expense",
+    "new": "New expense",
+    "amount": "Amount",
+    "amountPlaceholder": "0.00",
+    "currency": "Currency",
+    "category": "Category",
+    "date": "Date",
+    "comment": "Comment",
+    "commentPlaceholder": "Optional",
+    "ratesTitle": "Exchange rates",
+    "ratesHint": "Rates are entered manually and only used for the total in {{currency}}. Each expense keeps its own currency.",
+    "rateOne": "1 {{currency}} =",
+    "ratePlaceholder": "Rate",
+    "rateLabel": "Rate from {{from}} to {{to}}",
+    "rateInvalid": "Invalid number"
+  },
+  "currency": {
+    "otherPlaceholder": "Other currency, e.g. PLN",
+    "other": "Other currency code"
   }
 }

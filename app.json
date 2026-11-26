@@ -11,7 +11,12 @@
     "ios": {
       "bundleIdentifier": "com.zacKer.goldmap",
       "icon": "./assets/expo.icon",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "en",
+        "CFBundleLocalizations": ["uk", "en"],
+        "CFBundleAllowMixedLocalizations": true
+      }
     },
     "android": {
       "package": "com.zacKer.goldmap",
@@ -38,11 +43,24 @@
         }
       ],
       "expo-localization",
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Goldmap adds the photos you choose to your countries and keeps copies only on this phone. The date and location in a photo help place it on the map.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "locales": {
+      "uk": "./locales/uk.json",
+      "en": "./locales/en.json"
     }
   }
 }
