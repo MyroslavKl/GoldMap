@@ -476,6 +476,7 @@ function computeFitZoom(): number {
 // ---------- Сонячна система при сильному віддаленні ----------
 
 const space = document.getElementById('space') as HTMLCanvasElement;
+const mapEl = map.getContainer();
 const world = document.getElementById('world')!;
 const spaceCtx = space.getContext('2d');
 /** Підписи з RN (i18n); без них систему не показуємо */
@@ -528,12 +529,16 @@ function renderSpace(now: number): void {
   if (progress === 0) {
     if (spaceShown) {
       spaceShown = false;
+      mapEl.style.pointerEvents = '';
       world.style.transform = '';
       space.style.opacity = '0';
     }
     return;
   }
   spaceShown = true;
+  // Глобус зменшено CSS-масштабом — разом із ним зменшилась би й зона дотиків. Поки видно
+  // систему, жести по всьому екрану обробляє spaceGestures (нижче).
+  mapEl.style.pointerEvents = 'none';
   const w = space.clientWidth;
   const h = space.clientHeight;
   const ratio = Math.min(window.devicePixelRatio || 1, 3);
@@ -789,20 +794,61 @@ function countryAt(point: PointLike): string | null {
   return (feature?.properties?.iso2 as string | undefined) ?? null;
 }
 
-map.on('click', (e) => {
-  if (suppressClick) {
-    suppressClick = false;
-    return;
-  }
-  const point = map.queryRenderedFeatures(e.point, { layers: POINT_LAYERS })[0];
+/** Подвійний тап: другий тап не пізніше ніж за стільки мс і не далі ніж стільки px від першого */
+const DOUBLE_TAP_MS = 300;
+const DOUBLE_TAP_SLOP_PX = 40;
+/** Наскільки наближає подвійний тап */
+const DOUBLE_TAP_ZOOM = 1;
+
+/** Подвійний тап — наблизити на крок (відносно центру глобуса, як і щипок). */
+function zoomInStep(): void {
+  stopByUser();
+  map.easeTo({ zoom: map.getZoom() + DOUBLE_TAP_ZOOM, duration: 300 });
+}
+
+function singleTap(x: number, y: number): void {
+  const point = map.queryRenderedFeatures([x, y], { layers: POINT_LAYERS })[0];
   const id = point?.properties?.id as string | undefined;
   if (id) {
     post({ type: 'pointPress', id });
     return;
   }
   if (focusIso) return; // у мінікарті тап по країні нічого не робить
-  const iso2 = countryAt(e.point);
+  const iso2 = countryAt([x, y]);
   if (iso2) post({ type: 'countryPress', iso2 });
+}
+
+/**
+ * Тап чекає DOUBLE_TAP_MS: якщо прийде другий — це подвійний тап (наближення), а не
+ * вибір країни. (Вбудований doubleClickZoom MapLibre вимкнено: перший тап уже відкривав би картку.)
+ */
+let pendingTap: { timer: ReturnType<typeof setTimeout>; x: number; y: number } | null = null;
+
+function handleTap(x: number, y: number): void {
+  if (pendingTap && Math.hypot(x - pendingTap.x, y - pendingTap.y) < DOUBLE_TAP_SLOP_PX) {
+    clearTimeout(pendingTap.timer);
+    pendingTap = null;
+    zoomInStep();
+    return;
+  }
+  if (pendingTap) clearTimeout(pendingTap.timer);
+  pendingTap = {
+    x,
+    y,
+    timer: setTimeout(() => {
+      pendingTap = null;
+      singleTap(x, y);
+    }, DOUBLE_TAP_MS),
+  };
+}
+
+map.doubleClickZoom.disable();
+map.on('click', (e) => {
+  if (suppressClick) {
+    suppressClick = false;
+    return;
+  }
+  handleTap(e.point.x, e.point.y);
 });
 
 let pressTimer: ReturnType<typeof setTimeout> | null = null;
@@ -871,6 +917,113 @@ canvas.addEventListener('mouseup', cancelPress);
 map.on('movestart', (e: { originalEvent?: unknown }) => {
   if (e.originalEvent) cancelPress();
 });
+
+// ---------- жести в режимі Сонячної системи ----------
+
+/** Градусів довготи на піксель, коли крутиш Землю пальцем у космосі */
+const SPACE_DRAG_DEG_PER_PX = 0.5;
+
+const spaceGesture = {
+  mode: null as null | 'drag' | 'pinch',
+  startDist: 0,
+  startZoom: 0,
+  lastX: 0,
+  moved: false,
+  startTime: 0,
+  startX: 0,
+  startY: 0,
+};
+let lastSpaceTap: { x: number; y: number; time: number } | null = null;
+
+function touchDist(e: TouchEvent): number {
+  const [a, b] = [e.touches[0], e.touches[1]];
+  return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+}
+
+document.addEventListener(
+  'touchstart',
+  (e: TouchEvent) => {
+    if (!spaceShown) return;
+    touching = true;
+    stopByUser();
+    if (e.touches.length >= 2) {
+      spaceGesture.mode = 'pinch';
+      spaceGesture.startDist = touchDist(e);
+      spaceGesture.startZoom = map.getZoom();
+    } else {
+      const t = e.touches[0];
+      spaceGesture.mode = 'drag';
+      spaceGesture.lastX = t.clientX;
+      spaceGesture.startX = t.clientX;
+      spaceGesture.startY = t.clientY;
+      spaceGesture.startTime = performance.now();
+      spaceGesture.moved = false;
+    }
+  },
+  { passive: true },
+);
+
+document.addEventListener(
+  'touchmove',
+  (e: TouchEvent) => {
+    if (!spaceShown || !spaceGesture.mode) return;
+    lastActivity = performance.now();
+    if (spaceGesture.mode === 'pinch' && e.touches.length >= 2) {
+      const zoom = spaceGesture.startZoom + Math.log2(touchDist(e) / spaceGesture.startDist);
+      map.jumpTo({ zoom: Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), zoom)) });
+    } else if (spaceGesture.mode === 'drag' && e.touches.length === 1) {
+      const t = e.touches[0];
+      const dx = t.clientX - spaceGesture.lastX;
+      spaceGesture.lastX = t.clientX;
+      if (Math.hypot(t.clientX - spaceGesture.startX, t.clientY - spaceGesture.startY) > 8) {
+        spaceGesture.moved = true;
+      }
+      const c = map.getCenter();
+      map.jumpTo({ center: [c.lng - dx * SPACE_DRAG_DEG_PER_PX, c.lat] });
+    }
+  },
+  { passive: true },
+);
+
+document.addEventListener(
+  'touchend',
+  (e: TouchEvent) => {
+    touching = e.touches.length > 0;
+    lastActivity = performance.now();
+    if (!spaceShown || !spaceGesture.mode) return;
+    const wasTap =
+      spaceGesture.mode === 'drag' &&
+      !spaceGesture.moved &&
+      performance.now() - spaceGesture.startTime < 250;
+    if (e.touches.length === 0) spaceGesture.mode = null;
+    if (!wasTap) return;
+    const now = performance.now();
+    const { startX: x, startY: y } = spaceGesture;
+    if (
+      lastSpaceTap &&
+      now - lastSpaceTap.time < DOUBLE_TAP_MS &&
+      Math.hypot(x - lastSpaceTap.x, y - lastSpaceTap.y) < DOUBLE_TAP_SLOP_PX
+    ) {
+      lastSpaceTap = null;
+      zoomInStep();
+    } else {
+      lastSpaceTap = { x, y, time: now };
+    }
+  },
+  { passive: true },
+);
+
+// Колесо миші (розробка в браузері)
+document.addEventListener(
+  'wheel',
+  (e: WheelEvent) => {
+    if (!spaceShown) return;
+    stopByUser();
+    const zoom = map.getZoom() - e.deltaY * 0.004;
+    map.jumpTo({ zoom: Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), zoom)) });
+  },
+  { passive: true },
+);
 
 // ---------- команди з React Native ----------
 
