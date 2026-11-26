@@ -24,6 +24,7 @@ export function useTripStatus() {
       return t('trips.inDays', { count: daysUntilStart(trip, today) ?? 0 });
     }
     if (phase === 'ongoing') return t('trips.ongoing');
+    if (trip.status === 'cancelled') return t('trips.cancelled');
     if (phase === 'past') {
       return trip.status === 'planned' ? t('trips.awaitingAnswer') : t('trips.finished');
     }

@@ -366,10 +366,21 @@ export async function confirmTripVisited(
   await clearSnooze(ctx, tripId);
 }
 
-/** «Ні»: поїздки не було — візитів не додаємо, питання закриваємо. */
+/** «Ні»: поїздки не було — візитів не додаємо, поїздка «не відбулась», питання закриваємо. */
 export async function declineTrip(ctx: DbContext, tripId: string): Promise<void> {
-  await setTripStatus(ctx, tripId, 'done');
+  await setTripStatus(ctx, tripId, 'cancelled');
   await clearSnooze(ctx, tripId);
+}
+
+/**
+ * Передумали після «Не вийшло»: питання після поїздки з'являється знову. Лише для
+ * скасованих — у відбутої вже є візити, повторне «Так» їх задублювало б.
+ */
+export async function reopenTripQuestion(ctx: DbContext, tripId: string): Promise<void> {
+  await ctx.db
+    .update(trips)
+    .set({ status: 'planned', updatedAt: ctx.now() })
+    .where(and(eq(trips.id, tripId), eq(trips.status, 'cancelled'), active));
 }
 
 async function setTripStatus(ctx: DbContext, id: string, status: Trip['status']): Promise<void> {

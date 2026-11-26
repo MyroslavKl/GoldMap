@@ -78,7 +78,7 @@ export function minusDays(date: string, n: number): string {
  * REMINDER_HOUR. Лише майбутні моменти: `now` — 'YYYY-MM-DD' і година зараз.
  */
 export function tripReminders(
-  trips: readonly (TripDates & { id: string; status: 'planned' | 'done' })[],
+  trips: readonly (TripDates & { id: string; status: 'planned' | 'done' | 'cancelled' })[],
   today: string,
   hourNow: number,
 ): Reminder[] {

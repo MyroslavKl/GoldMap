@@ -13,6 +13,7 @@ import {
   markWishlistVisited,
   nextDay,
   removeTrip,
+  reopenTripQuestion,
   restoreTrip,
   setTripCountries,
   snoozeTripQuestion,
@@ -927,7 +928,20 @@ describe('питання після поїздки', () => {
     const trip = await addTrip(t, past);
     await declineTrip(t, trip.id);
     assert.equal(await isCountryVisited(t, 'IT'), false);
-    assert.equal((await getTrip(t, trip.id))?.status, 'done');
+    assert.equal((await getTrip(t, trip.id))?.status, 'cancelled');
+    const after = await getTrip(t, trip.id);
+    assert.deepEqual(tripsAwaitingAnswer(after ? [after] : [], '2026-11-26'), []);
+  });
+
+  test('«Все ж відбулась» повертає питання лише скасованій поїздці', async () => {
+    const cancelled = await addTrip(t, past);
+    const done = await addTrip(t, { ...past, title: 'Відбулась' });
+    await declineTrip(t, cancelled.id);
+    await confirmTripVisited(t, done.id, ['IT']);
+    await reopenTripQuestion(t, cancelled.id);
+    await reopenTripQuestion(t, done.id);
+    assert.equal((await getTrip(t, cancelled.id))?.status, 'planned');
+    assert.equal((await getTrip(t, done.id))?.status, 'done');
   });
 
   test('«Пізніше» відкладає попап цієї поїздки до наступного дня; у «Скриньці» її видно', async () => {

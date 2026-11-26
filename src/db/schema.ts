@@ -33,7 +33,8 @@ export const visits = sqliteTable(
   (t) => [index('visits_country_idx').on(t.countryIso)],
 );
 
-export const TRIP_STATUSES = ['planned', 'done'] as const;
+/** done — відбулась (питання після поїздки: «Так»), cancelled — «Не вийшло». */
+export const TRIP_STATUSES = ['planned', 'done', 'cancelled'] as const;
 export type TripStatus = (typeof TRIP_STATUSES)[number];
 
 export const trips = sqliteTable('trips', {

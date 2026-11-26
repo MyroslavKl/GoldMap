@@ -16,7 +16,7 @@ import { useTripStatus } from '@/components/trips/TripRow';
 import { TripSheet } from '@/components/trips/TripSheet';
 import { WishlistSection } from '@/components/trips/WishlistSection';
 import { getCountry } from '@/data/countries';
-import { removeTrip, restoreTrip, tripExpensesQuery, type Expense } from '@/db';
+import { removeTrip, reopenTripQuestion, restoreTrip, tripExpensesQuery, type Expense } from '@/db';
 import { dbContext, expoDb } from '@/db/client';
 import { useLanguage } from '@/i18n';
 import { formatDay, formatPeriod } from '@/lib/dates';
@@ -109,6 +109,17 @@ export default function TripScreen() {
             onPress={() => setEditingTrip(true)}
             style={styles.left}
           />
+          {trip.status === 'cancelled' ? (
+            <Button
+              small
+              variant="ghost"
+              icon="refresh-outline"
+              label={t('trips.reopen')}
+              accessibilityHint={t('trips.reopenHint')}
+              onPress={() => void reopenTripQuestion(dbContext, trip.id)}
+              style={styles.left}
+            />
+          ) : null}
         </View>
 
         <Section title={t('budget.title')}>

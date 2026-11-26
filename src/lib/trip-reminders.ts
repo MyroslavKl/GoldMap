@@ -28,7 +28,7 @@ Notifications.setNotificationHandler({
 export type ReminderTrip = {
   id: string;
   title: string;
-  status: 'planned' | 'done';
+  status: 'planned' | 'done' | 'cancelled';
   startDate: string | null;
   endDate: string | null;
   countries: readonly string[];
