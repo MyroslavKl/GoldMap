@@ -10,8 +10,12 @@
     "../src/lib/country-list.ts",
     "../src/lib/dates.ts",
     "../src/lib/exif.ts",
+    "../src/lib/geo.ts",
+    "../src/lib/photo-clusters.ts",
+    "../src/lib/places.ts",
     "../src/lib/money.ts",
     "../src/components/globe/protocol.ts",
-    "../src/components/globe/web/fill-animator.ts"
+    "../src/components/globe/web/fill-animator.ts",
+    "../src/components/globe/web/detail-layers.ts"
   ]
 }

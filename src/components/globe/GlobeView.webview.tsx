@@ -1,8 +1,10 @@
 /**
  * Реалізація GlobeView для розробки: MapLibre GL JS у react-native-webview.
- * Працює в Expo Go, повністю офлайн (HTML з даними вшитий у бандл).
+ * Працює в Expo Go, офлайн (HTML з даними вшитий у бандл); детальна карта при наближенні —
+ * з мережі, лише коли `detailMap`. Мініатюри точок передаються в WebView як data: URL на запит.
  * Перед публікацією замінюється на нативний @rnmapbox/maps — див. docs/SPEC.md.
  */
+import { File } from 'expo-file-system';
 import { useCallback, useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { WebView, type WebViewMessageEvent } from 'react-native-webview';
@@ -10,7 +12,14 @@ import { WebView, type WebViewMessageEvent } from 'react-native-webview';
 import { getCountry } from '@/data/countries';
 import { colors } from '@/theme';
 
-import { isFromWebMessage, WEB_RECEIVER, type ToWebMessage } from './protocol';
+import {
+  isFromWebMessage,
+  WEB_INIT,
+  WEB_RECEIVER,
+  type ToWebMessage,
+  type WebInit,
+  type WebPoint,
+} from './protocol';
 import type { FlyToTarget, GlobeViewHandle, GlobeViewProps } from './types';
 import { GLOBE_HTML } from './web/globe-html.generated';
 
@@ -22,12 +31,31 @@ const SOURCE = { html: GLOBE_HTML };
 const COUNTRY_ZOOM = 3;
 const POINT_ZOOM = 5;
 
+/** Мініатюра (file://…_t.jpg) → data: URL. WebView не має доступу до файлів додатку. */
+async function readThumb(uri: string): Promise<string | null> {
+  try {
+    const file = new File(uri);
+    if (!file.exists) return null;
+    return `data:image/jpeg;base64,${await file.base64()}`;
+  } catch {
+    return null;
+  }
+}
+
 export function GlobeView({
   visited,
   planned = [],
   autoRotate = true,
   language = 'en',
+  points,
+  detailMap = false,
+  focus,
+  gestures = 'all',
+  initialCamera,
   onCountryPress,
+  onPointPress,
+  onLongPress,
+  onCameraChange,
   onInteraction,
   onReady,
   style,
@@ -35,6 +63,16 @@ export function GlobeView({
 }: GlobeViewProps & { ref?: Ref<GlobeViewHandle> }) {
   const webview = useRef<GlobeWebView>(null);
   const [ready, setReady] = useState(false);
+  // Налаштування до створення карти — фіксуються при монтуванні (див. types.ts)
+  const [injected] = useState(() => {
+    const init: WebInit = {
+      camera: initialCamera ?? null,
+      focusIso: focus?.iso2 ?? null,
+      gestures,
+      lang: language,
+    };
+    return `window.${WEB_INIT}=${JSON.stringify(init)};true;`;
+  });
 
   const send = useCallback((message: ToWebMessage) => {
     webview.current?.injectJavaScript(
@@ -83,6 +121,24 @@ export function GlobeView({
     if (ready) send({ type: 'setLanguage', lang: language });
   }, [ready, language, send]);
 
+  useEffect(() => {
+    if (ready) send({ type: 'setDetailMap', enabled: detailMap });
+  }, [ready, detailMap, send]);
+
+  // Точки: ключ мініатюри — сам URI файлу; зображення WebView попросить, коли точка в кадрі.
+  const pointsJson = JSON.stringify(
+    (points ?? []).map((p): WebPoint => ({
+      id: p.id,
+      lat: p.lat,
+      lng: p.lng,
+      title: p.title,
+      thumb: p.thumbnail,
+    })),
+  );
+  useEffect(() => {
+    if (ready) send({ type: 'setPoints', points: JSON.parse(pointsJson) as WebPoint[] });
+  }, [ready, pointsJson, send]);
+
   const onMessage = useCallback(
     (event: WebViewMessageEvent) => {
       let message: unknown;
@@ -100,6 +156,20 @@ export function GlobeView({
         case 'countryPress':
           onCountryPress?.(message.iso2);
           break;
+        case 'pointPress':
+          onPointPress?.(message.id);
+          break;
+        case 'longPress':
+          onLongPress?.({ lat: message.lat, lng: message.lng, iso2: message.iso2 });
+          break;
+        case 'camera':
+          onCameraChange?.({ lat: message.lat, lng: message.lng, zoom: message.zoom });
+          break;
+        case 'needThumb': {
+          const key = message.key;
+          void readThumb(key).then((dataUrl) => send({ type: 'pointThumb', key, dataUrl }));
+          break;
+        }
         case 'interaction':
           onInteraction?.();
           break;
@@ -108,7 +178,7 @@ export function GlobeView({
           break;
       }
     },
-    [onCountryPress, onInteraction, onReady],
+    [onCountryPress, onPointPress, onLongPress, onCameraChange, onInteraction, onReady, send],
   );
 
   return (
@@ -116,6 +186,7 @@ export function GlobeView({
       <WebView<NoExtraProps>
         ref={webview}
         source={SOURCE}
+        injectedJavaScriptBeforeContentLoaded={injected}
         originWhitelist={['*']}
         onMessage={onMessage}
         style={[styles.webview, !ready && styles.hidden]}

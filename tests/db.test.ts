@@ -5,6 +5,14 @@ import assert from 'node:assert/strict';
 import { beforeEach, describe, test } from 'node:test';
 
 import {
+  addPlace,
+  createPlaceFromPhotos,
+  getPlace,
+  getPlacesByCountry,
+  removePlace,
+  restorePlace,
+  setPlacePhotos,
+  updatePlace,
   addExpense,
   addNote,
   addPhoto,
@@ -332,7 +340,7 @@ describe('зняття позначки «був» і підтвердження
   test('позначка без дат і без вмісту — підтвердження не потрібне', async () => {
     await setCountryVisited(t, 'HU', true);
     const s = await getCountryContentSummary(t, 'HU');
-    assert.deepEqual(s, { datedVisits: 0, photos: 0, notes: 0, expenses: 0 });
+    assert.deepEqual(s, { datedVisits: 0, photos: 0, notes: 0, expenses: 0, places: 0 });
     assert.equal(needsUnmarkConfirmation(s), false);
   });
 
@@ -366,7 +374,7 @@ describe('зняття позначки «був» і підтвердження
 
     assert.equal(await isCountryVisited(t, 'HU'), false);
     const s = await getCountryContentSummary(t, 'HU');
-    assert.deepEqual(s, { datedVisits: 0, photos: 1, notes: 1, expenses: 1 });
+    assert.deepEqual(s, { datedVisits: 0, photos: 1, notes: 1, expenses: 1, places: 0 });
     for (const table of ['photos', 'notes', 'expenses']) {
       const row = t.sqlite
         .prepare(`SELECT deleted_at FROM ${table} WHERE country_iso = 'HU'`)
@@ -652,5 +660,88 @@ describe('візит — лише минуле', () => {
       addVisit(t, { countryIso: 'LV', startDate: '2026-01-03' }),
       DbValidationError,
     );
+  });
+});
+
+describe('точки', () => {
+  const kyiv = { countryIso: 'UA', title: 'Поділ', lat: 50.4651, lng: 30.5156 };
+  const photoOf = (id: string, iso = 'UA') =>
+    addPhoto(t, {
+      id,
+      countryIso: iso,
+      fileUri: `photos/${id}.jpg`,
+      thumbUri: `photos/${id}_t.jpg`,
+      width: 2000,
+      height: 1500,
+    });
+  const placeIdOf = (id: string) =>
+    t.sqlite.prepare('SELECT place_id, country_iso FROM photos WHERE id = ?').get(id) as {
+      place_id: string | null;
+      country_iso: string;
+    };
+
+  test('додає точку з назвою, нотаткою й координатами; порожню назву не зберігає', async () => {
+    const p = await addPlace(t, { ...kyiv, title: '  Поділ ', note: ' кава ' });
+    assert.equal(p.title, 'Поділ');
+    assert.equal(p.note, 'кава');
+    assert.equal(p.isWishlist, false);
+    assert.deepEqual(await getPlace(t, p.id), p);
+    await assert.rejects(addPlace(t, { ...kyiv, title: ' ' }), DbValidationError);
+    await assert.rejects(addPlace(t, { ...kyiv, lat: 95 }), DbValidationError);
+    await assert.rejects(addPlace(t, { ...kyiv, countryIso: 'ukr' }), DbValidationError);
+  });
+
+  test('редагування, видалення й «Скасувати»', async () => {
+    const p = await addPlace(t, kyiv);
+    await updatePlace(t, p.id, { title: 'Андріївський узвіз', note: '' });
+    assert.equal((await getPlace(t, p.id))?.title, 'Андріївський узвіз');
+    await removePlace(t, p.id);
+    assert.equal(await getPlace(t, p.id), null);
+    assert.deepEqual(await getPlacesByCountry(t, 'UA'), []);
+    await restorePlace(t, p.id);
+    assert.equal((await getPlacesByCountry(t, 'UA')).length, 1);
+  });
+
+  test('setPlacePhotos прив’язує рівно вибрані фото, решта лишаються в країні', async () => {
+    const p = await addPlace(t, kyiv);
+    await photoOf('a');
+    await photoOf('b');
+    await photoOf('c');
+    await setPlacePhotos(t, p.id, ['a', 'b']);
+    assert.equal(placeIdOf('a').place_id, p.id);
+    assert.equal(placeIdOf('c').place_id, null);
+    await setPlacePhotos(t, p.id, ['c']);
+    assert.equal(placeIdOf('a').place_id, null);
+    assert.equal(placeIdOf('c').place_id, p.id);
+    await setPlacePhotos(t, p.id, []);
+    assert.equal(placeIdOf('c').place_id, null);
+  });
+
+  test('точка з групи фото: фото переїжджають у країну точки (знято в іншій країні)', async () => {
+    await photoOf('p1', 'IT');
+    await photoOf('p2', 'IT');
+    const place = await createPlaceFromPhotos(t, {
+      countryIso: 'FR',
+      title: 'Ніцца · 3 серп. 2025',
+      lat: 43.7,
+      lng: 7.27,
+      visitedAt: '2025-08-03',
+      photoIds: ['p1', 'p2'],
+    });
+    assert.equal(place.visitedAt, '2025-08-03');
+    for (const id of ['p1', 'p2']) {
+      assert.deepEqual({ ...placeIdOf(id) }, { place_id: place.id, country_iso: 'FR' });
+    }
+    await assert.rejects(createPlaceFromPhotos(t, { ...kyiv, photoIds: [] }), DbValidationError);
+  });
+
+  test('точки рахуються як вміст країни для підтвердження зняття позначки', async () => {
+    await setCountryVisited(t, 'UA', true);
+    await addPlace(t, kyiv);
+    const s = await getCountryContentSummary(t, 'UA');
+    assert.equal(s.places, 1);
+    assert.equal(needsUnmarkConfirmation(s), true);
+    await setCountryVisited(t, 'UA', false);
+    assert.equal((await getPlacesByCountry(t, 'UA')).length, 1, 'точку не видалено');
   });
 });

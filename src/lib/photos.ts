@@ -106,25 +106,26 @@ export async function importPhoto(
 
 /**
  * Імпорт кількох фото по черзі (по одному — щоб не тримати в пам'яті десятки великих
- * зображень). onProgress(готово, усього). Повертає кількість фото, що не вдалося зберегти.
+ * зображень). onProgress(готово, усього). Повертає збережені фото й кількість невдалих.
  */
 export async function importPhotos(
   countryIso: string,
   assets: readonly ImagePicker.ImagePickerAsset[],
   onProgress: (done: number, total: number) => void,
-): Promise<number> {
+): Promise<{ photos: Photo[]; failed: number }> {
   let failed = 0;
+  const photos: Photo[] = [];
   onProgress(0, assets.length);
   for (const [i, asset] of assets.entries()) {
     try {
-      await importPhoto(countryIso, asset);
+      photos.push(await importPhoto(countryIso, asset));
     } catch (error) {
       failed++;
       console.warn('[photos] import failed', error);
     }
     onProgress(i + 1, assets.length);
   }
-  return failed;
+  return { photos, failed };
 }
 
 /** Стерти файли фото з диска (рядок у базі лишається м'яко видаленим). */

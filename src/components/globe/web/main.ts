@@ -1,19 +1,38 @@
 /**
  * Код глобуса всередині WebView (MapLibre GL JS, проєкція globe).
  * Збирається scripts/build-globe.ts в один офлайн-HTML разом із даними.
- * Нічого не тягне з мережі: стиль, кордони, міста і воркер MapLibre — вшиті.
+ * Вшите: стиль, кордони, міста, шрифт і воркер MapLibre. Єдине, що може йти з мережі, —
+ * детальна карта OpenFreeMap при наближенні, і лише коли RN її дозволив (setDetailMap).
  */
 import {
+  LngLatBounds,
   Map as MapLibreMap,
   setWorkerUrl,
-  type GeoJSONFeature,
-  type MapLayerMouseEvent,
+  type GeoJSONSource,
+  type PointLike,
 } from 'maplibre-gl';
 
-import type { FeatureCollection } from 'geojson';
+import type { Feature, FeatureCollection, Geometry, Position } from 'geojson';
 
 import { colors, goldAlpha } from '../../../theme/colors';
-import { WEB_RECEIVER, type FromWebMessage, type ToWebMessage } from '../protocol';
+import {
+  WEB_INIT,
+  WEB_RECEIVER,
+  type FromWebMessage,
+  type ToWebMessage,
+  type WebInit,
+  type WebPoint,
+} from '../protocol';
+import {
+  DETAIL_ATTRIBUTION,
+  DETAIL_MAX_ZOOM,
+  DETAIL_MIN_ZOOM,
+  DETAIL_SOURCE_ID,
+  DETAIL_TILEJSON_URL,
+  detailBaseLayers,
+  detailLabelLayers,
+  placeName,
+} from './detail-layers';
 import { createFillAnimator } from './fill-animator';
 
 /** Вихідний код воркера MapLibre — підставляє esbuild (define). */
@@ -35,6 +54,7 @@ const LABEL_ZOOM_SHIFT = 1;
 declare global {
   interface Window {
     __GM_DATA__: GlobeData;
+    [WEB_INIT]?: WebInit;
     ReactNativeWebView?: { postMessage(message: string): void };
     [WEB_RECEIVER]: (message: ToWebMessage) => void;
   }
@@ -45,6 +65,15 @@ const ROTATE_DEG_PER_SEC = 3;
 /** Частка меншої сторони екрана, яку займає діаметр глобуса на старті */
 const GLOBE_FIT = 0.86;
 const FLY_DURATION_MS = 1600;
+/** Найбільше наближення без детальної карти (далі — лише полігони, дивитися нема на що) */
+const OFFLINE_MAX_ZOOM = 10;
+/** Довге натискання: тривалість і допустимий зсув пальця */
+const LONG_PRESS_MS = 550;
+const LONG_PRESS_SLOP_PX = 8;
+/** Діаметр мініатюри точки на карті, CSS px */
+const THUMB_SIZE = 44;
+const THUMB_PREFIX = 'thumb:';
+const CAMERA_DEBOUNCE_MS = 400;
 
 function post(message: FromWebMessage): void {
   window.ReactNativeWebView?.postMessage(JSON.stringify(message));
@@ -59,18 +88,33 @@ window.addEventListener('unhandledrejection', (e) =>
 setWorkerUrl(URL.createObjectURL(new Blob([__WORKER_SRC__], { type: 'text/javascript' })));
 
 const data = window.__GM_DATA__;
+const init: WebInit = window[WEB_INIT] ?? {
+  camera: null,
+  focusIso: null,
+  gestures: 'all',
+  lang: 'en',
+};
+const minimap = init.gestures === 'longPressOnly';
+if (minimap) {
+  // Карта не перехоплює прокрутку екрана, у якому лежить
+  document.documentElement.style.touchAction = 'pan-x pan-y';
+  document.body.style.touchAction = 'pan-x pan-y';
+}
+
+const emptyCollection: FeatureCollection = { type: 'FeatureCollection', features: [] };
 
 const map = new MapLibreMap({
   container: 'map',
   attributionControl: false,
   renderWorldCopies: false,
   maxPitch: 0,
+  maxZoom: OFFLINE_MAX_ZOOM,
   dragRotate: false,
   touchPitch: false,
   pitchWithRotate: false,
   fadeDuration: 0,
-  center: [30, 25],
-  zoom: 1.2,
+  center: init.camera ? [init.camera.lng, init.camera.lat] : [30, 25],
+  zoom: init.camera?.zoom ?? 1.2,
   style: {
     version: 8,
     projection: { type: 'globe' },
@@ -81,6 +125,7 @@ const map = new MapLibreMap({
       countries: { type: 'geojson', data: data.borders, promoteId: 'iso2' },
       cities: { type: 'geojson', data: data.cities },
       labels: { type: 'geojson', data: data.labels },
+      points: { type: 'geojson', data: emptyCollection, promoteId: 'id' },
     },
     layers: [
       { id: 'ocean', type: 'background', paint: { 'background-color': colors.ocean } },
@@ -117,7 +162,7 @@ const map = new MapLibreMap({
         source: 'countries',
         paint: {
           'line-color': colors.goldBorder,
-          'line-width': ['interpolate', ['linear'], ['zoom'], 1, 0.4, 6, 1.2],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 1, 0.4, 6, 1.2, 12, 2],
         },
       },
       {
@@ -128,7 +173,7 @@ const map = new MapLibreMap({
         source: 'countries',
         paint: {
           'line-color': colors.borderOnGold,
-          'line-width': ['interpolate', ['linear'], ['zoom'], 1, 0.6, 6, 1.4],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 1, 0.6, 6, 1.4, 12, 2.2],
           'line-dasharray': [2, 2],
           'line-opacity': ['to-number', ['coalesce', ['feature-state', 'fill'], 0]],
         },
@@ -138,8 +183,7 @@ const map = new MapLibreMap({
         type: 'circle',
         source: 'cities',
         minzoom: 4,
-        // Столиці й великі міста — з zoom 4, решта — з zoom 6.
-        filter: ['any', ['>=', ['zoom'], 6], ['==', ['get', 'major'], true]],
+        filter: citiesFilter(false),
         paint: {
           // Не золото: інакше столиця зливається з відвіданою (золотою) країною.
           'circle-color': ['case', ['get', 'capital'], colors.text, colors.textMuted],
@@ -155,8 +199,9 @@ const map = new MapLibreMap({
         source: 'labels',
         // Великі країни видно одразу, малі — з наближенням (Natural Earth MIN_LABEL).
         filter: ['>=', ['zoom'], ['-', ['get', 'z'], LABEL_ZOOM_SHIFT]],
+        maxzoom: 9,
         layout: {
-          'text-field': ['get', 'uk'],
+          'text-field': ['get', init.lang],
           'text-font': [LABEL_FONT],
           'text-size': ['interpolate', ['linear'], ['zoom'], 1, 9, 4, 12, 7, 15],
           'text-transform': 'uppercase',
@@ -171,13 +216,79 @@ const map = new MapLibreMap({
           'text-halo-blur': 0.4,
         },
       },
+      {
+        id: 'points-dot',
+        type: 'circle',
+        source: 'points',
+        paint: {
+          'circle-color': colors.gold,
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 1, 3, 6, 5, 12, 7],
+          'circle-stroke-color': colors.bg,
+          'circle-stroke-width': 1.5,
+          'circle-pitch-alignment': 'map',
+        },
+      },
+      {
+        // Кругла мініатюра першого фото. Зображення додається, коли MapLibre його попросить
+        // (styleimagemissing) — тобто лише для точок у кадрі при zoom ≥ 6.
+        id: 'points-thumb',
+        type: 'symbol',
+        source: 'points',
+        minzoom: DETAIL_MIN_ZOOM,
+        filter: ['has', 'thumb'],
+        layout: {
+          'icon-image': ['concat', THUMB_PREFIX, ['get', 'thumb']],
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
+        },
+      },
+      {
+        id: 'points-label',
+        type: 'symbol',
+        source: 'points',
+        minzoom: 8,
+        layout: {
+          'text-field': ['get', 'title'],
+          'text-font': [LABEL_FONT],
+          'text-size': 12,
+          'text-anchor': 'top',
+          'text-offset': [0, 2.2],
+          'text-max-width': 9,
+          'text-optional': true,
+        },
+        paint: {
+          'text-color': colors.gold,
+          'text-halo-color': colors.bg,
+          'text-halo-width': 1.4,
+        },
+      },
     ],
   },
 });
 
+// Мінікарта: жести вимкнені (екран прокручується), тап по точці й довге натискання лишаються.
+if (minimap) {
+  map.dragPan.disable();
+  map.scrollZoom.disable();
+  map.boxZoom.disable();
+  map.doubleClickZoom.disable();
+  map.touchZoomRotate.disable();
+  map.keyboard.disable();
+}
+
+/** Наші міста (Natural Earth). З детальною картою на zoom ≥ 6 назви дають тайли — точки ховаємо. */
+function citiesFilter(detail: boolean) {
+  const base = ['any', ['>=', ['zoom'], 6], ['==', ['get', 'major'], true]];
+  return (detail ? ['all', ['<', ['zoom'], DETAIL_MIN_ZOOM], base] : base) as never;
+}
+
 // ---------- стан країн ----------
 
-const state = { planned: new Set<string>() };
+const state = {
+  planned: new Set<string>(),
+  lang: init.lang,
+  detail: false,
+};
 
 const fills = createFillAnimator({
   setFill: (iso, value) => map.setFeatureState({ source: 'countries', id: iso }, { fill: value }),
@@ -220,7 +331,7 @@ function updatePulse(): void {
 
 // ---------- автообертання ----------
 
-let rotateEnabled = true;
+let rotateEnabled = !minimap && !init.focusIso;
 let stoppedByUser = false;
 let lastFrame = 0;
 
@@ -276,9 +387,9 @@ function updateHalo(force = false): void {
   const zoom = map.getZoom();
   if (!force && Math.abs(zoom - lastZoom) < 0.01) return;
   lastZoom = zoom;
-  const r = globeRadius();
   const { clientWidth: w, clientHeight: h } = map.getContainer();
-  // Коли глобус більший за екран, край не видно — ореол не потрібен.
+  // На наближенні край глобуса не видно — ореол не потрібен (і пошук радіуса не рахуємо).
+  const r = zoom > 4 ? Infinity : globeRadius();
   if (r * 2 > Math.hypot(w, h)) {
     halo.style.opacity = '0';
     return;
@@ -291,7 +402,7 @@ function updateHalo(force = false): void {
   halo.style.boxShadow = `0 0 ${glow}px ${glow * 0.35}px ${goldAlpha(0.35)}, 0 0 ${glow * 3}px ${glow}px ${goldAlpha(0.12)}`;
 }
 
-// ---------- вписати глобус у екран ----------
+// ---------- вписати глобус або країну в екран ----------
 
 function fitGlobe(): void {
   const { clientWidth: w, clientHeight: h } = map.getContainer();
@@ -300,12 +411,242 @@ function fitGlobe(): void {
   if (r > 0) map.jumpTo({ zoom: map.getZoom() + Math.log2(target / r) });
 }
 
-// ---------- тап по країні ----------
+/** Межі країни; для країн через антимеридіан (Фіджі, Росія) — довготи зсуваються за 180°. */
+function countryBounds(iso2: string): LngLatBounds | null {
+  const feature = data.borders.features.find(
+    (f: Feature) => (f.properties as { iso2?: string } | null)?.iso2 === iso2,
+  );
+  if (!feature) return null;
+  const points: Position[] = [];
+  const collect = (g: Geometry) => {
+    if (g.type === 'Polygon') points.push(...g.coordinates[0]);
+    else if (g.type === 'MultiPolygon') for (const p of g.coordinates) points.push(...p[0]);
+  };
+  collect(feature.geometry);
+  if (points.length === 0) return null;
+  let lngs = points.map((p) => p[0]);
+  if (Math.max(...lngs) - Math.min(...lngs) > 180) lngs = lngs.map((x) => (x < 0 ? x + 360 : x));
+  const lats = points.map((p) => p[1]);
+  return new LngLatBounds(
+    [Math.min(...lngs), Math.min(...lats)],
+    [Math.max(...lngs), Math.max(...lats)],
+  );
+}
 
-map.on('click', 'countries-fill', (e: MapLayerMouseEvent) => {
-  const feature: GeoJSONFeature | undefined = e.features?.[0];
-  const iso2 = feature?.properties?.iso2 as string | undefined;
+function fitCountry(iso2: string): boolean {
+  const bounds = countryBounds(iso2);
+  if (!bounds) return false;
+  map.fitBounds(bounds, { padding: 16, animate: false, maxZoom: OFFLINE_MAX_ZOOM });
+  return true;
+}
+
+// ---------- точки ----------
+
+function setPoints(points: WebPoint[]): void {
+  const collection: FeatureCollection = {
+    type: 'FeatureCollection',
+    features: points.map((p) => ({
+      type: 'Feature',
+      // `thumb` без значення не пишемо — фільтр ['has', 'thumb'] відсіє точки без фото
+      properties: p.thumb
+        ? { id: p.id, title: p.title, thumb: p.thumb }
+        : { id: p.id, title: p.title },
+      geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
+    })),
+  };
+  (map.getSource('points') as GeoJSONSource | undefined)?.setData(collection);
+}
+
+const requestedThumbs = new Set<string>();
+
+map.on('styleimagemissing', (e: { id: string }) => {
+  if (!e.id.startsWith(THUMB_PREFIX)) return;
+  const key = e.id.slice(THUMB_PREFIX.length);
+  if (requestedThumbs.has(key)) return;
+  requestedThumbs.add(key);
+  post({ type: 'needThumb', key });
+});
+
+/** data: URL фото → кругла мініатюра із золотим обідком → іконка точки. */
+function addThumb(key: string, dataUrl: string | null): void {
+  const id = THUMB_PREFIX + key;
+  if (map.hasImage(id)) return;
+  const ratio = Math.min(window.devicePixelRatio || 1, 3);
+  const size = Math.round(THUMB_SIZE * ratio);
+  const draw = (img: HTMLImageElement | null) => {
+    const canvasEl = document.createElement('canvas');
+    canvasEl.width = canvasEl.height = size;
+    const ctx = canvasEl.getContext('2d');
+    if (!ctx) return;
+    const ring = 2.5 * ratio;
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+    ctx.fillStyle = colors.gold;
+    ctx.fill();
+    if (img) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2 - ring, 0, Math.PI * 2);
+      ctx.clip();
+      // cover: обрізаємо довшу сторону по центру
+      const s = Math.min(img.width, img.height);
+      ctx.drawImage(
+        img,
+        (img.width - s) / 2,
+        (img.height - s) / 2,
+        s,
+        s,
+        ring,
+        ring,
+        size - ring * 2,
+        size - ring * 2,
+      );
+      ctx.restore();
+    }
+    if (!map.hasImage(id)) {
+      map.addImage(id, ctx.getImageData(0, 0, size, size), { pixelRatio: ratio });
+    }
+  };
+  if (!dataUrl) {
+    draw(null);
+    return;
+  }
+  const img = new Image();
+  img.onload = () => draw(img);
+  img.onerror = () => draw(null);
+  img.src = dataUrl;
+}
+
+// ---------- детальна карта (OpenFreeMap) ----------
+
+const attribution = document.getElementById('attribution')!;
+attribution.textContent = DETAIL_ATTRIBUTION;
+
+function updateAttribution(): void {
+  attribution.style.opacity = state.detail && map.getZoom() >= DETAIL_MIN_ZOOM ? '1' : '0';
+}
+
+function setDetailMap(enabled: boolean): void {
+  if (enabled === state.detail) return;
+  state.detail = enabled;
+  if (enabled) {
+    map.addSource(DETAIL_SOURCE_ID, {
+      type: 'vector',
+      url: DETAIL_TILEJSON_URL,
+      attribution: DETAIL_ATTRIBUTION,
+    });
+    for (const layer of detailBaseLayers()) map.addLayer(layer, 'countries-line');
+    for (const layer of detailLabelLayers(state.lang, LABEL_FONT))
+      map.addLayer(layer, 'points-dot');
+    map.setMaxZoom(DETAIL_MAX_ZOOM);
+    // Золото стає напівпрозорим — крізь нього видно воду, дороги й назви
+    map.setPaintProperty('countries-fill', 'fill-opacity', [
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      DETAIL_MIN_ZOOM - 0.5,
+      1,
+      DETAIL_MIN_ZOOM + 1,
+      0.4,
+    ]);
+  } else {
+    for (const layer of [...detailBaseLayers(), ...detailLabelLayers(state.lang, LABEL_FONT)]) {
+      if (map.getLayer(layer.id)) map.removeLayer(layer.id);
+    }
+    if (map.getSource(DETAIL_SOURCE_ID)) map.removeSource(DETAIL_SOURCE_ID);
+    map.setMaxZoom(OFFLINE_MAX_ZOOM);
+    map.setPaintProperty('countries-fill', 'fill-opacity', 1);
+  }
+  map.setFilter('cities', citiesFilter(enabled));
+  updateAttribution();
+}
+
+// ---------- тапи й довге натискання ----------
+
+const POINT_LAYERS = ['points-thumb', 'points-dot'];
+let suppressClick = false;
+
+function countryAt(point: PointLike): string | null {
+  const feature = map.queryRenderedFeatures(point, { layers: ['countries-fill'] })[0];
+  return (feature?.properties?.iso2 as string | undefined) ?? null;
+}
+
+map.on('click', (e) => {
+  if (suppressClick) {
+    suppressClick = false;
+    return;
+  }
+  const point = map.queryRenderedFeatures(e.point, { layers: POINT_LAYERS })[0];
+  const id = point?.properties?.id as string | undefined;
+  if (id) {
+    post({ type: 'pointPress', id });
+    return;
+  }
+  if (minimap) return;
+  const iso2 = countryAt(e.point);
   if (iso2) post({ type: 'countryPress', iso2 });
+});
+
+let pressTimer: ReturnType<typeof setTimeout> | null = null;
+let pressStart: { x: number; y: number } | null = null;
+
+function cancelPress(): void {
+  if (pressTimer) clearTimeout(pressTimer);
+  pressTimer = null;
+  pressStart = null;
+}
+
+function startPress(x: number, y: number): void {
+  cancelPress();
+  pressStart = { x, y };
+  pressTimer = setTimeout(() => {
+    pressTimer = null;
+    pressStart = null;
+    if (!onGlobe(x, y)) return; // космос
+    const lngLat = map.unproject([x, y]);
+    suppressClick = true;
+    setTimeout(() => (suppressClick = false), 600);
+    post({
+      type: 'longPress',
+      lat: lngLat.lat,
+      lng: lngLat.lng,
+      iso2: countryAt([x, y]),
+    });
+  }, LONG_PRESS_MS);
+}
+
+function movePress(x: number, y: number): void {
+  if (pressStart && Math.hypot(x - pressStart.x, y - pressStart.y) > LONG_PRESS_SLOP_PX) {
+    cancelPress();
+  }
+}
+
+// Події DOM, а не MapLibre: працюють і в мінікарті, де взаємодію з картою вимкнено.
+canvas.addEventListener(
+  'touchstart',
+  (e: TouchEvent) => {
+    if (e.touches.length !== 1) return cancelPress();
+    const rect = canvas.getBoundingClientRect();
+    startPress(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+  },
+  { passive: true },
+);
+canvas.addEventListener(
+  'touchmove',
+  (e: TouchEvent) => {
+    const rect = canvas.getBoundingClientRect();
+    if (e.touches.length !== 1) return cancelPress();
+    movePress(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+  },
+  { passive: true },
+);
+canvas.addEventListener('touchend', cancelPress, { passive: true });
+canvas.addEventListener('touchcancel', cancelPress, { passive: true });
+canvas.addEventListener('mousedown', (e) => startPress(e.offsetX, e.offsetY));
+canvas.addEventListener('mousemove', (e) => movePress(e.offsetX, e.offsetY));
+canvas.addEventListener('mouseup', cancelPress);
+map.on('movestart', (e: { originalEvent?: unknown }) => {
+  if (e.originalEvent) cancelPress();
 });
 
 // ---------- команди з React Native ----------
@@ -317,10 +658,14 @@ window[WEB_RECEIVER] = (message: ToWebMessage) => {
       applyPlanned(new Set(message.planned));
       break;
     case 'setLanguage':
+      state.lang = message.lang;
       map.setLayoutProperty('country-labels', 'text-field', ['get', message.lang]);
+      if (map.getLayer('detail-places')) {
+        map.setLayoutProperty('detail-places', 'text-field', placeName(message.lang));
+      }
       break;
     case 'setAutoRotate':
-      rotateEnabled = message.enabled;
+      rotateEnabled = message.enabled && !minimap && !init.focusIso;
       if (message.enabled) stoppedByUser = false;
       break;
     case 'flyTo':
@@ -332,13 +677,33 @@ window[WEB_RECEIVER] = (message: ToWebMessage) => {
         essential: true,
       });
       break;
+    case 'setPoints':
+      setPoints(message.points);
+      break;
+    case 'pointThumb':
+      addThumb(message.key, message.dataUrl);
+      break;
+    case 'setDetailMap':
+      setDetailMap(message.enabled);
+      break;
   }
 };
 
 map.on('load', () => {
-  fitGlobe();
+  if (init.focusIso) fitCountry(init.focusIso);
+  else if (!init.camera) fitGlobe();
   updateHalo(true);
   map.on('move', () => updateHalo());
+  map.on('zoom', updateAttribution);
+  // Камера для RN — не частіше ніж раз на CAMERA_DEBOUNCE_MS (автообертання рухає її щокадру)
+  let cameraTimer: ReturnType<typeof setTimeout> | null = null;
+  map.on('moveend', () => {
+    if (cameraTimer) clearTimeout(cameraTimer);
+    cameraTimer = setTimeout(() => {
+      const c = map.getCenter();
+      post({ type: 'camera', lat: c.lat, lng: c.lng, zoom: map.getZoom() });
+    }, CAMERA_DEBOUNCE_MS);
+  });
   window.addEventListener('resize', () => updateHalo(true));
   requestAnimationFrame(rotateFrame);
   post({ type: 'ready' });

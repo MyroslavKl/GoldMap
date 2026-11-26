@@ -76,7 +76,7 @@
   },
   "unmark": {
     "title": "Unmark {{country}}?",
-    "message": "You already have: {{items}}. Visits and their dates will be removed. Photos, notes and expenses will be kept.",
+    "message": "You already have: {{items}}. Visits and their dates will be removed. Photos, places, notes and expenses will be kept.",
     "datedVisits_one": "{{count}} dated visit",
     "datedVisits_other": "{{count}} dated visits",
     "photos_one": "{{count}} photo",
@@ -86,7 +86,9 @@
     "expenses_one": "{{count}} expense",
     "expenses_other": "{{count}} expenses",
     "cancel": "Cancel",
-    "confirm": "Unmark"
+    "confirm": "Unmark",
+    "places_one": "{{count}} place",
+    "places_other": "{{count}} places"
   },
   "countries": {
     "title": "Countries",
@@ -113,7 +115,8 @@
     "visitDeleted": "Visit deleted",
     "photoDeleted": "Photo deleted",
     "noteDeleted": "Note deleted",
-    "expenseDeleted": "Expense deleted"
+    "expenseDeleted": "Expense deleted",
+    "placeDeleted": "Place deleted"
   },
   "dates": {
     "notSet": "Not set",
@@ -146,7 +149,37 @@
   },
   "places": {
     "title": "Places",
-    "soon": "A mini map with places is coming soon"
+    "new": "New place",
+    "edit": "Place",
+    "name": "Name",
+    "namePlaceholder": "E.g. Old Town",
+    "note": "Note",
+    "notePlaceholder": "Optional",
+    "photos_one": "Place photos: {{count}}",
+    "photos_other": "Place photos: {{count}}",
+    "addPhotos": "From library",
+    "noCountryPhotos": "No photos in this country yet — add some from your library.",
+    "pickHint": "Tap a photo to add it to the place or remove it.",
+    "longPressHint": "Press and hold on the map to add a place.",
+    "photoCount_one": "{{count}} photo",
+    "photoCount_other": "{{count}} photos",
+    "placeCount_one": "{{count}} place",
+    "placeCount_other": "{{count}} places",
+    "suggestBanner": "{{photos}} with location — you can create {{places}}",
+    "suggestReview": "Review",
+    "suggestTitleSheet": "Places from photos",
+    "suggestHint": "Photos taken close together (within ~1 km) on the same day are grouped into one place.",
+    "suggestTitle": "{{place}} · {{date}}",
+    "suggestPhotos_one": "{{count}} photo",
+    "suggestPhotos_other": "{{count}} photos",
+    "suggestOtherCountry": "Taken in another country: {{country}}. The place and photos will go there, and the country will be marked visited.",
+    "suggestAdd": "Create",
+    "suggestAddTo": "Add to {{country}}",
+    "suggestSkip": "Skip",
+    "suggestCreate_one": "Create {{count}} place",
+    "suggestCreate_other": "Create {{count}} places",
+    "suggestSkipAll": "Skip all",
+    "suggestLater": "Later"
   },
   "notes": {
     "title": "Notes",

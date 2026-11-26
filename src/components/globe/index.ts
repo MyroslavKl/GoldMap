@@ -5,4 +5,11 @@
  * GlobeView.mapbox.tsx (@rnmapbox/maps) з тим самим контрактом і змінити рядок нижче.
  */
 export { GlobeView } from './GlobeView.webview';
-export type { FlyToTarget, GlobeViewHandle, GlobeViewProps } from './types';
+export type {
+  FlyToTarget,
+  GlobeCamera,
+  GlobeLongPress,
+  GlobePoint,
+  GlobeViewHandle,
+  GlobeViewProps,
+} from './types';

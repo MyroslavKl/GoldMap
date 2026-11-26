@@ -4,6 +4,6 @@
     "types": ["node"],
     "customConditions": []
   },
-  "include": ["./**/*.ts", "../src/data/types.ts"],
+  "include": ["./**/*.ts", "../src/data/types.ts", "../src/lib/geo.ts"],
   "exclude": ["./.cache"]
 }

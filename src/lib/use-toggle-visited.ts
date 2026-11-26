@@ -56,6 +56,7 @@ function describeContent(s: CountryContentSummary, t: T): string {
   const parts: string[] = [];
   if (s.datedVisits) parts.push(t('unmark.datedVisits', { count: s.datedVisits }));
   if (s.photos) parts.push(t('unmark.photos', { count: s.photos }));
+  if (s.places) parts.push(t('unmark.places', { count: s.places }));
   if (s.notes) parts.push(t('unmark.notes', { count: s.notes }));
   if (s.expenses) parts.push(t('unmark.expenses', { count: s.expenses }));
   return parts.join(', ');

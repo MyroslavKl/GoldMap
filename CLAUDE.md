@@ -44,8 +44,19 @@ Developer акаунта, тож development build на iOS неможливий
   `npm install`), у git не потрапляє, руками не редагувати. Після змін у `web/main.ts`, темі чи
   `src/data` — перезібрати.
 - Офлайн: MapLibre, його воркер (Blob URL), кордони, міста, точки підписів і шрифт Inter (style
-  `font-faces`, data: URL — текст малюється локально) вшиті в HTML. Жодних тайлів, сервера гліфів
-  , спрайтів чи шрифтів з мережі; це перевіряє `npm run test:globe`.
+  `font-faces`, data: URL — текст малюється локально) вшиті в HTML. Сервера гліфів, спрайтів чи
+  шрифтів з мережі немає; це перевіряє `npm run test:globe`.
+- **Єдиний виняток — детальна карта** (`web/detail-layers.ts`): векторні тайли OpenFreeMap
+  (TileJSON `tiles.openfreemap.org/planet`, без ключа) з zoom ≥ 6 і лише коли є інтернет
+  (`detailMap` ← `useDetailMapAllowed()`, expo-network). З тайлів — тільки вода, річки, дороги,
+  забудова й назви населених пунктів. Шар `boundary` і підписи країн/регіонів **не підключати
+  ніколи**: кордони лише наші (Крим — Україна); є тест. Атрибуція «© OpenFreeMap © OpenMapTiles
+  © OpenStreetMap» — на карті, поки видно тайли.
+- Мініатюри точок: WebView не має доступу до файлів додатку, тож RN читає `…_t.jpg` і передає
+  data: URL на запит (`needThumb` → `pointThumb`), лише для точок у кадрі при zoom ≥ 6.
+- **Одна WebView-карта за раз.** Екран з мінікартою викликає `useHoldsMap()`
+  (`src/lib/map-presence.ts`) — вкладка «Глобус» вивантажує свою WebView і потім відновлює камеру
+  (`initialCamera`). Мінікарта створюється після анімації переходу.
 - Кордони поверх золота (між відвіданими сусідами) — темний пунктир `borderOnGold`, інакше
   межа зливається із заливкою.
 - Ліцензія MapLibre GL JS — BSD-3-Clause: текст має бути в «Атрибуціях» (етап 9).
@@ -145,11 +156,22 @@ docs/SPEC.md          # ТЗ
 - Тексти дозволів (фото) — `locales/uk.json`, `locales/en.json` + плагін expo-image-picker в
   `app.json` (камера й мікрофон вимкнені). В Expo Go не видно — лише в збірці.
 
+## Точки на карті (етап 7)
+
+- Точка = `places` (`is_wishlist = false`, з координатами); фото прив'язуються через
+  `photos.place_id` (`setPlacePhotos`). Видалення точки — з «Скасувати»; фото лишаються в країні.
+- Довге натискання (~0,5 с) на глобусі чи мінікарті → `PlaceSheet`. На океані — нічого: точка
+  завжди належить країні (`iso2` визначає WebView за нашими кордонами).
+- Фото з GPS → `src/lib/photo-clusters.ts`: один день + ланцюжок ≤ 1 км = одна точка, назва —
+  найближче місто з `cities.json` (офлайн). Країна групи — `locateCountry()` за
+  `borders.geojson` (вшитий рядком через inline-import). Інша країна → пропонуємо додати туди
+  (країна позначається відвіданою, фото переїжджають) або пропустити (`skippedGpsPhotos`).
+
 ## Чисті модулі й тести
 
 - Логіка без React/Expo — у `src/lib/*.ts` (`country-list.ts`, `dates.ts`, `money.ts`,
-  `exif.ts`) з відносними імпортами `.ts`; тести — `tests/lib.test.ts` (і додати файл у
-  `tests/tsconfig.json`). Хуки й код з Expo — окремими файлами.
+  `exif.ts`, `geo.ts`, `photo-clusters.ts`, `places.ts`) з відносними імпортами `.ts`; тести —
+  `tests/lib.test.ts` (і додати файл у `tests/tsconfig.json`). Хуки й код з Expo — окремими файлами.
 - Назви місяців — з i18n (`months.short`), не з `Intl`: однаково на iOS і Android.
 
 ## Команди

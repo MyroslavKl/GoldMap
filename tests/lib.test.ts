@@ -1,5 +1,5 @@
 /**
- * Чисті модулі src/lib: список країн, дати, гроші, EXIF; переклади. Запуск: npm run test:lib
+ * Чисті модулі src/lib: список країн, дати, гроші, EXIF, точки з GPS; переклади. Запуск: npm run test:lib
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -23,6 +23,15 @@ import {
   toIsoDate,
 } from '../src/lib/dates.ts';
 import { parseCoordinate, parseExifDate, parsePhotoMeta, takenAtDate } from '../src/lib/exif.ts';
+import { createCountryLocator, type FeatureCollection } from '../src/lib/geo.ts';
+import {
+  clusterPhotos,
+  haversineKm,
+  nearestCity,
+  suggestPlaces,
+  type GeoPhoto,
+} from '../src/lib/photo-clusters.ts';
+import { buildMapPoints, countPhotosByPlace } from '../src/lib/places.ts';
 import {
   amountToInput,
   convert,
@@ -401,5 +410,174 @@ describe('переклади', () => {
         assert.ok(flat.includes(`"${m[1]}_${form}"`), `${m[1]}_${form}`);
       }
     }
+  });
+});
+
+describe('точки з фото з GPS', () => {
+  const photo = (
+    id: string,
+    lat: number | null,
+    lng: number | null,
+    takenAt: string | null = '2025-08-03T10:00:00',
+    placeId: string | null = null,
+  ): GeoPhoto => ({ id, lat, lng, takenAt, placeId });
+
+  test('haversineKm: Київ — Львів ≈ 470 км', () => {
+    const km = haversineKm(50.4501, 30.5234, 49.8397, 24.0297);
+    assert.ok(km > 460 && km < 480, String(km));
+  });
+
+  test('фото ближче за 1 км в один день — одна група, центр — середнє', () => {
+    const clusters = clusterPhotos([
+      photo('a', 50.45, 30.52),
+      photo('b', 50.454, 30.52), // ~450 м
+      photo('c', 50.6, 30.52), // ~17 км — окремо
+    ]);
+    assert.equal(clusters.length, 2);
+    assert.deepEqual(clusters[0].photoIds.sort(), ['a', 'b']);
+    assert.equal(clusters[0].lat, 50.452);
+    assert.equal(clusters[0].date, '2025-08-03');
+    assert.deepEqual(clusters[1].photoIds, ['c']);
+  });
+
+  test('ланцюжок: кожне фото поруч із сусіднім — одна група, навіть якщо краї далі за 1 км', () => {
+    const clusters = clusterPhotos([
+      photo('a', 50.45, 30.52),
+      photo('b', 50.458, 30.52), // ~890 м від a
+      photo('c', 50.466, 30.52), // ~890 м від b, ~1,8 км від a
+    ]);
+    assert.equal(clusters.length, 1);
+    assert.equal(clusters[0].photoIds.length, 3);
+  });
+
+  test('те саме місце в різні дні — різні точки; фото без GPS і вже в точці не беруться', () => {
+    const clusters = clusterPhotos([
+      photo('a', 50.45, 30.52, '2025-08-03T10:00:00'),
+      photo('b', 50.45, 30.52, '2025-08-04T09:00:00'),
+      photo('nogps', null, null),
+      photo('placed', 50.45, 30.52, '2025-08-03T11:00:00', 'place-1'),
+    ]);
+    assert.deepEqual(
+      clusters.map((c) => [c.date, c.photoIds]),
+      [
+        ['2025-08-03', ['a']],
+        ['2025-08-04', ['b']],
+      ],
+    );
+  });
+
+  test('фото без дати групуються окремо, з date = null, і йдуть останніми', () => {
+    const clusters = clusterPhotos([photo('x', 1, 1, null), photo('y', 2, 2)]);
+    assert.deepEqual(
+      clusters.map((c) => c.date),
+      ['2025-08-03', null],
+    );
+  });
+
+  test('nearestCity: найближче місто в межах 30 км, інакше null', () => {
+    const cities = [
+      {
+        name: { uk: 'Львів', en: 'Lviv' },
+        iso2: 'UA',
+        lat: 49.84,
+        lng: 24.03,
+        capital: false,
+        pop: 1,
+      },
+      {
+        name: { uk: 'Київ', en: 'Kyiv' },
+        iso2: 'UA',
+        lat: 50.45,
+        lng: 30.52,
+        capital: true,
+        pop: 1,
+      },
+    ];
+    assert.equal(nearestCity(cities, 49.85, 24.05)?.name.uk, 'Львів');
+    assert.equal(nearestCity(cities, 48.0, 27.0), null);
+  });
+
+  test('suggestPlaces: країна за координатами, пропущені фото не пропонуються', () => {
+    const suggestions = suggestPlaces({
+      photos: [photo('a', 43.7, 7.27), photo('b', 41.9, 12.5), photo('skip', 45.0, 9.0)],
+      sourceIso: 'IT',
+      skipped: new Set(['skip']),
+      cities: [],
+      locate: (lng, lat) => (lng < 7.5 && lat > 43.5 ? 'FR' : 'IT'),
+    });
+    assert.deepEqual(
+      suggestions.map((s) => [s.photoIds, s.countryIso, s.sourceIso]),
+      [
+        [['a'], 'FR', 'IT'],
+        [['b'], 'IT', 'IT'],
+      ],
+    );
+  });
+});
+
+describe('країна фото за координатами — наші кордони', () => {
+  const borders = JSON.parse(
+    readFileSync(join(ROOT, 'src/data/borders.geojson'), 'utf8'),
+  ) as FeatureCollection<{ iso2: string }>;
+  const locate = createCountryLocator(borders.features);
+
+  test('Крим — Україна (Сімферополь, Ялта, Севастополь)', () => {
+    assert.equal(locate([34.1, 44.95]), 'UA');
+    assert.equal(locate([34.16, 44.5]), 'UA');
+    assert.equal(locate([33.52, 44.6]), 'UA');
+  });
+
+  test('звичайні міста й узбережжя', () => {
+    assert.equal(locate([2.35, 48.86]), 'FR'); // Париж
+    assert.equal(locate([12.5, 41.9]), 'IT'); // Рим
+    assert.equal(locate([7.27, 43.695]), 'FR'); // Ніцца, набережна
+    assert.equal(locate([-30, 30]), null); // Атлантика
+  });
+});
+
+describe('точки на глобусі', () => {
+  test('мініатюра — перше фото за датою зйомки; без фото — null; без координат — немає точки', () => {
+    const points = buildMapPoints(
+      [
+        { id: 'p1', countryIso: 'UA', title: 'A', lat: 50, lng: 30 },
+        { id: 'p2', countryIso: 'UA', title: 'B', lat: 49, lng: 24 },
+        { id: 'p3', countryIso: 'UA', title: 'C', lat: null, lng: null },
+      ],
+      [
+        {
+          id: 'late',
+          placeId: 'p1',
+          thumbUri: 'photos/late_t.jpg',
+          takenAt: '2025-05-02T10:00:00',
+          createdAt: '1',
+        },
+        {
+          id: 'early',
+          placeId: 'p1',
+          thumbUri: 'photos/early_t.jpg',
+          takenAt: '2025-05-01T10:00:00',
+          createdAt: '2',
+        },
+        {
+          id: 'nodate',
+          placeId: 'p1',
+          thumbUri: 'photos/nodate_t.jpg',
+          takenAt: null,
+          createdAt: '0',
+        },
+      ],
+    );
+    assert.deepEqual(
+      points.map((p) => [p.id, p.thumbnail]),
+      [
+        ['p1', 'photos/early_t.jpg'],
+        ['p2', null],
+      ],
+    );
+  });
+
+  test('countPhotosByPlace', () => {
+    const counts = countPhotosByPlace([{ placeId: 'a' }, { placeId: 'a' }, { placeId: null }]);
+    assert.deepEqual([...counts], [['a', 2]]);
   });
 });

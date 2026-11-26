@@ -2,6 +2,7 @@
  * Збирає офлайн-HTML глобуса для WebView:
  *   MapLibre GL JS + CSS + воркер + src/components/globe/web/main.ts
  *   + src/data/borders.geojson + точки міст
+ * Мережа — лише детальна карта OpenFreeMap (web/detail-layers.ts), коли RN її дозволив.
  * → src/components/globe/web/globe-html.generated.ts (у .gitignore).
  *
  * Запуск: npm run build:globe (також автоматично після npm install).
@@ -92,9 +93,10 @@ async function main() {
 <style>${css}
 html,body,#map{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:${colors.bg};touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:${colors.transparent}}
 #halo{position:absolute;border-radius:50%;pointer-events:none;opacity:0;transition:opacity .3s}
+#attribution{position:absolute;right:6px;bottom:4px;padding:1px 6px;border-radius:6px;font:10px/1.4 -apple-system,system-ui,sans-serif;color:${colors.textMuted};background:${colors.scrim};pointer-events:none;opacity:0;transition:opacity .3s}
 </style>
 </head><body>
-<div id="map"></div><div id="halo"></div>
+<div id="map"></div><div id="halo"></div><div id="attribution"></div>
 <script>window.__GM_DATA__={borders:${scriptSafe(borders)},cities:${scriptSafe(JSON.stringify(citiesGeo))},labels:${scriptSafe(JSON.stringify(labelsGeo))},fontUrl:${JSON.stringify(fontUrl)}};</script>
 <script>${scriptSafe(js)}</script>
 </body></html>`;

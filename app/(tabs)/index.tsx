@@ -1,22 +1,35 @@
 import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
 import { router } from 'expo-router';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '@/components/AppText';
 import { CountryCard } from '@/components/CountryCard';
-import { GlobeView, type GlobeViewHandle } from '@/components/globe';
+import {
+  GlobeView,
+  type GlobeCamera,
+  type GlobeLongPress,
+  type GlobeViewHandle,
+} from '@/components/globe';
+import { PlaceSheet, type PlaceSheetTarget } from '@/components/places/PlaceSheet';
 import { countableIsos, getCountry } from '@/data/countries';
-import { activeVisitDatesQuery, computeCounter, plannedIsosQuery } from '@/db';
-import { expoDb } from '@/db/client';
+import { activeVisitDatesQuery, computeCounter, getPlace, plannedIsosQuery } from '@/db';
+import { dbContext, expoDb } from '@/db/client';
 import { groupVisitDates } from '@/lib/country-list';
 import { useLanguage } from '@/i18n';
+import { hapticSelection } from '@/lib/haptics';
+import { useMapPresence } from '@/lib/map-presence';
+import { useDetailMapAllowed, useMapPoints } from '@/lib/use-map-data';
 import { useToggleVisited } from '@/lib/use-toggle-visited';
 import { spacing } from '@/theme';
 
-/** Вкладка «Глобус»: глобус на весь екран, лічильник поверх, картка країни — оверлеєм. */
+/**
+ * Вкладка «Глобус»: глобус на весь екран, лічильник поверх, картка країни — оверлеєм.
+ * Поки відкрито екран країни (з мінікартою), глобус вивантажується, а потім повертається
+ * на те саме місце (камера зберігається тут).
+ */
 export default function GlobeTab() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -24,6 +37,26 @@ export default function GlobeTab() {
   const [selected, setSelected] = useState<string | null>(null);
   const toggleVisited = useToggleVisited();
   const lang = useLanguage();
+  const { points } = useMapPoints();
+  const detailMap = useDetailMapAllowed();
+  const [sheet, setSheet] = useState<PlaceSheetTarget | null>(null);
+
+  const mapHeldElsewhere = useMapPresence((st) => st.countryScreens > 0);
+  const camera = useRef<GlobeCamera | null>(null);
+  const onCameraChange = useCallback((c: GlobeCamera) => {
+    camera.current = c;
+  }, []);
+  // Камера в момент вивантаження — з неї глобус продовжить після повернення
+  const [resumeCamera, setResumeCamera] = useState<GlobeCamera | null>(null);
+  useEffect(
+    () =>
+      useMapPresence.subscribe((now, before) => {
+        if (now.countryScreens > 0 && before.countryScreens === 0) {
+          setResumeCamera(camera.current);
+        }
+      }),
+    [],
+  );
 
   const { data: visitRows } = useLiveQuery(activeVisitDatesQuery(expoDb));
   const { data: plannedRows } = useLiveQuery(plannedIsosQuery(expoDb));
@@ -47,6 +80,19 @@ export default function GlobeTab() {
     router.push({ pathname: '/country/[iso]', params: { iso: selected } });
   }, [selected]);
 
+  const onLongPress = useCallback((e: GlobeLongPress) => {
+    if (!e.iso2 || !getCountry(e.iso2)) return; // океан — точка завжди належить країні
+    hapticSelection();
+    setSelected(null);
+    setSheet({ kind: 'new', iso2: e.iso2, lat: e.lat, lng: e.lng });
+  }, []);
+
+  const onPointPress = useCallback((id: string) => {
+    void getPlace(dbContext, id).then((place) => {
+      if (place) setSheet({ kind: 'edit', place });
+    });
+  }, []);
+
   const isSelectedVisited = selected ? visitsByCountry.has(selected) : false;
   const onToggleVisited = useCallback(() => {
     if (selected) void toggleVisited(selected, isSelectedVisited);
@@ -54,13 +100,23 @@ export default function GlobeTab() {
 
   return (
     <View style={styles.root}>
-      <GlobeView
-        ref={globe}
-        visited={visited}
-        planned={planned}
-        language={lang}
-        onCountryPress={selectCountry}
-      />
+      {mapHeldElsewhere ? null : (
+        <GlobeView
+          ref={globe}
+          visited={visited}
+          planned={planned}
+          language={lang}
+          points={points}
+          detailMap={detailMap}
+          // Повернення з екрана країни: те саме місце, без автообертання
+          initialCamera={resumeCamera ?? undefined}
+          autoRotate={resumeCamera === null}
+          onCountryPress={selectCountry}
+          onLongPress={onLongPress}
+          onPointPress={onPointPress}
+          onCameraChange={onCameraChange}
+        />
+      )}
       <View pointerEvents="none" style={[styles.counter, { top: insets.top + spacing.md }]}>
         <AppText variant="counter" accessibilityRole="header">
           {t('globe.counter', counter)}
@@ -79,6 +135,7 @@ export default function GlobeTab() {
           onClose={closeCard}
         />
       ) : null}
+      {sheet ? <PlaceSheet target={sheet} onClose={() => setSheet(null)} /> : null}
     </View>
   );
 }

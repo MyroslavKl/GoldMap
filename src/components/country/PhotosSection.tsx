@@ -2,13 +2,14 @@ import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Alert, Pressable, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
 import { AppText } from '@/components/AppText';
 import { photosByCountryQuery, removePhoto, restorePhoto, type Photo } from '@/db';
 import { dbContext, expoDb } from '@/db/client';
-import { deletePhotoFiles, importPhotos, photoUri, pickPhotos } from '@/lib/photos';
+import { deletePhotoFiles, photoUri } from '@/lib/photos';
 import { showUndo } from '@/lib/undo';
+import { usePhotoImport } from '@/lib/use-photo-import';
 import { colors, radius, spacing } from '@/theme';
 
 import { PhotoViewer } from './PhotoViewer';
@@ -17,30 +18,23 @@ import { Section } from './Section';
 const COLUMNS = 3;
 const GAP = spacing.xs;
 
-type Progress = { done: number; total: number } | null;
+type Props = {
+  iso2: string;
+  /** Після імпорту — напр. запропонувати точки з GPS */
+  onImported?: (photos: Photo[]) => void;
+};
 
-export function PhotosSection({ iso2 }: { iso2: string }) {
+export function PhotosSection({ iso2, onImported }: Props) {
   const { t } = useTranslation();
   const { data: photos } = useLiveQuery(photosByCountryQuery(expoDb, iso2), [iso2]);
-  const [progress, setProgress] = useState<Progress>(null);
+  const { progress, pickAndImport } = usePhotoImport(iso2);
   const [viewing, setViewing] = useState<number | null>(null);
   const [width, setWidth] = useState(0);
   const tile = width > 0 ? Math.floor((width - GAP * (COLUMNS - 1)) / COLUMNS) : 0;
 
   const add = async () => {
-    try {
-      const assets = await pickPhotos();
-      if (!assets?.length) return;
-      const failed = await importPhotos(iso2, assets, (done, total) =>
-        setProgress({ done, total }),
-      );
-      if (failed > 0) Alert.alert(t('photos.importFailed', { count: failed }));
-    } catch (error) {
-      console.warn('[photos] pick failed', error);
-      Alert.alert(t('photos.pickFailed'));
-    } finally {
-      setProgress(null);
-    }
+    const imported = await pickAndImport();
+    if (imported.length) onImported?.(imported);
   };
 
   const remove = async (photo: Photo) => {

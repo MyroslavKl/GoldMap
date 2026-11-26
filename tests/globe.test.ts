@@ -10,6 +10,16 @@ import { fileURLToPath } from 'node:url';
 
 import { isFromWebMessage } from '../src/components/globe/protocol.ts';
 import {
+  DETAIL_ATTRIBUTION,
+  DETAIL_MIN_ZOOM,
+  DETAIL_SOURCE_ID,
+  DETAIL_SOURCE_LAYERS,
+  DETAIL_TILEJSON_URL,
+  detailBaseLayers,
+  detailLabelLayers,
+  PLACE_CLASSES,
+} from '../src/components/globe/web/detail-layers.ts';
+import {
   createFillAnimator,
   FILL_MS,
   UNFILL_MS,
@@ -85,10 +95,26 @@ describe('протокол WebView → RN', () => {
     assert.ok(isFromWebMessage({ type: 'interaction' }));
     assert.ok(isFromWebMessage({ type: 'countryPress', iso2: 'UA' }));
     assert.ok(isFromWebMessage({ type: 'error', message: 'x' }));
+    assert.ok(isFromWebMessage({ type: 'pointPress', id: 'p1' }));
+    assert.ok(isFromWebMessage({ type: 'needThumb', key: 'file:///a_t.jpg' }));
+    assert.ok(isFromWebMessage({ type: 'longPress', lat: 44.95, lng: 34.1, iso2: 'UA' }));
+    assert.ok(isFromWebMessage({ type: 'longPress', lat: 0, lng: -30, iso2: null }));
+    assert.ok(isFromWebMessage({ type: 'camera', lat: 1, lng: 2, zoom: 3 }));
   });
 
   test('відкидає сміття', () => {
-    for (const value of [null, 1, 'ready', {}, { type: 'countryPress' }, { type: 'nope' }]) {
+    for (const value of [
+      null,
+      1,
+      'ready',
+      {},
+      { type: 'countryPress' },
+      { type: 'nope' },
+      { type: 'longPress', lat: '1', lng: 2, iso2: null },
+      { type: 'longPress', lat: 1, lng: 2 },
+      { type: 'camera', lat: 1, lng: 2, zoom: Number.NaN },
+      { type: 'pointPress', id: 5 },
+    ]) {
       assert.equal(isFromWebMessage(value), false, JSON.stringify(value));
     }
   });
@@ -172,5 +198,53 @@ describe('заливка золотом на глобусі', () => {
     frame(FILL_MS);
     assert.equal(fill.get('FR'), 1);
     assert.ok(history.length > 3);
+  });
+});
+
+describe('детальна карта (OpenFreeMap)', () => {
+  const layers = [...detailBaseLayers(), ...detailLabelLayers('uk', 'Goldmap Inter')];
+  const json = JSON.stringify(layers);
+
+  test('одне джерело — TileJSON OpenFreeMap, без ключа', () => {
+    assert.equal(DETAIL_TILEJSON_URL, 'https://tiles.openfreemap.org/planet');
+    assert.doesNotMatch(DETAIL_TILEJSON_URL, /key|token/i);
+    for (const layer of layers)
+      assert.equal((layer as { source?: string }).source, DETAIL_SOURCE_ID);
+  });
+
+  test('кордони й адмінмежі з тайлів не використовуються — лише наші (Крим — Україна)', () => {
+    assert.ok(!(DETAIL_SOURCE_LAYERS as readonly string[]).includes('boundary'));
+    for (const layer of layers) {
+      const sourceLayer = (layer as { 'source-layer'?: string })['source-layer'];
+      assert.ok(
+        (DETAIL_SOURCE_LAYERS as readonly string[]).includes(sourceLayer ?? ''),
+        `${layer.id}: ${sourceLayer}`,
+      );
+    }
+    assert.doesNotMatch(json, /boundary|admin_level/);
+  });
+
+  test('підписи — лише населені пункти, без назв країн і регіонів з тайлів', () => {
+    assert.deepEqual([...PLACE_CLASSES].sort(), ['city', 'suburb', 'town', 'village']);
+    assert.doesNotMatch(json, /"country"|"state"|"continent"/);
+  });
+
+  test('усі шари — лише з zoom ≥ 6 (нижче тайли не запитуються)', () => {
+    for (const layer of layers) {
+      assert.ok((layer.minzoom ?? 0) >= DETAIL_MIN_ZOOM, layer.id);
+    }
+    assert.equal(DETAIL_MIN_ZOOM, 6);
+  });
+
+  test('підписи — вшитим шрифтом (без сервера гліфів), атрибуція є на карті', () => {
+    const labels = detailLabelLayers('en', 'Goldmap Inter');
+    assert.deepEqual(
+      labels.map((l) => (l.layout as { 'text-font'?: string[] })['text-font']),
+      [['Goldmap Inter']],
+    );
+    assert.match(DETAIL_ATTRIBUTION, /OpenFreeMap/);
+    assert.match(DETAIL_ATTRIBUTION, /OpenStreetMap/);
+    assert.ok(html.includes('id="attribution"'), 'елемент атрибуції в HTML');
+    assert.ok(html.includes('OpenFreeMap'), 'текст атрибуції в HTML');
   });
 });

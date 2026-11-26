@@ -16,6 +16,8 @@ export type SettingValues = {
    * Див. src/lib/money.ts (rateKey, convert).
    */
   exchangeRates: Record<string, number>;
+  /** Фото з GPS, для яких людина пропустила пропозицію «створити точку» — більше не пропонуємо */
+  skippedGpsPhotos: string[];
 };
 export type SettingKey = keyof SettingValues;
 
