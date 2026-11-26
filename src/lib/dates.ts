@@ -34,6 +34,13 @@ export function formatVisitDates(
   return rest > 0 ? `${shown.join(', ')}, +${rest}` : shown.join(', ');
 }
 
+/** Найпізніша дата початку візиту, або null, якщо дат немає. */
+export function lastVisitDate(startDates: readonly (string | null)[]): string | null {
+  let last: string | null = null;
+  for (const d of startDates) if (d && (!last || d > last)) last = d;
+  return last;
+}
+
 /** Date → 'YYYY-MM-DD' за місцевим часом телефону (те, що людина бачить у календарі). */
 export function toIsoDate(date: Date): string {
   const y = date.getFullYear();

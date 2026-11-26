@@ -6,7 +6,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText } from '@/components/AppText';
 import type { Language } from '@/i18n';
 import type { CountryRowData } from '@/lib/country-list';
-import { formatVisitDates } from '@/lib/dates';
+import { formatMonthYear, lastVisitDate } from '@/lib/dates';
 import { colors, fontSizes, spacing } from '@/theme';
 
 type Props = {
@@ -30,7 +30,13 @@ export const CountryRow = memo(function CountryRow({
   const { country, visited, startDates } = row;
   const name = country.name[lang];
   const capital = country.capital?.[lang] ?? '';
-  const dates = formatVisitDates(startDates, t('months.short', { returnObjects: true }));
+  // Лише останній візит: усі дати (їх може бути й сотня) — на екрані країни
+  const last = lastVisitDate(startDates);
+  const dates = last
+    ? t('countries.lastVisit', {
+        date: formatMonthYear(last, t('months.short', { returnObjects: true })),
+      })
+    : '';
   const subtitle =
     capital && dates ? t('countries.rowCapitalDates', { capital, dates }) : capital || dates;
 

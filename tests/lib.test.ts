@@ -19,6 +19,7 @@ import {
   formatPeriod,
   formatVisitDates,
   fromIsoDate,
+  lastVisitDate,
   periodDays,
   toIsoDate,
 } from '../src/lib/dates.ts';
@@ -198,6 +199,12 @@ describe('дати візитів у картці країни', () => {
     assert.equal(formatPeriod('2024-03-03', null, ukMonths), '3 бер. 2024');
     assert.equal(formatPeriod('2024-03-03', '2024-03-03', ukMonths), '3 бер. 2024');
     assert.equal(formatPeriod(null, null, ukMonths), null);
+  });
+
+  test('lastVisitDate — найпізніша дата, без дат — null (рядок у списку країн)', () => {
+    assert.equal(lastVisitDate(['2024-03-01', null, '2025-08-02', '2023-01-01']), '2025-08-02');
+    assert.equal(lastVisitDate([null, null]), null);
+    assert.equal(lastVisitDate([]), null);
   });
 
   test('periodDays рахує дні включно, через кінець місяця й високосний рік', () => {

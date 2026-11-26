@@ -103,7 +103,8 @@
     "unmarkVisited": "Unmark {{country}}",
     "emptyVisited": "No visited countries yet. Mark them in “All” or on the globe.",
     "emptyPlanned": "No planned trips",
-    "emptySearch": "Nothing found"
+    "emptySearch": "Nothing found",
+    "lastVisit": "Last visit: {{date}}"
   },
   "undo": {
     "action": "Undo",
