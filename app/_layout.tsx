@@ -8,6 +8,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { DatabaseGate } from '@/components/DatabaseGate';
+import { TripsHost } from '@/components/trips/TripsHost';
 import { UndoToast } from '@/components/UndoToast';
 import { cleanupDeletedPhotoFiles } from '@/lib/photos';
 import { colors, fontAssets, navigationTheme } from '@/theme';
@@ -42,9 +43,18 @@ export default function RootLayout() {
           />
           <Stack.Screen
             name="trip/[id]"
-            options={{ presentation: 'modal', headerShown: true, title: t('trip.title') }}
+            options={{ headerShown: true, title: '', headerBackButtonDisplayMode: 'minimal' }}
+          />
+          <Stack.Screen
+            name="inbox"
+            options={{
+              headerShown: true,
+              title: t('inbox.title'),
+              headerBackButtonDisplayMode: 'minimal',
+            }}
           />
         </Stack>
+        <TripsHost />
         <UndoToast />
       </DatabaseGate>
     </ThemeProvider>

@@ -91,7 +91,8 @@ Developer акаунта, тож development build на iOS неможливий
 app/                  # маршрути expo-router (лише екрани й _layout)
   (tabs)/             # Глобус (index), Країни, Поїздки, Налаштування
   country/[iso].tsx   # екран країни (звичайний перехід, не модальний — поверх видно «Скасувати»)
-  trip/[id].tsx       # модальний екран поїздки
+  trip/[id].tsx       # екран поїздки (звичайний перехід)
+  inbox.tsx           # «Скринька»: питання після поїздок
 src/
   components/         # AppText, Screen, Button, Sheet, DateField, UndoToast, CountryCard ...
     country/          # секції екрана країни: візити, фото, нотатки, витрати
@@ -183,10 +184,32 @@ docs/SPEC.md          # ТЗ
   `borders.geojson` (вшитий рядком через inline-import). Інша країна → пропонуємо додати туди
   (країна позначається відвіданою, фото переїжджають) або пропустити (`skippedGpsPhotos`).
 
+## Поїздки (етап 8)
+
+- Поїздка = `trips` + `trip_countries` (м'яке видалення; повернена країна відновлюється —
+  `setTripCountries`). Дати поїздки можуть бути в майбутньому (на відміну від візитів).
+- «Хочу відвідати» = `places` з `trip_id`, `is_wishlist = true`; з пропозицій — з
+  `wikidata_id` (без дублікатів). Після початку поїздки місце позначається відвіданим
+  (`markWishlistVisited`) і, якщо має координати, стає точкою на карті.
+- Пропозиції — `src/data/landmarks.json` (`npm run build:landmarks`, Wikidata CC0): до 15 на
+  країну за кількістю мовних версій статей. Країна — **за нашими кордонами** (тест: Крим — UA);
+  мікродержави (Ватикан) — із запасом ~300 м навколо крихітного полігона.
+- Витрати прив'язуються до поїздки (`expenses.trip_id`); бюджет проти витрат —
+  `budgetProgress` (`src/lib/money.ts`), у валюті бюджету за ручними курсами.
+- Після кінця поїздки — попап `TripQuestionCard` при відкритті додатку (`TripsHost` у корені),
+  без push. Галочка біля кожної країни: візит з датами поїздки отримують лише вибрані.
+  «Пізніше» — `snoozeTripQuestion`: попап для цієї поїздки знову з наступного дня
+  (`settings.tripQuestionSnooze`), до того питання лише в «Скриньці» (`app/inbox.tsx`).
+- Нагадування перед поїздкою — локальні сповіщення (expo-notifications, у Expo Go працюють):
+  за 30/7/3/1 день о 9:00, id `trip-<id>-<днів>` — `syncTripReminders` переплановує все при
+  зміні поїздок, мови чи перемикача `settings.tripReminders`. Дозвіл — при першій майбутній
+  поїздці. Push із сервера не використовуємо.
+
 ## Чисті модулі й тести
 
 - Логіка без React/Expo — у `src/lib/*.ts` (`country-list.ts`, `dates.ts`, `money.ts`,
-  `exif.ts`, `geo.ts`, `photo-clusters.ts`, `places.ts`) з відносними імпортами `.ts`; тести —
+  `exif.ts`, `geo.ts`, `photo-clusters.ts`, `places.ts`, `trips.ts`) з відносними імпортами `.ts`;
+  тести —
   `tests/lib.test.ts` (і додати файл у `tests/tsconfig.json`). Хуки й код з Expo — окремими файлами.
 - Назви місяців — з i18n (`months.short`), не з `Intl`: однаково на iOS і Android.
 
@@ -198,6 +221,7 @@ npm run typecheck      # tsc: додаток, scripts, tests
 npm run lint           # ESLint (expo + prettier + правила проєкту)
 npm run format         # Prettier
 npm run build:data     # перезібрати src/data з джерел (потрібен інтернет)
+npm run build:landmarks # «варто побачити» з Wikidata → src/data/landmarks.json (інтернет)
 npm run test:data      # тести даних (кордони України, 193, назви)
 npm run test:db        # unit-тести бази (node:sqlite у пам'яті)
 npm run test:lib       # чисті модулі src/lib (список країн, дати, гроші, EXIF) + паритет uk/en

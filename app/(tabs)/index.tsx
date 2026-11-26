@@ -2,7 +2,8 @@ import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '@/components/AppText';
@@ -14,6 +15,8 @@ import {
   type GlobeViewHandle,
 } from '@/components/globe';
 import { PlaceSheet, type PlaceSheetTarget } from '@/components/places/PlaceSheet';
+import { TripSheet } from '@/components/trips/TripSheet';
+import { TripStrip } from '@/components/trips/TripStrip';
 import { countableIsos, getCountry } from '@/data/countries';
 import { activeVisitDatesQuery, computeCounter, getPlace, plannedIsosQuery } from '@/db';
 import { dbContext, expoDb } from '@/db/client';
@@ -23,7 +26,8 @@ import { hapticSelection } from '@/lib/haptics';
 import { useMapPresence } from '@/lib/map-presence';
 import { useDetailMapAllowed, useMapPoints } from '@/lib/use-map-data';
 import { useToggleVisited } from '@/lib/use-toggle-visited';
-import { spacing } from '@/theme';
+import { useToday, useTripQuestions, useTrips } from '@/lib/use-trips';
+import { colors, fonts, fontSizes, radius, spacing } from '@/theme';
 
 /**
  * Вкладка «Глобус»: глобус на весь екран, лічильник поверх, картка країни — оверлеєм.
@@ -55,6 +59,10 @@ export default function GlobeTab() {
   );
   const detailMap = useDetailMapAllowed();
   const [sheet, setSheet] = useState<PlaceSheetTarget | null>(null);
+  const [planIso, setPlanIso] = useState<string | null>(null);
+  const today = useToday();
+  const trips = useTrips();
+  const { awaiting } = useTripQuestions(today);
 
   const mapHeldElsewhere = useMapPresence((st) => st.countryScreens > 0);
   const camera = useRef<GlobeCamera | null>(null);
@@ -94,6 +102,17 @@ export default function GlobeTab() {
     setSelected(null);
     router.push({ pathname: '/country/[iso]', params: { iso: selected } });
   }, [selected]);
+
+  const planTrip = useCallback(() => {
+    if (!selected) return;
+    setPlanIso(selected);
+    setSelected(null);
+  }, [selected]);
+
+  const openTrip = useCallback(
+    (id: string) => router.push({ pathname: '/trip/[id]', params: { id } }),
+    [],
+  );
 
   const onLongPress = useCallback((e: GlobeLongPress) => {
     if (!e.iso2 || !getCountry(e.iso2)) return; // океан — точка завжди належить країні
@@ -137,6 +156,27 @@ export default function GlobeTab() {
           {t('globe.counter', counter)}
         </AppText>
       </View>
+      <Pressable
+        onPress={() => router.push('/inbox')}
+        hitSlop={8}
+        accessibilityRole="button"
+        accessibilityLabel={t('inbox.open', { count: awaiting.length })}
+        style={[styles.inbox, { top: insets.top + spacing.md }]}>
+        <Ionicons name="mail-outline" size={24} color={colors.text} />
+        {awaiting.length > 0 ? (
+          <View style={styles.badge}>
+            <AppText style={styles.badgeText}>{String(awaiting.length)}</AppText>
+          </View>
+        ) : null}
+      </Pressable>
+      <View style={styles.strip}>
+        <TripStrip
+          trips={trips}
+          today={today}
+          onFocus={(iso2) => globe.current?.flyTo({ iso2 })}
+          onOpen={openTrip}
+        />
+      </View>
 
       {selected ? (
         <CountryCard
@@ -147,10 +187,19 @@ export default function GlobeTab() {
           startDates={visitsByCountry.get(selected) ?? []}
           onToggleVisited={onToggleVisited}
           onOpen={openCountry}
+          onPlan={planTrip}
           onClose={closeCard}
         />
       ) : null}
       {sheet ? <PlaceSheet target={sheet} onClose={() => setSheet(null)} /> : null}
+      {planIso ? (
+        <TripSheet
+          trip={null}
+          initialCountries={[planIso]}
+          onSaved={openTrip}
+          onClose={() => setPlanIso(null)}
+        />
+      ) : null}
     </View>
   );
 }
@@ -164,5 +213,33 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: 'center',
+  },
+  inbox: {
+    position: 'absolute',
+    right: spacing.md,
+    padding: spacing.xs,
+  },
+  badge: {
+    position: 'absolute',
+    top: -2,
+    right: -4,
+    minWidth: 18,
+    height: 18,
+    paddingHorizontal: 4,
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.gold,
+  },
+  badgeText: {
+    color: colors.bg,
+    fontFamily: fonts.sansSemiBold,
+    fontSize: fontSizes.xs,
+  },
+  strip: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: spacing.md,
   },
 });

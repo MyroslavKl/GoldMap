@@ -5,6 +5,21 @@ import assert from 'node:assert/strict';
 import { beforeEach, describe, test } from 'node:test';
 
 import {
+  addTrip,
+  addWishlistPlace,
+  confirmTripVisited,
+  declineTrip,
+  getTrip,
+  markWishlistVisited,
+  nextDay,
+  removeTrip,
+  restoreTrip,
+  setTripCountries,
+  snoozeTripQuestion,
+  tripsAwaitingAnswer,
+  tripsForPopup,
+  unmarkWishlistVisited,
+  updateTrip,
   addPlace,
   createPlaceFromPhotos,
   getPlace,
@@ -743,5 +758,210 @@ describe('точки', () => {
     assert.equal(needsUnmarkConfirmation(s), true);
     await setCountryVisited(t, 'UA', false);
     assert.equal((await getPlacesByCountry(t, 'UA')).length, 1, 'точку не видалено');
+  });
+});
+
+describe('поїздки', () => {
+  const italy = {
+    title: '  Італія навесні ',
+    startDate: '2025-12-06',
+    endDate: '2025-12-10',
+    countries: ['IT', 'FR'],
+  };
+
+  test('створення: назва, дати (майбутні можна), країни; валідація', async () => {
+    const trip = await addTrip(t, { ...italy, startDate: '2026-06-01', endDate: '2026-06-10' });
+    assert.equal(trip.title, 'Італія навесні');
+    assert.equal(trip.status, 'planned');
+    assert.deepEqual((await getTrip(t, trip.id))?.countries, ['FR', 'IT']);
+    await assert.rejects(addTrip(t, { ...italy, title: ' ' }), DbValidationError);
+    await assert.rejects(
+      addTrip(t, { ...italy, startDate: '2026-06-10', endDate: '2026-06-01' }),
+      DbValidationError,
+    );
+    await assert.rejects(addTrip(t, { ...italy, budget: 100_00 }), DbValidationError, 'без валюти');
+    await assert.rejects(addTrip(t, { ...italy, countries: ['ita'] }), DbValidationError);
+  });
+
+  test('країни: прибрана м’яко видаляється, повернена — відновлюється', async () => {
+    const trip = await addTrip(t, italy);
+    await setTripCountries(t, trip.id, ['IT']);
+    assert.deepEqual((await getTrip(t, trip.id))?.countries, ['IT']);
+    await setTripCountries(t, trip.id, ['IT', 'FR', 'ES']);
+    assert.deepEqual([...((await getTrip(t, trip.id))?.countries ?? [])].sort(), [
+      'ES',
+      'FR',
+      'IT',
+    ]);
+    const rows = t.sqlite
+      .prepare('SELECT COUNT(*) AS n FROM trip_countries WHERE trip_id = ?')
+      .get(trip.id) as { n: number };
+    assert.equal(rows.n, 3, 'FR відновлено, а не вставлено вдруге');
+    assert.deepEqual(await getPlannedCountryIsos(t), ['ES', 'FR', 'IT']);
+  });
+
+  test('видалення й «Скасувати»', async () => {
+    const trip = await addTrip(t, italy);
+    await removeTrip(t, trip.id);
+    assert.equal(await getTrip(t, trip.id), null);
+    assert.deepEqual(await getPlannedCountryIsos(t), []);
+    await restoreTrip(t, trip.id);
+    assert.ok(await getTrip(t, trip.id));
+  });
+
+  test('оновлення змінює поля й країни', async () => {
+    const trip = await addTrip(t, italy);
+    await updateTrip(t, trip.id, {
+      ...italy,
+      title: 'Рим',
+      budget: 2000_00,
+      currency: 'EUR',
+      countries: ['IT'],
+    });
+    const updated = await getTrip(t, trip.id);
+    assert.equal(updated?.title, 'Рим');
+    assert.equal(updated?.budget, 200000);
+    assert.deepEqual(updated?.countries, ['IT']);
+  });
+});
+
+describe('«хочу відвідати» в поїздці', () => {
+  test('пропозиція додається один раз; після поїздки — відвідана точка на карті', async () => {
+    const trip = await addTrip(t, { title: 'Рим', countries: ['IT'] });
+    const colosseum = {
+      tripId: trip.id,
+      countryIso: 'IT',
+      title: 'Колізей',
+      lat: 41.89,
+      lng: 12.49,
+      wikidataId: 'Q10285',
+    };
+    const a = await addWishlistPlace(t, colosseum);
+    const b = await addWishlistPlace(t, colosseum);
+    assert.equal(a.id, b.id, 'без дубліката');
+    assert.equal(a.isWishlist, true);
+    assert.deepEqual(await getPlacesByCountry(t, 'IT'), [], 'на карті ще немає');
+
+    await markWishlistVisited(t, a.id, '2025-12-08');
+    const [visited] = await getPlacesByCountry(t, 'IT');
+    assert.equal(visited.id, a.id);
+    assert.equal(visited.visitedAt, '2025-12-08');
+    await unmarkWishlistVisited(t, a.id);
+    assert.deepEqual(await getPlacesByCountry(t, 'IT'), []);
+  });
+
+  test('місце вручну — лише назва, без координат', async () => {
+    const trip = await addTrip(t, { title: 'Рим', countries: ['IT'] });
+    const p = await addWishlistPlace(t, {
+      tripId: trip.id,
+      countryIso: 'IT',
+      title: ' Тратторія ',
+    });
+    assert.equal(p.title, 'Тратторія');
+    assert.equal(p.lat, null);
+    await assert.rejects(
+      addWishlistPlace(t, { tripId: trip.id, countryIso: 'IT', title: '' }),
+      DbValidationError,
+    );
+  });
+});
+
+describe('витрати поїздки', () => {
+  test('витрата прив’язується до поїздки й відв’язується', async () => {
+    const trip = await addTrip(t, { title: 'Рим', countries: ['IT'] });
+    const base = { amount: 30_00, currency: 'EUR', category: 'food' as const, date: '2025-12-07' };
+    const e = await addExpense(t, { ...base, countryIso: 'IT', tripId: trip.id });
+    assert.equal(e.tripId, trip.id);
+    await updateExpense(t, e.id, { ...base, tripId: null });
+    assert.equal((await getExpensesByCountry(t, 'IT'))[0].tripId, null);
+    await updateExpense(t, e.id, { ...base, tripId: trip.id });
+    await updateExpense(t, e.id, { ...base, amount: 31_00 });
+    assert.equal((await getExpensesByCountry(t, 'IT'))[0].tripId, trip.id, 'undefined — не змінює');
+  });
+});
+
+describe('питання після поїздки', () => {
+  const past = {
+    title: 'Італія',
+    startDate: '2025-12-06',
+    endDate: '2025-12-10',
+    countries: ['IT', 'FR', 'ES'],
+  };
+
+  test('чекають відповіді лише заплановані поїздки, що вже закінчились', () => {
+    const list = [
+      { id: 'a', status: 'planned' as const, startDate: '2025-12-06', endDate: '2025-12-10' },
+      { id: 'b', status: 'planned' as const, startDate: '2025-12-06', endDate: '2025-12-11' },
+      { id: 'c', status: 'done' as const, startDate: '2025-01-01', endDate: '2025-01-05' },
+      { id: 'd', status: 'planned' as const, startDate: '2025-12-01', endDate: null },
+      { id: 'e', status: 'planned' as const, startDate: null, endDate: null },
+    ];
+    assert.deepEqual(
+      tripsAwaitingAnswer(list, '2025-12-11').map((x) => x.id),
+      ['a', 'd'],
+      'останній день 10-го → питаємо з 11-го; у день кінця ще ні',
+    );
+  });
+
+  test('«Так» лише для вибраних країн: невибрані візиту не отримують; поїздка завершена', async () => {
+    await setCountryVisited(t, 'IT', true); // візит без дат — має заповнитися
+    const trip = await addTrip(t, past);
+    await confirmTripVisited(t, trip.id, ['IT', 'FR']);
+    const it = await getVisitsByCountry(t, 'IT');
+    assert.equal(it.length, 1, 'візит без дат заповнено, а не додано другий');
+    assert.equal(it[0].startDate, '2025-12-06');
+    assert.equal(it[0].endDate, '2025-12-10');
+    assert.equal((await getVisitsByCountry(t, 'FR')).length, 1);
+    assert.deepEqual(await getVisitsByCountry(t, 'ES'), [], 'ES не вибрано');
+    assert.equal((await getTrip(t, trip.id))?.status, 'done');
+    assert.deepEqual(await getPlannedCountryIsos(t), []);
+  });
+
+  test('«Так» не додає візити в країни поза поїздкою', async () => {
+    const trip = await addTrip(t, past);
+    await confirmTripVisited(t, trip.id, ['IT', 'DE']);
+    assert.deepEqual(await getVisitsByCountry(t, 'DE'), []);
+  });
+
+  test('«Ні» — без візитів, питання закрито', async () => {
+    const trip = await addTrip(t, past);
+    await declineTrip(t, trip.id);
+    assert.equal(await isCountryVisited(t, 'IT'), false);
+    assert.equal((await getTrip(t, trip.id))?.status, 'done');
+  });
+
+  test('«Пізніше» відкладає попап цієї поїздки до наступного дня; у «Скриньці» її видно', async () => {
+    const a = await addTrip(t, past);
+    const b = await addTrip(t, { ...past, title: 'Інша' });
+    await snoozeTripQuestion(t, a.id, '2025-12-11');
+    const snooze = (await getSetting(t, 'tripQuestionSnooze')) ?? {};
+    assert.deepEqual(snooze, { [a.id]: '2025-12-12' });
+
+    const all = [await getTrip(t, a.id), await getTrip(t, b.id)].filter((x) => x !== null);
+    const awaiting = tripsAwaitingAnswer(all, '2025-12-11');
+    assert.deepEqual(
+      awaiting.map((x) => x.id),
+      [a.id, b.id],
+      'у «Скриньці» — обидві',
+    );
+    assert.deepEqual(
+      tripsForPopup(awaiting, snooze, '2025-12-11').map((x) => x.id),
+      [b.id],
+      'сьогодні попап лише для b',
+    );
+    assert.deepEqual(
+      tripsForPopup(awaiting, snooze, '2025-12-12').map((x) => x.id),
+      [a.id, b.id],
+      'наступного дня — знову',
+    );
+  });
+
+  test('«Пізніше» через кінець місяця й року; відповідь прибирає відкладення', async () => {
+    assert.equal(nextDay('2025-12-31'), '2026-01-01');
+    assert.equal(nextDay('2024-02-28'), '2024-02-29');
+    const trip = await addTrip(t, past);
+    await snoozeTripQuestion(t, trip.id, '2025-12-31');
+    await confirmTripVisited(t, trip.id, ['IT']);
+    assert.deepEqual(await getSetting(t, 'tripQuestionSnooze'), {});
   });
 });

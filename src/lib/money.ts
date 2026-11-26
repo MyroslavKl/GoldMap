@@ -173,3 +173,39 @@ export function withRate(rates: Rates, from: string, to: string, rate: number | 
   else next[rateKey(from, to)] = rate;
   return next;
 }
+
+export type BudgetProgress = {
+  /** Витрачено у валюті бюджету (лише те, що вдалося перевести за курсами) */
+  spent: number;
+  budget: number;
+  currency: string;
+  /** Частка бюджету, може бути > 1 */
+  ratio: number;
+  /** Скільки понад бюджет (0, якщо в межах) */
+  over: number;
+  /** Витрати у валютах без курсу до валюти бюджету — не враховані в spent */
+  unconverted: Map<string, number>;
+};
+
+/** Бюджет поїздки проти фактичних витрат (у валюті бюджету, за ручними курсами). */
+export function budgetProgress(
+  budget: number,
+  currency: string,
+  items: readonly { amount: number; currency: string }[],
+  rates: Rates,
+): BudgetProgress {
+  const summary = summarizeExpenses(
+    items.map((i) => ({ ...i, category: 'all' })),
+    currency,
+    rates,
+  );
+  const spent = summary.total;
+  return {
+    spent,
+    budget,
+    currency,
+    ratio: budget > 0 ? spent / budget : spent > 0 ? Infinity : 0,
+    over: Math.max(0, spent - budget),
+    unconverted: summary.unconverted,
+  };
+}

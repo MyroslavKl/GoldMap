@@ -13,22 +13,58 @@
   },
   "trips": {
     "title": "Поїздки",
-    "empty": "Тут будуть заплановані й минулі поїздки"
+    "empty": "Тут будуть заплановані й минулі поїздки",
+    "create": "Створити поїздку",
+    "new": "Нова поїздка",
+    "edit": "Редагувати",
+    "delete": "Видалити поїздку",
+    "notFound": "Поїздку не знайдено",
+    "name": "Назва",
+    "namePlaceholder": "Напр. Італія навесні",
+    "countries": "Країни",
+    "noCountries": "Ще не вибрано жодної країни",
+    "chooseCountries": "Вибрати країни",
+    "changeCountries": "Змінити країни",
+    "countriesDone_one": "Готово · {{count}} країна",
+    "countriesDone_few": "Готово · {{count}} країни",
+    "countriesDone_many": "Готово · {{count}} країн",
+    "countriesDone_other": "Готово · {{count}} країни",
+    "from": "Початок",
+    "to": "Кінець",
+    "budget": "Бюджет",
+    "budgetPlaceholder": "Необов’язково",
+    "budgetCurrency": "Валюта бюджету",
+    "notes": "Нотатки",
+    "notesPlaceholder": "Що взяти, що забронювати…",
+    "noExpenses": "Ще немає витрат цієї поїздки",
+    "sectionCurrent": "Попереду",
+    "sectionPast": "Минулі",
+    "rowSubtitle": "{{period}} · {{status}}",
+    "inDays_one": "завтра",
+    "inDays_few": "через {{count}} дні",
+    "inDays_many": "через {{count}} днів",
+    "inDays_other": "через {{count}} дня",
+    "ongoing": "триває",
+    "finished": "завершена",
+    "awaitingAnswer": "чекає відповіді",
+    "undated": "без дат",
+    "stripLabel": "Найближчі поїздки",
+    "stripFocusHint": "Повертає глобус до країни поїздки",
+    "stripOpenHint": "Відкриває поїздку"
   },
   "settings": {
     "title": "Налаштування",
     "language": "Мова",
     "version": "Версія {{version}}",
     "currency": "Основна валюта",
-    "currencyHint": "У ній рахуються підсумки витрат."
+    "currencyHint": "У ній рахуються підсумки витрат.",
+    "reminders": "Нагадування про поїздки",
+    "remindersHint": "За місяць, тиждень, 3 дні й день до початку. Сповіщення планує сам телефон."
   },
   "country": {
     "unknown": "Невідома країна",
     "capital": "Столиця: {{capital}}",
     "currency": "Валюта: {{currency}}"
-  },
-  "trip": {
-    "title": "Поїздка"
   },
   "languages": {
     "uk": "Українська",
@@ -75,7 +111,6 @@
     "markVisited": "Був тут",
     "visited": "Відвідано",
     "plan": "Запланувати",
-    "planSoon": "Незабаром",
     "open": "Відкрити",
     "capital": "Столиця: {{capital}}",
     "statusNotVisited": "Ще не був",
@@ -141,7 +176,8 @@
     "photoDeleted": "Фото видалено",
     "noteDeleted": "Нотатку видалено",
     "expenseDeleted": "Витрату видалено",
-    "placeDeleted": "Точку видалено"
+    "placeDeleted": "Точку видалено",
+    "tripDeleted": "Поїздку видалено"
   },
   "dates": {
     "notSet": "Не вказано",
@@ -260,7 +296,10 @@
     "rateOne": "1 {{currency}} =",
     "ratePlaceholder": "Курс",
     "rateLabel": "Курс {{from}} до {{to}}",
-    "rateInvalid": "Невірне число"
+    "rateInvalid": "Невірне число",
+    "country": "Країна",
+    "trip": "Поїздка",
+    "noTrip": "Без поїздки"
   },
   "currency": {
     "otherPlaceholder": "Інша валюта, напр. PLN",
@@ -276,5 +315,57 @@
     "saturn": "Сатурн",
     "uranus": "Уран",
     "neptune": "Нептун"
+  },
+  "budget": {
+    "title": "Бюджет",
+    "none": "Бюджет не задано — додайте його в «Редагувати».",
+    "of": "з {{budget}}",
+    "left": "Лишилось {{amount}} · витрачено {{percent}}%",
+    "over": "Понад бюджет на {{amount}}",
+    "a11y": "Витрачено {{spent}} з {{budget}}, {{percent}}%"
+  },
+  "inbox": {
+    "title": "Скринька",
+    "empty": "Тут з’являться питання й нагадування, що чекають на вашу відповідь.",
+    "tripsHint": "Поїздки, що вже закінчились: позначте, де ви побували.",
+    "open_one": "Скринька, {{count}} питання",
+    "open_few": "Скринька, {{count}} питання",
+    "open_many": "Скринька, {{count}} питань",
+    "open_other": "Скринька, {{count}} питання"
+  },
+  "reminders": {
+    "channel": "Нагадування про поїздки",
+    "title_one": "Завтра: {{trip}}",
+    "title_few": "Через {{count}} дні: {{trip}}",
+    "title_many": "Через {{count}} днів: {{trip}}",
+    "title_other": "Через {{count}} дня: {{trip}}"
+  },
+  "tripQuestion": {
+    "title": "Як пройшла поїздка?",
+    "subtitle": "{{trip}} · {{period}}. Позначте країни, де ви побували.",
+    "yes_one": "Так, була {{count}} країна",
+    "yes_few": "Так, були {{count}} країни",
+    "yes_many": "Так, були {{count}} країн",
+    "yes_other": "Так, були {{count}} країни",
+    "no": "Не вийшло",
+    "later": "Пізніше"
+  },
+  "wishlist": {
+    "title": "Хочу відвідати",
+    "empty": "Додайте місця з пропозицій нижче — одним тапом — або своє.",
+    "addOwn": "Своє місце",
+    "ownPlaceholder": "Напр. тратторія біля готелю",
+    "suggested": "Варто побачити · {{country}}",
+    "add": "Додати «{{place}}» у поїздку",
+    "alreadyAdded": "«{{place}}» уже в поїздці",
+    "remove": "Прибрати «{{place}}»",
+    "markVisited": "Відвідано: {{place}}",
+    "visited": "відвідано",
+    "want": "хочу відвідати",
+    "showAll_one": "Показати всі ({{count}})",
+    "showAll_few": "Показати всі ({{count}})",
+    "showAll_many": "Показати всі ({{count}})",
+    "showAll_other": "Показати всі ({{count}})",
+    "showLess": "Згорнути"
   }
 }

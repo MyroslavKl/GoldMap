@@ -13,22 +13,54 @@
   },
   "trips": {
     "title": "Trips",
-    "empty": "Your planned and past trips will be listed here"
+    "empty": "Your planned and past trips will be listed here",
+    "create": "Create a trip",
+    "new": "New trip",
+    "edit": "Edit",
+    "delete": "Delete trip",
+    "notFound": "Trip not found",
+    "name": "Name",
+    "namePlaceholder": "E.g. Italy in spring",
+    "countries": "Countries",
+    "noCountries": "No countries chosen yet",
+    "chooseCountries": "Choose countries",
+    "changeCountries": "Change countries",
+    "countriesDone_one": "Done · {{count}} country",
+    "countriesDone_other": "Done · {{count}} countries",
+    "from": "Start",
+    "to": "End",
+    "budget": "Budget",
+    "budgetPlaceholder": "Optional",
+    "budgetCurrency": "Budget currency",
+    "notes": "Notes",
+    "notesPlaceholder": "What to pack, what to book…",
+    "noExpenses": "No expenses for this trip yet",
+    "sectionCurrent": "Ahead",
+    "sectionPast": "Past",
+    "rowSubtitle": "{{period}} · {{status}}",
+    "inDays_one": "tomorrow",
+    "inDays_other": "in {{count}} days",
+    "ongoing": "in progress",
+    "finished": "finished",
+    "awaitingAnswer": "awaiting your answer",
+    "undated": "no dates",
+    "stripLabel": "Upcoming trips",
+    "stripFocusHint": "Turns the globe to the trip’s country",
+    "stripOpenHint": "Opens the trip"
   },
   "settings": {
     "title": "Settings",
     "language": "Language",
     "version": "Version {{version}}",
     "currency": "Main currency",
-    "currencyHint": "Expense totals are shown in it."
+    "currencyHint": "Expense totals are shown in it.",
+    "reminders": "Trip reminders",
+    "remindersHint": "A month, a week, 3 days and a day before the start. Your phone schedules them itself."
   },
   "country": {
     "unknown": "Unknown country",
     "capital": "Capital: {{capital}}",
     "currency": "Currency: {{currency}}"
-  },
-  "trip": {
-    "title": "Trip"
   },
   "languages": {
     "uk": "Українська",
@@ -62,7 +94,6 @@
     "markVisited": "Been here",
     "visited": "Visited",
     "plan": "Plan a trip",
-    "planSoon": "Coming soon",
     "open": "Open",
     "capital": "Capital: {{capital}}",
     "statusNotVisited": "Not visited yet",
@@ -116,7 +147,8 @@
     "photoDeleted": "Photo deleted",
     "noteDeleted": "Note deleted",
     "expenseDeleted": "Expense deleted",
-    "placeDeleted": "Place deleted"
+    "placeDeleted": "Place deleted",
+    "tripDeleted": "Trip deleted"
   },
   "dates": {
     "notSet": "Not set",
@@ -221,7 +253,10 @@
     "rateOne": "1 {{currency}} =",
     "ratePlaceholder": "Rate",
     "rateLabel": "Rate from {{from}} to {{to}}",
-    "rateInvalid": "Invalid number"
+    "rateInvalid": "Invalid number",
+    "country": "Country",
+    "trip": "Trip",
+    "noTrip": "No trip"
   },
   "currency": {
     "otherPlaceholder": "Other currency, e.g. PLN",
@@ -237,5 +272,49 @@
     "saturn": "Saturn",
     "uranus": "Uranus",
     "neptune": "Neptune"
+  },
+  "budget": {
+    "title": "Budget",
+    "none": "No budget yet — add one in “Edit”.",
+    "of": "of {{budget}}",
+    "left": "{{amount}} left · {{percent}}% spent",
+    "over": "Over budget by {{amount}}",
+    "a11y": "Spent {{spent}} of {{budget}}, {{percent}}%"
+  },
+  "inbox": {
+    "title": "Inbox",
+    "empty": "Questions and reminders waiting for your answer will appear here.",
+    "tripsHint": "Trips that have ended: mark where you have been.",
+    "open_one": "Inbox, {{count}} question",
+    "open_other": "Inbox, {{count}} questions"
+  },
+  "reminders": {
+    "channel": "Trip reminders",
+    "title_one": "Tomorrow: {{trip}}",
+    "title_other": "In {{count}} days: {{trip}}"
+  },
+  "tripQuestion": {
+    "title": "How was the trip?",
+    "subtitle": "{{trip}} · {{period}}. Tick the countries you visited.",
+    "yes_one": "Yes, {{count}} country",
+    "yes_other": "Yes, {{count}} countries",
+    "no": "Didn’t happen",
+    "later": "Later"
+  },
+  "wishlist": {
+    "title": "Want to visit",
+    "empty": "Add places from the suggestions below with one tap — or your own.",
+    "addOwn": "Own place",
+    "ownPlaceholder": "E.g. trattoria near the hotel",
+    "suggested": "Worth seeing · {{country}}",
+    "add": "Add “{{place}}” to the trip",
+    "alreadyAdded": "“{{place}}” is already in the trip",
+    "remove": "Remove “{{place}}”",
+    "markVisited": "Visited: {{place}}",
+    "visited": "visited",
+    "want": "want to visit",
+    "showAll_one": "Show all ({{count}})",
+    "showAll_other": "Show all ({{count}})",
+    "showLess": "Show less"
   }
 }

@@ -65,6 +65,10 @@ function bbox(geometry: Geometry): BBox {
   return b;
 }
 
+function bboxArea(b: BBox): number {
+  return (b[2] - b[0]) * (b[3] - b[1]);
+}
+
 function inBBox([x, y]: Position, b: BBox, pad = 0): boolean {
   return x >= b[0] - pad && x <= b[2] + pad && y >= b[1] - pad && y <= b[3] + pad;
 }
@@ -80,9 +84,13 @@ export function createCountryLocator<P extends { iso2: string }>(
   const indexed = features.map((f) => ({ f, box: bbox(f.geometry) }));
 
   return function locate(point: Position): string | null {
-    const hit = indexed.find(
-      ({ f, box }) => inBBox(point, box) && pointInGeometry(point, f.geometry),
-    );
+    // Анклави (Ватикан, Сан-Марино, Лесото): спрощений полігон сусіда може не мати «дірки»,
+    // тож точка влучає в обидва — беремо найменший.
+    let hit: (typeof indexed)[number] | null = null;
+    for (const entry of indexed) {
+      if (!inBBox(point, entry.box) || !pointInGeometry(point, entry.f.geometry)) continue;
+      if (!hit || bboxArea(entry.box) < bboxArea(hit.box)) hit = entry;
+    }
     if (hit) return hit.f.properties.iso2;
 
     let best: { iso2: string; d: number } | null = null;

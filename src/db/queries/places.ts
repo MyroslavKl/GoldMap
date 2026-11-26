@@ -16,6 +16,8 @@ export type NewPlace = {
   lng: number;
   /** 'YYYY-MM-DD' — коли там були (напр. дата фото) */
   visitedAt?: string | null;
+  /** QID Wikidata (місце з пропозицій) */
+  wikidataId?: string | null;
 };
 
 function cleanTitle(title: string): string {
@@ -51,6 +53,7 @@ export async function addPlace(ctx: DbContext, input: NewPlace): Promise<Place> 
     note: cleanNote(input.note),
     isWishlist: false,
     visitedAt: input.visitedAt ?? null,
+    wikidataId: input.wikidataId ?? null,
     createdAt: ts,
     updatedAt: ts,
     deletedAt: null,

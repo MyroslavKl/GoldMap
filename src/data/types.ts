@@ -34,3 +34,22 @@ export type City = {
 };
 
 export type BorderProps = { iso2: string };
+
+/** Визначне місце «варто побачити» (src/data/landmarks.json, з Wikidata). */
+export type Landmark = {
+  /** Wikidata QID, напр. "Q215003" — щоб не додати те саме місце двічі */
+  id: string;
+  name: LocalizedName;
+  lat: number;
+  lng: number;
+  /** Кількість мовних версій статей у Вікіпедії — чим більше, тим відоміше */
+  rank: number;
+};
+
+export type LandmarksFile = {
+  source: string;
+  /** Дата запиту до Wikidata, YYYY-MM-DD */
+  fetchedAt: string;
+  /** ISO2 → до 15 місць, від найвідоміших */
+  countries: Record<string, Landmark[]>;
+};

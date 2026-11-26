@@ -75,6 +75,8 @@ export const places = sqliteTable(
     note: text('note'),
     isWishlist: integer('is_wishlist', { mode: 'boolean' }).notNull().default(false),
     visitedAt: text('visited_at'),
+    /** QID Wikidata, якщо місце додано з пропозицій (src/data/landmarks.json) — без дублікатів */
+    wikidataId: text('wikidata_id'),
     ...timestamps,
   },
   (t) => [index('places_country_idx').on(t.countryIso), index('places_trip_idx').on(t.tripId)],

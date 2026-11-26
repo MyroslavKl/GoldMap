@@ -14,6 +14,8 @@ export type ExpenseInput = {
   category: ExpenseCategory;
   date: string;
   comment?: string | null;
+  /** Поїздка, до якої належить витрата; undefined — не змінювати, null — відв'язати */
+  tripId?: string | null;
 };
 
 function assertExpense(input: ExpenseInput): void {
@@ -38,7 +40,7 @@ function cleanComment(comment: string | null | undefined): string | null {
 
 export async function addExpense(
   ctx: DbContext,
-  input: ExpenseInput & { countryIso: string; tripId?: string | null },
+  input: ExpenseInput & { countryIso: string },
 ): Promise<Expense> {
   assertIso2(input.countryIso);
   assertExpense(input);
@@ -74,6 +76,7 @@ export async function updateExpense(
       category: input.category,
       date: input.date,
       comment: cleanComment(input.comment),
+      ...(input.tripId !== undefined ? { tripId: input.tripId } : {}),
       updatedAt: ctx.now(),
     })
     .where(and(eq(expenses.id, id), active));

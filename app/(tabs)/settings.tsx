@@ -1,11 +1,15 @@
+import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
 import Constants from 'expo-constants';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 
 import { AppText } from '@/components/AppText';
 import { CurrencyPicker } from '@/components/CurrencyPicker';
 import { Screen } from '@/components/Screen';
+import { parseSetting, setSetting, settingQuery } from '@/db';
+import { dbContext, expoDb } from '@/db/client';
 import { setLanguage, SUPPORTED_LANGUAGES } from '@/i18n';
+import { ensureReminderPermission } from '@/lib/trip-reminders';
 import { deviceMainCurrency, setMainCurrency, useMoneySettings } from '@/lib/use-money-settings';
 import { colors, radius, spacing } from '@/theme';
 
@@ -14,6 +18,12 @@ export default function SettingsTab() {
   const { t, i18n } = useTranslation();
   const version = Constants.expoConfig?.version ?? '';
   const { mainCurrency } = useMoneySettings();
+  const { data: reminderRows } = useLiveQuery(settingQuery(expoDb, 'tripReminders'));
+  const remindersOn = parseSetting('tripReminders', reminderRows) ?? true;
+  const setReminders = async (on: boolean) => {
+    await setSetting(dbContext, 'tripReminders', on);
+    if (on) await ensureReminderPermission();
+  };
 
   return (
     <Screen title={t('settings.title')}>
@@ -49,6 +59,21 @@ export default function SettingsTab() {
           <AppText variant="muted">{t('settings.currencyHint')}</AppText>
         </View>
 
+        <View style={styles.section}>
+          <View style={styles.switchRow}>
+            <AppText style={styles.switchLabel}>{t('settings.reminders')}</AppText>
+            <Switch
+              value={remindersOn}
+              onValueChange={(on) => void setReminders(on)}
+              trackColor={{ true: colors.gold, false: colors.surfaceRaised }}
+              thumbColor={colors.text}
+              ios_backgroundColor={colors.surfaceRaised}
+              accessibilityLabel={t('settings.reminders')}
+            />
+          </View>
+          <AppText variant="muted">{t('settings.remindersHint')}</AppText>
+        </View>
+
         <AppText variant="muted" style={styles.version}>
           {t('settings.version', { version })}
         </AppText>
@@ -68,6 +93,15 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     gap: spacing.sm,
+  },
+  switchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+  },
+  switchLabel: {
+    flex: 1,
   },
   pill: {
     paddingVertical: spacing.sm,

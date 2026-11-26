@@ -33,7 +33,16 @@ import {
 } from '../src/lib/photo-clusters.ts';
 import { buildMapPoints, countPhotosByPlace } from '../src/lib/places.ts';
 import {
+  daysBetween,
+  daysUntilStart,
+  minusDays,
+  splitTrips,
+  tripPhase,
+  tripReminders,
+} from '../src/lib/trips.ts';
+import {
   amountToInput,
+  budgetProgress,
   convert,
   currencyDigits,
   defaultMainCurrency,
@@ -579,5 +588,97 @@ describe('точки на глобусі', () => {
   test('countPhotosByPlace', () => {
     const counts = countPhotosByPlace([{ placeId: 'a' }, { placeId: 'a' }, { placeId: null }]);
     assert.deepEqual([...counts], [['a', 2]]);
+  });
+});
+
+describe('поїздки (чисті функції)', () => {
+  const trip = (startDate: string | null, endDate: string | null = null) => ({
+    startDate,
+    endDate,
+  });
+
+  test('фаза: майбутня, триває (включно з днями початку й кінця), минула, без дат', () => {
+    assert.equal(tripPhase(trip('2025-12-06', '2025-12-10'), '2025-12-05'), 'upcoming');
+    assert.equal(tripPhase(trip('2025-12-06', '2025-12-10'), '2025-12-06'), 'ongoing');
+    assert.equal(tripPhase(trip('2025-12-06', '2025-12-10'), '2025-12-10'), 'ongoing');
+    assert.equal(tripPhase(trip('2025-12-06', '2025-12-10'), '2025-12-11'), 'past');
+    assert.equal(tripPhase(trip('2025-12-06'), '2025-12-07'), 'past', 'одноденна');
+    assert.equal(tripPhase(trip(null), '2025-12-07'), 'undated');
+  });
+
+  test('днів до початку', () => {
+    assert.equal(daysUntilStart(trip('2025-12-06'), '2025-11-24'), 12);
+    assert.equal(daysUntilStart(trip('2026-01-01'), '2025-12-31'), 1);
+    assert.equal(daysUntilStart(trip('2025-12-06'), '2025-12-06'), null);
+    assert.equal(daysUntilStart(trip(null), '2025-12-06'), null);
+  });
+
+  test('список: тривають → майбутні (найближча зверху) → без дат; минулі — найсвіжіша зверху', () => {
+    const list = [
+      { id: 'past-old', ...trip('2024-05-01', '2024-05-03') },
+      { id: 'far', ...trip('2026-08-01') },
+      { id: 'undated', ...trip(null) },
+      { id: 'now', ...trip('2025-12-01', '2025-12-20') },
+      { id: 'soon', ...trip('2026-01-10') },
+      { id: 'past-new', ...trip('2025-10-01', '2025-10-05') },
+    ];
+    const { current, past } = splitTrips(list, '2025-12-10');
+    assert.deepEqual(
+      current.map((x) => x.id),
+      ['now', 'soon', 'far', 'undated'],
+    );
+    assert.deepEqual(
+      past.map((x) => x.id),
+      ['past-new', 'past-old'],
+    );
+  });
+
+  test('нагадування: за 30, 7, 3 і 1 день о 9:00, лише майбутні, лише заплановані', () => {
+    const trips = [
+      { id: 'a', status: 'planned' as const, ...trip('2026-01-10', '2026-01-15') },
+      { id: 'b', status: 'done' as const, ...trip('2026-01-10') },
+      { id: 'c', status: 'planned' as const, ...trip(null) },
+    ];
+    assert.deepEqual(
+      tripReminders(trips, '2025-12-01', 8).map((r) => [r.id, r.date]),
+      [
+        ['trip-a-30', '2025-12-11'],
+        ['trip-a-7', '2026-01-03'],
+        ['trip-a-3', '2026-01-07'],
+        ['trip-a-1', '2026-01-09'],
+      ],
+    );
+    // 3 січня: о 8:00 нагадування «за тиждень» ще попереду, о 10:00 — вже ні
+    assert.equal(tripReminders(trips, '2026-01-03', 8)[0].daysBefore, 7);
+    assert.equal(tripReminders(trips, '2026-01-03', 10)[0].daysBefore, 3);
+    assert.deepEqual(tripReminders(trips, '2026-01-10', 8), []);
+  });
+
+  test('minusDays і daysBetween через межі місяців і років', () => {
+    assert.equal(minusDays('2026-01-01', 1), '2025-12-31');
+    assert.equal(minusDays('2024-03-01', 1), '2024-02-29');
+    assert.equal(daysBetween('2025-12-31', '2026-01-30'), 30);
+  });
+});
+
+describe('бюджет поїздки', () => {
+  test('витрачено у валюті бюджету за курсами; понад бюджет; валюти без курсу окремо', () => {
+    const p = budgetProgress(
+      1000_00,
+      'EUR',
+      [
+        { amount: 600_00, currency: 'EUR' },
+        { amount: 9000_00, currency: 'UAH' },
+        { amount: 50_00, currency: 'GBP' },
+      ],
+      { 'EUR>UAH': 45 },
+    );
+    assert.equal(p.spent, 800_00);
+    assert.equal(p.ratio, 0.8);
+    assert.equal(p.over, 0);
+    assert.deepEqual([...p.unconverted], [['GBP', 5000]]);
+    const over = budgetProgress(500_00, 'EUR', [{ amount: 600_00, currency: 'EUR' }], {});
+    assert.equal(over.over, 100_00);
+    assert.ok(over.ratio > 1);
   });
 });

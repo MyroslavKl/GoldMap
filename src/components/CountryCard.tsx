@@ -24,6 +24,8 @@ type Props = {
   startDates: readonly (string | null)[];
   onToggleVisited: () => void;
   onOpen: () => void;
+  /** «Запланувати» — нова поїздка з цією країною */
+  onPlan: () => void;
   onClose: () => void;
 };
 
@@ -38,6 +40,7 @@ export function CountryCard({
   startDates,
   onToggleVisited,
   onOpen,
+  onPlan,
   onClose,
 }: Props) {
   const { t } = useTranslation();
@@ -141,17 +144,11 @@ export function CountryCard({
             </Pressable>
 
             <View style={styles.row}>
-              {/* TODO(етап 8): створення поїздки */}
               <Pressable
-                disabled
-                style={[styles.secondary, styles.disabled]}
-                accessibilityRole="button"
-                accessibilityState={{ disabled: true }}
-                accessibilityHint={t('card.planSoon')}>
+                onPress={onPlan}
+                style={({ pressed }) => [styles.secondary, pressed && styles.pressed]}
+                accessibilityRole="button">
                 <AppText style={styles.secondaryText}>{t('card.plan')}</AppText>
-                <AppText variant="muted" style={styles.soon}>
-                  {t('card.planSoon')}
-                </AppText>
               </Pressable>
               <Pressable
                 onPress={onOpen}
@@ -255,12 +252,6 @@ const styles = StyleSheet.create({
   },
   secondaryText: {
     fontFamily: fonts.sansMedium,
-  },
-  soon: {
-    fontSize: fontSizes.xs,
-  },
-  disabled: {
-    opacity: 0.5,
   },
   pressed: {
     opacity: 0.7,

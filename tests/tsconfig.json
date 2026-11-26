@@ -13,6 +13,7 @@
     "../src/lib/geo.ts",
     "../src/lib/photo-clusters.ts",
     "../src/lib/places.ts",
+    "../src/lib/trips.ts",
     "../src/lib/money.ts",
     "../src/components/globe/protocol.ts",
     "../src/components/globe/web/fill-animator.ts",

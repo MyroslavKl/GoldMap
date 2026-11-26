@@ -18,6 +18,13 @@ export type SettingValues = {
   exchangeRates: Record<string, number>;
   /** Фото з GPS, для яких людина пропустила пропозицію «створити точку» — більше не пропонуємо */
   skippedGpsPhotos: string[];
+  /**
+   * «Пізніше» в питанні після поїздки: id поїздки → дата 'YYYY-MM-DD', з якої попап знову
+   * показується (до того питання видно лише в «Скриньці»).
+   */
+  tripQuestionSnooze: Record<string, string>;
+  /** Нагадування перед поїздкою (за місяць, тиждень, 3 дні, день). За замовчуванням увімкнено */
+  tripReminders: boolean;
 };
 export type SettingKey = keyof SettingValues;
 

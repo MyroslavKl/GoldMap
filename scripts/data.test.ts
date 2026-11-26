@@ -8,7 +8,7 @@ import { dirname, join } from 'node:path';
 import { describe, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import type { BorderProps, City, Country } from '../src/data/types.ts';
+import type { BorderProps, City, Country, LandmarksFile } from '../src/data/types.ts';
 import {
   distanceToGeometry,
   pointInGeometry,
@@ -24,6 +24,7 @@ const borders = read<FeatureCollection<BorderProps>>('borders.geojson');
 const countries = read<Country[]>('countries.json');
 const cities = read<City[]>('cities.json');
 const outlines = read<Record<string, Outline>>('outlines.json');
+const landmarks = read<LandmarksFile>('landmarks.json');
 
 const ua = borders.features.find((f) => f.properties.iso2 === 'UA');
 const ru = borders.features.find((f) => f.properties.iso2 === 'RU');
@@ -207,5 +208,73 @@ describe('outlines.json (силуети для картки)', () => {
     assert.ok(inOutline('UA', [30.52, 50.45]));
     assert.ok(!inOutline('UA', [37.62, 55.75]));
     assert.ok(inOutline('RU', [37.62, 55.75]));
+  });
+});
+
+describe('landmarks.json — «варто побачити» (Wikidata)', () => {
+  const all = Object.entries(landmarks.countries).flatMap(([iso2, list]) =>
+    list.map((l) => ({ iso2, ...l })),
+  );
+  /** Кримський півострів (прямокутник з запасом; сам Крим цілком у полігоні UA) */
+  const inCrimea = (l: { lat: number; lng: number }) =>
+    l.lat > 44.3 &&
+    l.lat < 46.2 &&
+    l.lng > 32.4 &&
+    l.lng < 36.7 &&
+    pointInGeometry([l.lng, l.lat], ua!.geometry);
+
+  test('місця в Криму належать UA (країна — за нашими кордонами, не за Wikidata)', () => {
+    const crimean = all.filter(inCrimea);
+    assert.ok(crimean.length >= 3, `у Криму лише ${crimean.length} місць`);
+    for (const l of crimean) assert.equal(l.iso2, 'UA', `${l.name.uk} → ${l.iso2}`);
+    assert.ok(!(landmarks.countries.RU ?? []).some(inCrimea), 'кримське місце в RU');
+  });
+
+  test('конкретні кримські пам’ятки — в Україні', () => {
+    const uaNames = (landmarks.countries.UA ?? []).map((l) => l.name.en);
+    for (const name of ['Chersonesus', "Swallow's Nest"]) {
+      assert.ok(
+        uaNames.some((n) => n.includes(name)),
+        `${name} немає серед UA: ${uaNames.join(', ')}`,
+      );
+    }
+  });
+
+  test('кожне місце — у своїй країні за полігоном (або біля берега / мікродержави)', () => {
+    const byIso = new Map(borders.features.map((f) => [f.properties.iso2, f]));
+    for (const l of all) {
+      const f = byIso.get(l.iso2);
+      assert.ok(f, l.iso2);
+      const inside = pointInGeometry([l.lng, l.lat], f.geometry);
+      assert.ok(
+        inside || distanceToGeometry([l.lng, l.lat], f.geometry) < 0.15,
+        `${l.name.en} (${l.iso2})`,
+      );
+    }
+  });
+
+  test('до 15 місць на країну, від найвідоміших; країни відомі; назви й координати валідні', () => {
+    const known = new Set(countries.map((c) => c.iso2));
+    for (const [iso2, list] of Object.entries(landmarks.countries)) {
+      assert.ok(known.has(iso2), iso2);
+      assert.ok(list.length > 0 && list.length <= 15, `${iso2}: ${list.length}`);
+      assert.deepEqual(
+        list.map((l) => l.rank),
+        [...list.map((l) => l.rank)].sort((a, b) => b - a),
+        `${iso2}: не за спаданням відомості`,
+      );
+      for (const l of list) {
+        assert.match(l.id, /^Q[0-9]+$/);
+        assert.ok(l.name.uk.trim() && l.name.en.trim(), l.id);
+        assert.ok(Math.abs(l.lat) <= 90 && Math.abs(l.lng) <= 180, l.id);
+      }
+    }
+    assert.equal(new Set(all.map((l) => l.id)).size, all.length, 'дублікати QID');
+    assert.ok(Object.keys(landmarks.countries).length > 150);
+  });
+
+  test('сама країна не є «місцем» (Ватикан — не пам’ятка Італії)', () => {
+    const names = new Set(countries.map((c) => c.name.en));
+    assert.ok(!all.some((l) => names.has(l.name.en)));
   });
 });
