@@ -71,7 +71,8 @@
     "statusPlanned": "Planned",
     "territory": "Territory — not counted in the 193",
     "flagAndName": "{{flag}} {{name}}",
-    "statusVisitedOnce": "Visited"
+    "statusVisitedOnce": "Visited",
+    "lastVisit": "Last visit: {{date}}"
   },
   "unmark": {
     "title": "Unmark {{country}}?",

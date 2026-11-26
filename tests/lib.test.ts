@@ -17,7 +17,6 @@ import {
 import {
   formatMonthYear,
   formatPeriod,
-  formatVisitDates,
   fromIsoDate,
   lastVisitDate,
   periodDays,
@@ -70,27 +69,6 @@ describe('dates', () => {
 
   test('«бер. 2024»', () => {
     assert.equal(formatMonthYear('2024-03-15', ukMonths), `${ukMonths[2]} 2024`);
-  });
-
-  test('хронологічно, без повторів місяця, без порожніх дат', () => {
-    assert.equal(
-      formatVisitDates(['2025-08-02', null, '2024-03-01', '2024-03-20'], ukMonths),
-      `${ukMonths[2]} 2024, ${ukMonths[7]} 2025`,
-    );
-  });
-
-  test('більше трьох — «+N»', () => {
-    assert.equal(
-      formatVisitDates(
-        ['2021-01-01', '2022-01-01', '2023-01-01', '2024-01-01', '2025-01-01'],
-        ukMonths,
-      ),
-      `${ukMonths[0]} 2021, ${ukMonths[0]} 2022, ${ukMonths[0]} 2023, +2`,
-    );
-  });
-
-  test('немає дат — порожній рядок', () => {
-    assert.equal(formatVisitDates([null, null], ukMonths), '');
   });
 });
 

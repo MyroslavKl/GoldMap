@@ -9,7 +9,7 @@ import { AppText } from '@/components/AppText';
 import { CountryOutline } from '@/components/CountryOutline';
 import { getCountry } from '@/data/countries';
 import { useLanguage } from '@/i18n';
-import { formatVisitDates } from '@/lib/dates';
+import { formatMonthYear, lastVisitDate } from '@/lib/dates';
 import { colors, fonts, fontSizes, radius, spacing } from '@/theme';
 
 const OUTLINE_SIZE = 168;
@@ -54,7 +54,13 @@ export function CountryCard({
 
   if (!country) return null;
 
-  const dates = formatVisitDates(startDates, t('months.short', { returnObjects: true }));
+  // Лише останній візит: усі дати — на екрані країни («Відкрити»)
+  const last = lastVisitDate(startDates);
+  const dates = last
+    ? t('card.lastVisit', {
+        date: formatMonthYear(last, t('months.short', { returnObjects: true })),
+      })
+    : '';
 
   const status = visited
     ? startDates.length > 1
