@@ -128,7 +128,7 @@
     "new": "New visit",
     "from": "From",
     "to": "To",
-    "datesOptional": "Dates are optional: you can set only the start, or nothing."
+    "datesOptional": "Dates are optional: you can set only the start, or nothing. Future dates aren’t allowed — plans go to “Trips”."
   },
   "photos": {
     "title": "Photos",

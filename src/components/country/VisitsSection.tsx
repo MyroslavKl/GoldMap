@@ -16,7 +16,7 @@ import {
   type Visit,
 } from '@/db';
 import { dbContext, expoDb } from '@/db/client';
-import { formatPeriod, periodDays } from '@/lib/dates';
+import { formatPeriod, periodDays, toIsoDate } from '@/lib/dates';
 import { hapticMarked } from '@/lib/haptics';
 import { showUndo } from '@/lib/undo';
 import { spacing } from '@/theme';
@@ -80,7 +80,9 @@ function VisitSheet({ iso2, visit, wasVisited, onClose }: SheetProps) {
   const { t } = useTranslation();
   const [start, setStart] = useState<string | null>(visit?.startDate ?? null);
   const [end, setEnd] = useState<string | null>(visit?.endDate ?? null);
-  const invalid = !!start && !!end && start > end;
+  // Візит — минуле: календар не дає вибрати день після сьогодні (плани — у «Поїздках»)
+  const today = toIsoDate(new Date());
+  const invalid = (!!start && !!end && start > end) || (start ?? '') > today || (end ?? '') > today;
 
   const save = async () => {
     if (visit) await updateVisitDates(dbContext, visit.id, { startDate: start, endDate: end });
@@ -121,7 +123,7 @@ function VisitSheet({ iso2, visit, wasVisited, onClose }: SheetProps) {
         value={start}
         onChange={setStart}
         optional
-        maximumDate={end}
+        maximumDate={end && end < today ? end : today}
       />
       <DateField
         label={t('visits.to')}
@@ -129,6 +131,7 @@ function VisitSheet({ iso2, visit, wasVisited, onClose }: SheetProps) {
         onChange={setEnd}
         optional
         minimumDate={start}
+        maximumDate={today}
       />
       <AppText variant="muted">{t('visits.datesOptional')}</AppText>
     </Sheet>

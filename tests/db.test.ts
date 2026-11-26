@@ -403,10 +403,10 @@ describe('візит без дат і перший візит з датами', 
   test('наступний візит з датами — вже окремий запис', async () => {
     await setCountryVisited(t, 'PT', true);
     await addVisit(t, { countryIso: 'PT', startDate: '2025-05-01' });
-    await addVisit(t, { countryIso: 'PT', startDate: '2026-02-10' });
+    await addVisit(t, { countryIso: 'PT', startDate: '2025-11-10' });
     assert.deepEqual(
       (await getVisitsByCountry(t, 'PT')).map((v) => v.startDate),
-      ['2026-02-10', '2025-05-01'],
+      ['2025-11-10', '2025-05-01'],
     );
   });
 
@@ -622,5 +622,35 @@ describe('ручні курси в налаштуваннях', () => {
     await setSetting(t, 'currency', 'UAH');
     await setSetting(t, 'exchangeRates', { 'EUR>UAH': 45, 'CZK>UAH': 1.8 });
     assert.deepEqual(await getSetting(t, 'exchangeRates'), { 'EUR>UAH': 45, 'CZK>UAH': 1.8 });
+  });
+});
+
+describe('візит — лише минуле', () => {
+  // Тестовий годинник: 2026-01-01T12:00Z
+  test('дата в майбутньому відхиляється і при додаванні, і при зміні', async () => {
+    await assert.rejects(
+      addVisit(t, { countryIso: 'FI', startDate: '2026-12-06', endDate: '2026-12-10' }),
+      DbValidationError,
+    );
+    await assert.rejects(
+      addVisit(t, { countryIso: 'FI', startDate: '2025-12-28', endDate: '2026-02-01' }),
+      DbValidationError,
+      'кінець у майбутньому',
+    );
+    const v = await addVisit(t, { countryIso: 'FI', startDate: '2025-12-20' });
+    await assert.rejects(
+      updateVisitDates(t, v.id, { startDate: '2026-03-01', endDate: null }),
+      DbValidationError,
+    );
+    assert.equal((await getVisitsByCountry(t, 'FI'))[0].startDate, '2025-12-20');
+  });
+
+  test('сьогодні можна; завтра за UTC теж (на телефоні в UTC+2 це вже може бути сьогодні)', async () => {
+    await addVisit(t, { countryIso: 'FI', startDate: '2026-01-01' });
+    await addVisit(t, { countryIso: 'EE', startDate: '2025-12-31', endDate: '2026-01-02' });
+    await assert.rejects(
+      addVisit(t, { countryIso: 'LV', startDate: '2026-01-03' }),
+      DbValidationError,
+    );
   });
 });

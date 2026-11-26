@@ -2,7 +2,7 @@ import { and, asc, count, desc, eq, isNull, max, min, sql } from 'drizzle-orm';
 
 import type { AppDatabase, DbContext } from '../context.ts';
 import { visits, type Visit } from '../schema.ts';
-import { assertDateRange, assertIso2 } from '../validate.ts';
+import { assertDateRange, assertIso2, assertNotFuture } from '../validate.ts';
 
 const active = isNull(visits.deletedAt);
 
@@ -11,6 +11,14 @@ export type NewVisit = {
   startDate?: string | null;
   endDate?: string | null;
 };
+
+/** Візит — це те, що вже було: дати в майбутньому відхиляються (плани — це поїздки). */
+function assertVisitDates(ctx: DbContext, start?: string | null, end?: string | null): void {
+  assertDateRange(start, end);
+  const now = ctx.now();
+  assertNotFuture(start, now, 'startDate');
+  assertNotFuture(end, now, 'endDate');
+}
 
 /**
  * Додати візит (період перебування). Кілька візитів на країну — нормально.
@@ -21,7 +29,7 @@ export type NewVisit = {
  */
 export async function addVisit(ctx: DbContext, input: NewVisit): Promise<Visit> {
   assertIso2(input.countryIso);
-  assertDateRange(input.startDate, input.endDate);
+  assertVisitDates(ctx, input.startDate, input.endDate);
   const startDate = input.startDate ?? null;
   const endDate = input.endDate ?? null;
   const ts = ctx.now();
@@ -68,7 +76,7 @@ export async function updateVisitDates(
   id: string,
   dates: { startDate: string | null; endDate: string | null },
 ): Promise<void> {
-  assertDateRange(dates.startDate, dates.endDate);
+  assertVisitDates(ctx, dates.startDate, dates.endDate);
   await ctx.db
     .update(visits)
     .set({ ...dates, updatedAt: ctx.now() })

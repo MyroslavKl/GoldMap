@@ -27,3 +27,19 @@ export function assertDateRange(start?: string | null, end?: string | null): voi
     throw new DbValidationError(`Початок (${start}) пізніше за кінець (${end})`);
   }
 }
+
+/**
+ * Дата не в майбутньому відносно `nowIso` (ISO-мітка часу UTC). Запас +1 день: `now` — UTC,
+ * а «сьогодні» на телефоні (напр. UTC+2 після опівночі) може вже бути наступним днем.
+ */
+export function assertNotFuture(
+  value: string | null | undefined,
+  nowIso: string,
+  field: string,
+): void {
+  if (!value) return;
+  const limit = new Date(Date.parse(nowIso) + 86_400_000).toISOString().slice(0, 10);
+  if (value > limit) {
+    throw new DbValidationError(`${field}: дата в майбутньому («${value}»)`);
+  }
+}

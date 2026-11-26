@@ -45,6 +45,9 @@ export default function CountryScreen() {
       <Stack.Screen options={{ title: country.name[lang] }} />
       <ScrollView
         style={styles.root}
+        // iOS: напівпрозорий системний заголовок лежить поверх контенту — без відступу під нього
+        // верх екрана (силует) ховався під заголовком і до нього не можна було догорнути.
+        contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + spacing.xxl }]}
         keyboardShouldPersistTaps="handled">
         <CountryHeader
