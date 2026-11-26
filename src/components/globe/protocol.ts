@@ -16,7 +16,6 @@ export type WebPoint = {
 export type WebInit = {
   camera: { lat: number; lng: number; zoom: number } | null;
   focusIso: string | null;
-  gestures: 'all' | 'longPressOnly';
   lang: 'uk' | 'en';
 };
 

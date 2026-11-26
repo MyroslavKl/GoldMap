@@ -160,7 +160,7 @@
     "addPhotos": "From library",
     "noCountryPhotos": "No photos in this country yet — add some from your library.",
     "pickHint": "Tap a photo to add it to the place or remove it.",
-    "longPressHint": "Press and hold on the map to add a place.",
+    "longPressHint": "Pinch to zoom. Press and hold on the map to add a place.",
     "photoCount_one": "{{count}} photo",
     "photoCount_other": "{{count}} photos",
     "placeCount_one": "{{count}} place",

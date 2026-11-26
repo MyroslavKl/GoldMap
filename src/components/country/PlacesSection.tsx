@@ -51,9 +51,10 @@ export function PlacesSection({ iso2, suggestions, onOpenSuggestions }: Props) {
   }, []);
 
   const onLongPress = (e: GlobeLongPress) => {
+    // Мінікарта — лише ця країна: сусідні ігноруємо; біля берега (у морі) — точка цієї країни
+    if (e.iso2 && e.iso2 !== iso2) return;
     hapticSelection();
-    // Біля берега (у морі) — точка все одно належить цій країні
-    setSheet({ kind: 'new', iso2: e.iso2 ?? iso2, lat: e.lat, lng: e.lng });
+    setSheet({ kind: 'new', iso2, lat: e.lat, lng: e.lng });
   };
 
   const openPlace = (id: string) => {
@@ -73,7 +74,6 @@ export function PlacesSection({ iso2, suggestions, onOpenSuggestions }: Props) {
             language={lang}
             detailMap={detailMap}
             focus={{ iso2 }}
-            gestures="longPressOnly"
             autoRotate={false}
             onLongPress={onLongPress}
             onPointPress={openPlace}

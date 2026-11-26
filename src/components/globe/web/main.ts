@@ -91,15 +91,10 @@ const data = window.__GM_DATA__;
 const init: WebInit = window[WEB_INIT] ?? {
   camera: null,
   focusIso: null,
-  gestures: 'all',
   lang: 'en',
 };
-const minimap = init.gestures === 'longPressOnly';
-if (minimap) {
-  // Карта не перехоплює прокрутку екрана, у якому лежить
-  document.documentElement.style.touchAction = 'pan-x pan-y';
-  document.body.style.touchAction = 'pan-x pan-y';
-}
+/** Мінікарта країни: лише ця країна — без обертання, рух і віддалення в її межах. */
+const focusIso = init.focusIso;
 
 const emptyCollection: FeatureCollection = { type: 'FeatureCollection', features: [] };
 
@@ -266,14 +261,26 @@ const map = new MapLibreMap({
   },
 });
 
-// Мінікарта: жести вимкнені (екран прокручується), тап по точці й довге натискання лишаються.
-if (minimap) {
-  map.dragPan.disable();
-  map.scrollZoom.disable();
-  map.boxZoom.disable();
-  map.doubleClickZoom.disable();
-  map.touchZoomRotate.disable();
-  map.keyboard.disable();
+/**
+ * Прозорість заливки країн: з детальною картою золото напівпрозоре (видно воду й дороги);
+ * у мінікарті інші країни приглушені — видно, де межа «своєї».
+ */
+function fillOpacity(detail: boolean) {
+  const own = (value: number) =>
+    focusIso ? ['case', ['==', ['get', 'iso2'], focusIso], value, value * 0.35] : value;
+  return (
+    detail
+      ? [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          DETAIL_MIN_ZOOM - 0.5,
+          own(1),
+          DETAIL_MIN_ZOOM + 1,
+          own(0.4),
+        ]
+      : own(1)
+  ) as never;
 }
 
 /** Наші міста (Natural Earth). З детальною картою на zoom ≥ 6 назви дають тайли — точки ховаємо. */
@@ -331,7 +338,7 @@ function updatePulse(): void {
 
 // ---------- автообертання ----------
 
-let rotateEnabled = !minimap && !init.focusIso;
+let rotateEnabled = !focusIso;
 let stoppedByUser = false;
 let lastFrame = 0;
 
@@ -433,11 +440,53 @@ function countryBounds(iso2: string): LngLatBounds | null {
   );
 }
 
+/** Межі, в яких тримається камера мінікарти, і найменше наближення (уся країна). */
+let lock: { west: number; south: number; east: number; north: number; minZoom: number } | null =
+  null;
+
+/**
+ * Вписати країну й «замкнути» камеру в ній: віддалити далі, ніж уся країна, не можна, а центр
+ * не виходить за межі країни (з невеликим запасом). У проєкції globe MapLibre не застосовує
+ * maxBounds/minZoom, тож обмежуємо самі: після жесту камера плавно повертається в межі
+ * (clampCamera на moveend). Під час жесту не втручаємося — інакше камера «б'ється» з пальцем.
+ */
 function fitCountry(iso2: string): boolean {
   const bounds = countryBounds(iso2);
   if (!bounds) return false;
   map.fitBounds(bounds, { padding: 16, animate: false, maxZoom: OFFLINE_MAX_ZOOM });
+  const sw = bounds.getSouthWest();
+  const ne = bounds.getNorthEast();
+  const padLng = (ne.lng - sw.lng) * 0.1;
+  const padLat = (ne.lat - sw.lat) * 0.1;
+  lock = {
+    west: sw.lng - padLng,
+    east: ne.lng + padLng,
+    south: Math.max(-85, sw.lat - padLat),
+    north: Math.min(85, ne.lat + padLat),
+    minZoom: map.getZoom(),
+  };
   return true;
+}
+
+function insideLock(lng: number, lat: number): boolean {
+  if (!lock) return true;
+  const x = lng < lock.west ? lng + 360 : lng;
+  return x >= lock.west && x <= lock.east && lat >= lock.south && lat <= lock.north;
+}
+
+function clampCamera(): void {
+  if (!lock) return;
+  const c = map.getCenter();
+  // Довгота в системі меж (для країн через антимеридіан межі можуть бути > 180)
+  let lng = c.lng;
+  if (lng < lock.west - 180) lng += 360;
+  else if (lng > lock.east + 180) lng -= 360;
+  const clampedLng = Math.min(lock.east, Math.max(lock.west, lng));
+  const clampedLat = Math.min(lock.north, Math.max(lock.south, c.lat));
+  const zoom = map.getZoom();
+  const clampedZoom = Math.max(lock.minZoom, zoom);
+  if (clampedLng === lng && clampedLat === c.lat && clampedZoom === zoom) return;
+  map.easeTo({ center: [clampedLng, clampedLat], zoom: clampedZoom, duration: 250 });
 }
 
 // ---------- точки ----------
@@ -540,22 +589,14 @@ function setDetailMap(enabled: boolean): void {
       map.addLayer(layer, 'points-dot');
     map.setMaxZoom(DETAIL_MAX_ZOOM);
     // Золото стає напівпрозорим — крізь нього видно воду, дороги й назви
-    map.setPaintProperty('countries-fill', 'fill-opacity', [
-      'interpolate',
-      ['linear'],
-      ['zoom'],
-      DETAIL_MIN_ZOOM - 0.5,
-      1,
-      DETAIL_MIN_ZOOM + 1,
-      0.4,
-    ]);
+    map.setPaintProperty('countries-fill', 'fill-opacity', fillOpacity(true));
   } else {
     for (const layer of [...detailBaseLayers(), ...detailLabelLayers(state.lang, LABEL_FONT)]) {
       if (map.getLayer(layer.id)) map.removeLayer(layer.id);
     }
     if (map.getSource(DETAIL_SOURCE_ID)) map.removeSource(DETAIL_SOURCE_ID);
     map.setMaxZoom(OFFLINE_MAX_ZOOM);
-    map.setPaintProperty('countries-fill', 'fill-opacity', 1);
+    map.setPaintProperty('countries-fill', 'fill-opacity', fillOpacity(false));
   }
   map.setFilter('cities', citiesFilter(enabled));
   updateAttribution();
@@ -582,7 +623,7 @@ map.on('click', (e) => {
     post({ type: 'pointPress', id });
     return;
   }
-  if (minimap) return;
+  if (focusIso) return; // у мінікарті тап по країні нічого не робить
   const iso2 = countryAt(e.point);
   if (iso2) post({ type: 'countryPress', iso2 });
 });
@@ -604,13 +645,18 @@ function startPress(x: number, y: number): void {
     pressStart = null;
     if (!onGlobe(x, y)) return; // космос
     const lngLat = map.unproject([x, y]);
+    const iso2 = countryAt([x, y]);
+    // Мінікарта — лише своя країна: сусідня країна чи відкрите море поза її межами не рахуються
+    if (focusIso && iso2 !== focusIso && (iso2 !== null || !insideLock(lngLat.lng, lngLat.lat))) {
+      return;
+    }
     suppressClick = true;
     setTimeout(() => (suppressClick = false), 600);
     post({
       type: 'longPress',
       lat: lngLat.lat,
       lng: lngLat.lng,
-      iso2: countryAt([x, y]),
+      iso2,
     });
   }, LONG_PRESS_MS);
 }
@@ -621,7 +667,7 @@ function movePress(x: number, y: number): void {
   }
 }
 
-// Події DOM, а не MapLibre: працюють і в мінікарті, де взаємодію з картою вимкнено.
+// Довге натискання — на подіях DOM (у MapLibre немає такої події).
 canvas.addEventListener(
   'touchstart',
   (e: TouchEvent) => {
@@ -665,7 +711,7 @@ window[WEB_RECEIVER] = (message: ToWebMessage) => {
       }
       break;
     case 'setAutoRotate':
-      rotateEnabled = message.enabled && !minimap && !init.focusIso;
+      rotateEnabled = message.enabled && !focusIso;
       if (message.enabled) stoppedByUser = false;
       break;
     case 'flyTo':
@@ -690,8 +736,11 @@ window[WEB_RECEIVER] = (message: ToWebMessage) => {
 };
 
 map.on('load', () => {
-  if (init.focusIso) fitCountry(init.focusIso);
-  else if (!init.camera) fitGlobe();
+  if (focusIso) {
+    map.setPaintProperty('countries-fill', 'fill-opacity', fillOpacity(false));
+    fitCountry(focusIso);
+    map.on('moveend', clampCamera);
+  } else if (!init.camera) fitGlobe();
   updateHalo(true);
   map.on('move', () => updateHalo());
   map.on('zoom', updateAttribution);

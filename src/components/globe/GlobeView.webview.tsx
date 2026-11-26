@@ -50,7 +50,6 @@ export function GlobeView({
   points,
   detailMap = false,
   focus,
-  gestures = 'all',
   initialCamera,
   onCountryPress,
   onPointPress,
@@ -68,7 +67,6 @@ export function GlobeView({
     const init: WebInit = {
       camera: initialCamera ?? null,
       focusIso: focus?.iso2 ?? null,
-      gestures,
       lang: language,
     };
     return `window.${WEB_INIT}=${JSON.stringify(init)};true;`;
